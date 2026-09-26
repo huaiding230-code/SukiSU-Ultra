@@ -5,7 +5,6 @@
 #include <linux/version.h>
 /* 引入宏定义与结构体头文件 */
 #include "../include/uapi/feature.h"
-#include "../include/feature.h"
 #include "../policy/feature.h"
 #include "sulog.h"
 /* 显式声明内部子函数，消除 -Wimplicit-function-declaration 报错 */
