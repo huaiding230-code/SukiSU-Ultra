@@ -1,3 +1,4 @@
+#include <linux/version.h>
 #ifndef __KSU_H_SELINUX
 #define __KSU_H_SELINUX
 
