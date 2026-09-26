@@ -1,3 +1,16 @@
+#include <linux/fs.h>
+#include <linux/file.h>
+#include <linux/dcache.h>
+#include <linux/path.h>
+#include <linux/cred.h>
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/slab.h>
+#include <linux/err.h>
+#include <linux/sched.h>
+#include <linux/fdtable.h>
+#include <linux/uaccess.h>
+
 struct ksu_file_wrapper {
     struct file *orig;
     struct file_operations ops;
