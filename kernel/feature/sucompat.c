@@ -1,3 +1,22 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/printk.h>
+#include <linux/init.h>
+#include <linux/fs.h>
+#include <linux/version.h>
+
+#include "../include/uapi/feature.h"
+#include "../policy/feature.h"
+#include "sucompat.h"
+
+#ifndef KSUD_PATH
+#define KSUD_PATH "/system/bin/ksud"
+#endif
+
+#ifndef KSU_FEATURE_SU_COMPAT
+#define KSU_FEATURE_SU_COMPAT 0
+#endif
+
 #define SU_PATH "/system/bin/su"
 #define SH_PATH "/system/bin/sh"
 
