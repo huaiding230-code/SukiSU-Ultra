@@ -1,3 +1,23 @@
+#include <linux/version.h>
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/printk.h>
+#include <linux/limits.h>
+#include <linux/slab.h>
+#include <linux/err.h>
+#include <linux/path.h>
+#include <linux/fs.h>
+#include <linux/fs_struct.h>
+#include <linux/dcache.h>
+#include <linux/sched.h>
+#include <linux/nsproxy.h>
+#include <linux/mount.h>
+
+/* 必须放在头文件包含之后声明，此时 struct path 已经有完整的定义 */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0)
+extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
+#endif
+
 extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags,
                       void *data_page);
 
