@@ -29,11 +29,13 @@ struct ksu_sulog_pending_event;
 /* 补全外部函数原型声明 */
 int ksu_handle_stat_sucompat(int orig_nr, struct pt_regs *regs);
 int ksu_handle_faccessat_sucompat(int orig_nr, struct pt_regs *regs);
-void ksu_execveat_hook_ksud(struct pt_regs *regs);
-void ksu_execve_hook_ksud(struct pt_regs *regs);
-struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(struct filename *filename, void *argv_user, gfp_t flags);
-int ksu_adb_root_handle_execveat(struct pt_regs *regs);
-int ksu_adb_root_handle_execve(struct pt_regs *regs);
+void ksu_execveat_hook_ksud(const struct pt_regs *regs);
+void ksu_execve_hook_ksud(const struct pt_regs *regs);
+struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(const void *filename, const void *argv_user, gfp_t flags);
+int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
+int ksu_adb_root_handle_execve(const struct pt_regs *regs);
+int ksu_handle_execve_sucompat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags);
+int ksu_handle_execveat_sucompat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags);
 
 static int ksu_handle_init_mark_tracker(const char __user **filename_user)
 {
