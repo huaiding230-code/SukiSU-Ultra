@@ -9,8 +9,16 @@
 #include <linux/cred.h>
 #include <linux/sched.h>
 #include <linux/sched/task_stack.h>
+#include <linux/fs_struct.h>
+#include <linux/string.h>
+#include <linux/namei.h>
+#include <linux/jump_label.h>
 #include <linux/version.h>
 #include <asm/ptrace.h>
+
+#ifdef CONFIG_KSU_SUSFS
+#include <linux/susfs.h>
+#endif
 
 #include "../include/uapi/feature.h"
 #include "../policy/feature.h"
@@ -29,7 +37,7 @@
 #define current_user_stack_pointer() user_stack_pointer(current_pt_regs())
 #endif
 
-/* 补全 sucompat 缺失的外部结构体、函数与变量前置声明 */
+/* 1. 结构体与前置类型定义 */
 struct user_arg_ptr {
 	bool is_compat;
 	union {
@@ -37,15 +45,27 @@ struct user_arg_ptr {
 		const compat_uptr_t __user *compat;
 	} ptr;
 };
-
 struct ksu_sulog_pending_event;
+
+/* 2. 外部全局变量 */
+extern bool first_zygote;
+#ifdef KSU_COMPAT_USE_STATIC_KEY
+extern struct static_key_true is_first_zygote;
+#endif
+
+/* 3. 跨模块调用的函数前置声明全集 */
+bool is_init(const struct cred *cred);
+int escape_to_root_for_init(void);
+int escape_with_root_profile(void);
+bool __ksu_is_allow_uid_for_current(uid_t uid);
+bool ksu_is_allow_uid_for_current(uid_t uid);
+int ksu_adb_root_handle_execveat(const char *filename, void ***envp_ptr);
+const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr);
+void susfs_set_current_proc_no_su(void);
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename, void *argv_user, gfp_t flags);
 void ksu_sulog_emit_pending(struct ksu_sulog_pending_event *pending, int res, gfp_t flags);
-int escape_with_root_profile(void);
-int escape_to_root_for_init(void);
-bool is_init(const struct cred *cred);
-void susfs_set_current_proc_no_su(void);
-extern bool first_zygote;
+int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, void *argv, void *envp, int *flags);
+long ksu_strncpy_from_user_nofault(char *dst, const char __user *src, long count);
 
 #define SU_PATH "/system/bin/su"
 #define SH_PATH "/system/bin/sh"
