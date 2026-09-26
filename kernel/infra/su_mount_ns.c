@@ -21,7 +21,7 @@
 #include <linux/cred.h>
 
 #include "su_mount_ns.h"
-#include "../core/ksu.h"
+#include "../include/ksu.h"
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0)
 extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
