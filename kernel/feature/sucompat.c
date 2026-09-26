@@ -3,10 +3,17 @@
 #include <linux/printk.h>
 #include <linux/init.h>
 #include <linux/fs.h>
+#include <linux/uaccess.h>
+#include <linux/compat.h>
+#include <linux/binfmts.h>
+#include <linux/cred.h>
+#include <linux/sched.h>
 #include <linux/version.h>
+#include <asm/ptrace.h>
 
 #include "../include/uapi/feature.h"
 #include "../policy/feature.h"
+#include "../core/ksu.h"
 #include "sucompat.h"
 
 #ifndef KSUD_PATH
@@ -15,6 +22,11 @@
 
 #ifndef KSU_FEATURE_SU_COMPAT
 #define KSU_FEATURE_SU_COMPAT 0
+#endif
+
+/* 补充 arm64 内核 current_user_stack_pointer 兼容宏 */
+#ifndef current_user_stack_pointer
+#define current_user_stack_pointer() user_stack_pointer(current_pt_regs())
 #endif
 
 #define SU_PATH "/system/bin/su"
