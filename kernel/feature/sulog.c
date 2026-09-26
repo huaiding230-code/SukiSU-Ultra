@@ -3,8 +3,16 @@
 #include <linux/printk.h>
 #include <linux/init.h>
 #include <linux/version.h>
+/* 引入宏定义与结构体头文件 */
+#include "../include/uapi/feature.h"
+#include "../include/feature.h"
 #include "../policy/feature.h"
 #include "sulog.h"
+/* 显式声明内部子函数，消除 -Wimplicit-function-declaration 报错 */
+int ksu_sulog_events_init(void);
+void ksu_sulog_events_exit(void);
+int ksu_sulog_fd_init(void);
+void ksu_sulog_fd_exit(void);
 
 static bool ksu_sulog_enabled __read_mostly = false;
 
