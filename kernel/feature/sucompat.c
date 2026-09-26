@@ -8,6 +8,7 @@
 #include <linux/binfmts.h>
 #include <linux/cred.h>
 #include <linux/sched.h>
+#include <linux/sched/task_stack.h>
 #include <linux/version.h>
 #include <asm/ptrace.h>
 
@@ -27,10 +28,24 @@
 #ifndef current_user_stack_pointer
 #define current_user_stack_pointer() user_stack_pointer(current_pt_regs())
 #endif
-/* 补全 sucompat 缺失的外部函数前置声明 */
+
+/* 补全 sucompat 缺失的外部结构体、函数与变量前置声明 */
+struct user_arg_ptr {
+	bool is_compat;
+	union {
+		const char __user *const __user *native;
+		const compat_uptr_t __user *compat;
+	} ptr;
+};
+
 struct ksu_sulog_pending_event;
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename, void *argv_user, gfp_t flags);
+void ksu_sulog_emit_pending(struct ksu_sulog_pending_event *pending, int res, gfp_t flags);
 int escape_with_root_profile(void);
+int escape_to_root_for_init(void);
+bool is_init(const struct cred *cred);
+void susfs_set_current_proc_no_su(void);
+extern bool first_zygote;
 
 #define SU_PATH "/system/bin/su"
 #define SH_PATH "/system/bin/sh"
