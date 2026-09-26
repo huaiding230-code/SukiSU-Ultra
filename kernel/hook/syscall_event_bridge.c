@@ -35,7 +35,6 @@ struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(const void *filena
 int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 int ksu_adb_root_handle_execve(const struct pt_regs *regs);
 int ksu_handle_execve_sucompat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags);
-int ksu_handle_execveat_sucompat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags);
 
 static int ksu_handle_init_mark_tracker(const char __user **filename_user)
 {
@@ -118,7 +117,7 @@ static long __nocfi ksu_hook_execve_common(int orig_nr, const struct pt_regs *re
             pr_err("adb root failed: %ld\n", ret);
         }
     } else if (ksu_su_compat_enabled) {
-        ret = execveat ? ksu_handle_execveat_sucompat(NULL, (void *)filename_user, NULL, NULL, NULL) :
+        ret = execveat ? ksu_handle_execveat_sucompat(NULL, (struct filename **)filename_user, NULL, NULL, NULL) :
                  ksu_handle_execve_sucompat(NULL, (void *)filename_user, NULL, NULL, NULL);
         ksu_sulog_emit_pending(pending_root_execve, ret, GFP_KERNEL);
         return ret;
