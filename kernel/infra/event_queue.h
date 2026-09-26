@@ -1,3 +1,5 @@
+#include <linux/poll.h>
+
 #ifndef KSU_EVENT_QUEUE_H
 #define KSU_EVENT_QUEUE_H
 
