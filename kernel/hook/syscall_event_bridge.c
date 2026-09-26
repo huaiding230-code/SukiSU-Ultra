@@ -19,6 +19,22 @@
 #include "hook/syscall_event_bridge.h"
 #include "feature/adb_root.h"
 
+#include <linux/types.h>
+#include <linux/fs.h>
+#include <linux/gfp.h>
+#include <asm/ptrace.h>
+
+struct ksu_sulog_pending_event;
+
+/* 补全外部函数原型声明 */
+int ksu_handle_stat_sucompat(int orig_nr, struct pt_regs *regs);
+int ksu_handle_faccessat_sucompat(int orig_nr, struct pt_regs *regs);
+void ksu_execveat_hook_ksud(struct pt_regs *regs);
+void ksu_execve_hook_ksud(struct pt_regs *regs);
+struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(struct filename *filename, void *argv_user, gfp_t flags);
+int ksu_adb_root_handle_execveat(struct pt_regs *regs);
+int ksu_adb_root_handle_execve(struct pt_regs *regs);
+
 static int ksu_handle_init_mark_tracker(const char __user **filename_user)
 {
     char path[64];
@@ -100,8 +116,8 @@ static long __nocfi ksu_hook_execve_common(int orig_nr, const struct pt_regs *re
             pr_err("adb root failed: %ld\n", ret);
         }
     } else if (ksu_su_compat_enabled) {
-        ret = execveat ? ksu_handle_execveat_sucompat(filename_user, orig_nr, (struct pt_regs *)regs) :
-                         ksu_handle_execve_sucompat(filename_user, orig_nr, (struct pt_regs *)regs);
+        ret = execveat ? ksu_handle_execveat_sucompat(NULL, filename_user, NULL, NULL, NULL) :
+                 ksu_handle_execve_sucompat(NULL, filename_user, NULL, NULL, NULL);
         ksu_sulog_emit_pending(pending_root_execve, ret, GFP_KERNEL);
         return ret;
     }
