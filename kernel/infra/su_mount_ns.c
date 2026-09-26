@@ -10,10 +10,19 @@
 #include <linux/fs_struct.h>
 #include <linux/dcache.h>
 #include <linux/sched.h>
+#include <linux/sched/task.h>
 #include <linux/nsproxy.h>
 #include <linux/mount.h>
+#include <uapi/linux/mount.h>
+#include <linux/proc_ns.h>
+#include <linux/file.h>
+#include <linux/namei.h>
+#include <linux/syscalls.h>
+#include <linux/cred.h>
 
-/* 必须放在头文件包含之后声明，此时 struct path 已经有完整的定义 */
+#include "su_mount_ns.h"
+#include "../core/ksu.h"
+
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0)
 extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
 #endif
