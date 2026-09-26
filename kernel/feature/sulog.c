@@ -1,3 +1,11 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/printk.h>
+#include <linux/init.h>
+#include <linux/version.h>
+#include "../policy/feature.h"
+#include "sulog.h"
+
 static bool ksu_sulog_enabled __read_mostly = false;
 
 static int sulog_feature_get(u64 *value)
