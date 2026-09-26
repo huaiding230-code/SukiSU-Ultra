@@ -33,8 +33,12 @@
 #endif
 
 /* 补充 arm64 内核 current_user_stack_pointer 兼容宏 */
+#ifndef current_pt_regs
+#define current_pt_regs() task_pt_regs(current)
+#endif
+
 #ifndef current_user_stack_pointer
-#define current_user_stack_pointer() user_stack_pointer(current_pt_regs())
+#define current_user_stack_pointer() user_stack_pointer(task_pt_regs(current))
 #endif
 
 /* 1. 结构体与前置类型定义 */
