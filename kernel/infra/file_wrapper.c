@@ -5,6 +5,9 @@
 #include <linux/file.h>
 #include <linux/dcache.h>
 #include <linux/path.h>
+#include <linux/mount.h>
+#include <linux/anon_inodes.h>
+#include <linux/security.h>
 #include <linux/cred.h>
 #include <linux/types.h>
 #include <linux/kernel.h>
@@ -13,6 +16,22 @@
 #include <linux/sched.h>
 #include <linux/fdtable.h>
 #include <linux/uaccess.h>
+
+/* 补全 SELinux 相关的安全结构体与 KSU 符号声明 */
+struct inode_security_struct {
+	struct inode *inode;
+	union {
+		struct list_head list;
+		struct rcu_head rcu;
+	};
+	u32 sid;
+	u16 sclass;
+	unsigned char initialized;
+	spinlock_t lock;
+};
+
+extern u32 ksu_file_sid;
+struct inode_security_struct *selinux_inode(const struct inode *inode);
 
 struct ksu_file_wrapper {
     struct file *orig;
