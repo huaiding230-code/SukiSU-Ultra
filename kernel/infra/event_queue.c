@@ -1,3 +1,13 @@
+#include <linux/types.h>
+#include <linux/stddef.h>
+#include <linux/list.h>
+#include <linux/slab.h>
+#include <linux/spinlock.h>
+#include <linux/wait.h>
+#include <linux/uaccess.h>
+
+#include "event_queue.h"
+
 struct ksu_event_queue_node {
     struct list_head list;
     struct ksu_event_record_hdr hdr;
