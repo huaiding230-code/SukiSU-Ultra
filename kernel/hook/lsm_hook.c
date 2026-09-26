@@ -1,3 +1,25 @@
+#include <linux/version.h>
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/compiler.h>
+#include <linux/printk.h>
+#include <linux/workqueue.h>
+#include <linux/cred.h>
+
+#ifdef CONFIG_KSU_SUSFS
+#include <linux/susfs.h>
+void susfs_set_current_proc_no_su(void);
+void susfs_set_current_proc_umounted(void);
+#endif
+
+/* KSU 核心前置函数声明 */
+bool is_isolated_process(uid_t uid);
+bool ksu_is_manager_appid_valid(void);
+bool is_uid_manager(uid_t uid);
+void ksu_install_fd(void);
+bool is_appuid(uid_t uid);
+bool ksu_uid_should_umount(uid_t uid);
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) ||                                     \
     defined(CONFIG_KSU_ALLOWLIST_WORKAROUND)
 static int ksu_key_permission(key_ref_t key_ref, const struct cred *cred, unsigned perm)
