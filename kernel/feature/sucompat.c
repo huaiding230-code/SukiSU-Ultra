@@ -13,7 +13,6 @@
 
 #include "../include/uapi/feature.h"
 #include "../policy/feature.h"
-#include "../core/ksu.h"
 #include "sucompat.h"
 
 #ifndef KSUD_PATH
