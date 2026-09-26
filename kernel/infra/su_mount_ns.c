@@ -18,9 +18,6 @@
 extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
 #endif
 
-extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags,
-                      void *data_page);
-
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 17, 0)
 
 #ifndef __PT_REGS_CAST
