@@ -4,6 +4,7 @@
 #include <linux/types.h>
 #include <linux/cred.h>
 #include <linux/workqueue.h>
+#include <linux/version.h>
 
 #define KERNEL_SU_VERSION KSU_VERSION
 
