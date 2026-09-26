@@ -16,6 +16,7 @@
 #include <uapi/linux/mount.h>
 #include <linux/proc_ns.h>
 #include <linux/file.h>
+#include <linux/fdtable.h>
 #include <linux/namei.h>
 #include <linux/syscalls.h>
 #include <linux/cred.h>
@@ -23,7 +24,16 @@
 #include "su_mount_ns.h"
 #include "../include/ksu.h"
 
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 12, 0)
+/* 兼容 Linux 5.11 以下内核的 close_fd 接口 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 11, 0)
+static inline int close_fd(unsigned int fd)
+{
+	return __close_fd(current->files, fd);
+}
+#endif
+
+/* 5.12 以下内核缺失 path_mount 声明，提供补全声明 */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 12, 0)
 extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
 #endif
 
