@@ -73,7 +73,7 @@ static void ksu_install_fd_tw_func(struct callback_head *cb)
 
     if (copy_to_user(tw->outp, &fd, sizeof(fd))) {
         pr_err("install ksu fd reply err\n");
-        close_fd(fd);
+        __close_fd(current->files, fd);
     }
 
     kfree(tw);
