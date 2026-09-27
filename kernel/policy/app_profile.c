@@ -1,3 +1,26 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/cred.h>
+#include <linux/sched.h>
+
+#include "ksu.h"
+#include "app_profile.h"
+#ifndef KSU_MAX_GROUPS
+#define KSU_MAX_GROUPS 32
+#endif
+
+/* 补充 root_profile 结构体声明与定义 */
+struct root_profile {
+    uid_t uid;
+    gid_t gid;
+    int groups_count;
+    gid_t groups[KSU_MAX_GROUPS];
+    kernel_cap_t capabilities;
+    u64 namespaces;
+    char selinux_domain[128];
+    int flags;
+};
+
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 7, 0)
 static struct group_info root_groups = { .usage = REFCOUNT_INIT(2) };
 #else
