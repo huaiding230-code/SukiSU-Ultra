@@ -1,12 +1,18 @@
 #include <linux/types.h>
 #include <linux/kernel.h>
+#include <linux/string.h>
 #include <linux/slab.h>
 #include <linux/err.h>
 #include <linux/errno.h>
 #include <linux/printk.h>
+#include <linux/fs.h>
+#include <linux/file.h>
+#include <linux/limits.h>
 #include <crypto/hash.h>
+#include <crypto/sha.h>
 
 #include "apk_sign.h"
+#include "../include/ksu.h"
 
 struct sdesc {
     struct shash_desc shash;
