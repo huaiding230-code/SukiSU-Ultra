@@ -1,3 +1,7 @@
+#include <linux/version.h>
+#include <linux/types.h>
+#include <linux/cred.h>
+
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(4, 19, 0)
 bool __maybe_unused is_ksu_transition(const struct task_security_struct *old_tsec,
                                       const struct task_security_struct *new_tsec)
