@@ -3,6 +3,8 @@
 #define __KSU_H_CPU_SPOOF
 
 #include "uapi/supercall.h"
+#include <linux/types.h>
+#include "ksu.h"
 
 int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd);
 
