@@ -1,6 +1,7 @@
 #include <linux/version.h>
 #include <linux/types.h>
 #include <linux/slab.h>
+#include <linux/flex_array.h>
 
 #ifndef __KSU_H_SEPOLICY
 #define __KSU_H_SEPOLICY
