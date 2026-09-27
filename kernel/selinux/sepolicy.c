@@ -7,6 +7,8 @@
 #include "ss/policydb.h"
 #include "ss/avtab.h"
 #include "ss/services.h"
+#include "policydb.h"
+#include "ss/symtab.h"
 
 #define KSU_SUPPORT_ADD_TYPE
 
