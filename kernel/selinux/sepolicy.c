@@ -1,3 +1,12 @@
+#include <linux/types.h>
+#include <linux/slab.h>
+#include <linux/string.h>
+
+#include "sepolicy.h"
+#include "ss/policydb.h"
+#include "ss/avtab.h"
+#include "ss/services.h"
+
 #define KSU_SUPPORT_ADD_TYPE
 
 //////////////////////////////////////////////////////
