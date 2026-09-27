@@ -6,6 +6,7 @@
 #include <linux/task_work.h>
 #include <linux/printk.h>
 #include <linux/file.h>
+#include <linux/fdtable.h>
 #include <linux/fs.h>
 #include <linux/sched/task_stack.h>
 #include <linux/sched/task.h>
