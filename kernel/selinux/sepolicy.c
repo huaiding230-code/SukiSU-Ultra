@@ -5,10 +5,10 @@
 #include <linux/version.h>
 
 #include "sepolicy.h"
-#include "ss/policydb.h"
 #include "ss/avtab.h"
-#include "ss/services.h"
 #include "ss/symtab.h"
+#include "../../../security/selinux/ss/policydb.h"
+#include "../../../security/selinux/ss/services.h"
 
 #define KSU_SUPPORT_ADD_TYPE
 
