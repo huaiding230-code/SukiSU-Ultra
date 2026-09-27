@@ -1,3 +1,10 @@
+#include <linux/types.h>
+#include <linux/init.h>
+#include <linux/printk.h>
+#include "ksu.h"
+#include "feature.h"
+#include "feature/adb_root.h"
+
 #ifdef KSU_COMPAT_USE_STATIC_KEY
 DEFINE_STATIC_KEY_FALSE(ksu_adb_root);
 #else
