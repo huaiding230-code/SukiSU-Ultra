@@ -3,6 +3,7 @@
 #include "../allowlist.h"
 #include "../include/ksu.h"
 #include "supercall.h"
+#include "../core_hook.h"
 
 bool only_manager(void)
 {
