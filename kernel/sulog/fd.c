@@ -5,6 +5,10 @@
 #include <linux/compiler.h>
 #include <linux/init.h>
 
+#include <linux/kernel.h>
+#include <linux/file.h>          // 提供 get_unused_fd_flags、put_unused_fd、fd_install 声明
+#include <linux/anon_inodes.h>   // 提供 anon_inode_getfile 声明
+
 #include "../feature/sulog.h"
 
 static DEFINE_MUTEX(ksu_sulog_fd_lock);
