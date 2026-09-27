@@ -8,6 +8,7 @@
 #include "../include/ksu.h"
 #include "../include/feature.h"
 #include "feature/kernel_umount.h"
+#include "../uapi/ksu.h"   // 或者包含定义了 feature id 枚举的头文件路径
 
 extern bool ksu_module_mounted;
 
