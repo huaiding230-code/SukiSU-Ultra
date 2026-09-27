@@ -9,11 +9,15 @@
 #include <linux/smp.h>
 #include <linux/spinlock.h>
 #include <linux/stop_machine.h>  /* 解决 stop_machine 未定义报错 */
-#include "ksu.h"
+#include <linux/version.h>
+
+#include "rules.h"
+#include "../include/ksu.h"
 #include "selinux.h"
 #include "sepolicy.h"
 #include "../../../security/selinux/ss/policydb.h"
 #include "../../../security/selinux/ss/services.h"
+extern struct policydb policydb;
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 #define SELINUX_POLICY_INSTEAD_SELINUX_SS
