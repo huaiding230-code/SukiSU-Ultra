@@ -1,11 +1,25 @@
 #include <linux/types.h>
 #include <linux/sched.h>
 #include <linux/list.h>
+#include <linux/string.h>
+#include <linux/printk.h>
+#include <linux/version.h>
+#include <linux/fs.h>
+
+#ifndef KSU_INVALID_APPID
+#define KSU_INVALID_APPID -1
+#endif
+
+#ifndef KSU_MAX_PACKAGE_NAME
+#define KSU_MAX_PACKAGE_NAME 256
+#endif
 
 extern int ksu_get_manager_appid(void);
 extern bool ksu_is_manager_appid_valid(void);
 extern void ksu_invalidate_manager_uid(void);
 extern void ksu_prune_allowlist(bool (*is_uid_exist)(uid_t uid, char *package, void *data), void *data);
+extern int get_pkg_from_apk_path(char *pkg_name, const char *path);
+extern void ksu_set_manager_appid(u32 appid);
 
 uid_t ksu_manager_appid = KSU_INVALID_APPID;
 
