@@ -6,6 +6,12 @@
 #include <linux/types.h>
 #include "ksu.h"
 
+// 在这里补上结构体定义，解决可见性与不完整类型报错
+struct ksu_set_spoof_cpu_cmd {
+    unsigned int cpu_index;
+    unsigned int midr;
+};
+
 int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd);
 
 #endif /* __KSU_H_CPU_SPOOF */
