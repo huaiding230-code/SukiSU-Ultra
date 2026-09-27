@@ -1,3 +1,18 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/mutex.h>
+#include <linux/slab.h>
+#include <linux/string.h>
+#include <linux/fs.h>
+#include <linux/hashtable.h>
+#include <linux/rcupdate.h>
+#include <linux/kref.h>
+
+/* 引入 SukiSU 自身的结构体与配置定义 */
+#include "../policy/profile.h"
+#include "../policy/allowlist.h"
+
 #define FILE_MAGIC 0x7f4b5355 // ' KSU', u32
 #define FILE_FORMAT_VERSION 4 // u32
 
