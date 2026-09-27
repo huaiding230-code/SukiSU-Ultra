@@ -2,6 +2,8 @@
 #include <linux/slab.h>
 #include <linux/string.h>
 #include <linux/stddef.h>
+#include <linux/version.h>
+#include <linux/flex_array.h>
 
 #include "sepolicy.h"
 #include "ss/policydb.h"
