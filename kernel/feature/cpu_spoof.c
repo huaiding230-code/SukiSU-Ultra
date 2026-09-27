@@ -9,6 +9,11 @@
 #include <linux/errno.h>
 #include <linux/version.h>
 
+#include <linux/printk.h>
+#include "ksu.h"
+#include "feature.h"
+#include "feature/cpu_spoof.h"
+
 #include "cpu_spoof.h"
 #include "infra/symbol_resolver.h"
 #include "klog.h"
@@ -159,11 +164,13 @@ int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd)
                         (struct clocksource **)find_kernel_symbol_exact("curr_clocksource");
                     if (curr_cs_ptr && *curr_cs_ptr) {
                         struct clocksource *cs = *curr_cs_ptr;
-                        pr_info("ksu: set_spoof_cpu found active clocksource '%s' (current vdso_clock_mode: %d)\n",
-                                cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
-                        cs->vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER;
-                        pr_info("ksu: set_spoof_cpu updated clocksource '%s' vdso_clock_mode to %d\n",
-                                cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
+                        #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+                            pr_info("ksu: set_spoof_cpu found active clocksource '%s' (current vdso_clock_mode: %d)\n",
+                                    cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
+                            cs->vdso_clock_mode = VDSO_CLOCKMODE_ARCHTIMER;
+                            pr_info("ksu: set_spoof_cpu updated clocksource '%s' vdso_clock_mode to %d\n",
+                                    cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
+                        #endif
                     } else {
                         pr_warn("ksu: set_spoof_cpu failed to resolve 'curr_clocksource'\n");
                     }
