@@ -153,7 +153,6 @@ int __init kernelsu_init(void)
     ksu_selinux_hide_init();
 
     ksu_supercalls_init();
-    ksu_app_profile_init();
 
     if (ksu_late_loaded) {
         pr_info("late load mode, skipping kprobe hooks\n");
@@ -225,7 +224,6 @@ void __exit kernelsu_exit(void)
     ksu_allowlist_exit();
 
     ksu_selinux_hide_exit();
-    ksu_lsm_hook_exit();
     ksu_adb_root_exit();
     ksu_sulog_exit();
     ksu_feature_exit();
