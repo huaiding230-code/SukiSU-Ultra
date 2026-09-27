@@ -1,3 +1,14 @@
+#include <linux/types.h>
+#include <linux/printk.h>
+#include <linux/uaccess.h>
+#include <linux/gfp.h>
+#include <linux/cred.h>
+
+#include "../ksu.h"
+#include "../core_hook.h"
+#include "../allowlist.h"
+#include "../sulog/sulog.h"
+
 static int do_grant_root(void __user *arg)
 {
     int ret;
