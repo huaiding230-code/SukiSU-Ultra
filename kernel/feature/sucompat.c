@@ -62,6 +62,7 @@ bool is_init(const struct cred *cred);
 int escape_to_root_for_init(void);
 int escape_with_root_profile(void);
 bool __ksu_is_allow_uid_for_current(uid_t uid);
+#undef ksu_is_allow_uid_for_current
 bool ksu_is_allow_uid_for_current(uid_t uid);
 int ksu_adb_root_handle_execveat(const char *filename, void ***envp_ptr);
 const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr);
