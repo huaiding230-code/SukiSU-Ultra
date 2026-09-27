@@ -15,11 +15,20 @@
 #include "../include/ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
+#include "../manager/manager.h"
+
+/* 针对 5.4 内核缺少年代宏的兼容适配 */
+#ifndef TWA_RESUME
+#define TWA_RESUME 0
+#endif
 
 #define FILE_MAGIC 0x7f4b5355 // ' KSU', u32
 #define FILE_FORMAT_VERSION 4 // u32
 
 #define KSU_APP_PROFILE_PRESERVE_UID 9999 // NOBODY_UID
+#ifndef KERNEL_SU_DOMAIN
+#define KERNEL_SU_DOMAIN "su"
+#endif
 #define KSU_DEFAULT_SELINUX_DOMAIN "u:r:" KERNEL_SU_DOMAIN ":s0"
 
 static DEFINE_MUTEX(allowlist_mutex);
