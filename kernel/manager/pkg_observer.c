@@ -31,7 +31,6 @@ struct watch_dir {
 
 static struct fsnotify_group *g;
 
-#include "pkg_observer_compat.h" // KSU_DECL_FSNOTIFY_OPS
 static KSU_DECL_FSNOTIFY_OPS(ksu_handle_generic_event)
 {
     if (!file_name || (mask & FS_ISDIR))
