@@ -7,7 +7,9 @@
 #include <linux/sched.h>
 #include <linux/sched/signal.h>
 #include <linux/gfp.h>
-#include "ksu.h"
+#include <linux/kernel.h>
+
+#include "../include/ksu.h"
 #include "runtime/ksud.h"
 #include "../feature/sulog.h"
 #include "event.h"
