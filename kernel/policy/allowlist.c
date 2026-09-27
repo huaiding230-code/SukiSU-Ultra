@@ -12,11 +12,9 @@
 #include <linux/task_work.h>
 #include <linux/sched/task.h>
 
-/* 引入 SukiSU 核心与同级头文件 */
-#include "../core/ksu.h"
-#include "../core/manager.h"
-#include "app_profile.h"
+#include "../include/ksu.h"
 #include "allowlist.h"
+#include "app_profile.h"
 
 #define FILE_MAGIC 0x7f4b5355 // ' KSU', u32
 #define FILE_FORMAT_VERSION 4 // u32
