@@ -1,4 +1,24 @@
 // SPDX-License-Identifier: GPL-2.0
+
+#include <linux/version.h>
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/string.h>
+#include <linux/slab.h>
+#include <linux/err.h>
+#include <linux/printk.h>
+#include <linux/path.h>
+#include <linux/dcache.h>
+#include <linux/fs.h>
+#include <linux/namei.h>
+#include <linux/fsnotify_backend.h>
+#include <linux/fsnotify.h>
+
+#include "pkg_observer_compat.h"
+#include "../include/ksu.h"
+
+extern void track_throne(bool is_su);
+
 #define MASK_SYSTEM (FS_CREATE | FS_MOVE | FS_EVENT_ON_CHILD)
 
 struct watch_dir {
