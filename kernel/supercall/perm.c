@@ -3,7 +3,6 @@
 #include "../policy/allowlist.h"
 #include "../include/ksu.h"
 #include "supercall.h"
-#include "../core/ksu.h"
 
 bool only_manager(void)
 {
