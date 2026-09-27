@@ -12,10 +12,10 @@
 #include <ss/mls.h>
 #include <ss/conditional.h>
 
-#include "ksu.h"
+#include "../selinux/sepolicy.h"
+#include "../include/ksu.h"
 #include "../policy/feature.h"
 #include "selinux_hide.h"
-#include "sepolicy.h"
 
 static DEFINE_MUTEX(selinux_hide_mutex);
 bool ksu_selinux_hide_enabled __read_mostly = false;
