@@ -1,5 +1,10 @@
-#include <linux/init.h>
+#include <linux/types.h>
+#include <linux/fs.h>
+#include <linux/poll.h>
 #include <linux/mutex.h>
+#include <linux/compiler.h>
+#include <linux/init.h>
+
 #include "sulog.h"
 
 static DEFINE_MUTEX(ksu_sulog_fd_lock);
