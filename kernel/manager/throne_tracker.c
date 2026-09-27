@@ -1,3 +1,12 @@
+#include <linux/types.h>
+#include <linux/sched.h>
+#include <linux/list.h>
+
+extern int ksu_get_manager_appid(void);
+extern bool ksu_is_manager_appid_valid(void);
+extern void ksu_invalidate_manager_uid(void);
+extern void ksu_prune_allowlist(bool (*is_uid_exist)(uid_t uid, char *package, void *data), void *data);
+
 uid_t ksu_manager_appid = KSU_INVALID_APPID;
 
 #define SYSTEM_PACKAGES_LIST_PATH "/data/system/packages.list"
