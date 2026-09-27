@@ -1,3 +1,5 @@
+#include <linux/types.h>
+
 bool only_manager(void)
 {
     return is_manager();
