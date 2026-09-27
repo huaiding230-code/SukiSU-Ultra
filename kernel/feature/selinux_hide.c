@@ -13,8 +13,8 @@
 #include <ss/conditional.h>
 
 #include "ksu.h"
-#include "feature.h"
-#include "feature/selinux_hide.h"
+#include "../policy/feature.h"
+#include "selinux_hide.h"
 #include "sepolicy.h"
 
 static DEFINE_MUTEX(selinux_hide_mutex);
