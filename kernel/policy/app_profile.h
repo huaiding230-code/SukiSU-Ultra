@@ -6,10 +6,6 @@
 #include <linux/cred.h>
 #include "uapi/app_profile.h"
 
-#ifndef KERNEL_SU_CONTEXT
-#define KERNEL_SU_CONTEXT "u:r:su:s0"
-#endif
-
 /* 补充所有被调用的内部函数及 Seccomp 声明 */
 void setup_groups(struct root_profile *profile, struct cred *cred);
 struct root_profile *ksu_get_root_profile(uid_t uid);
