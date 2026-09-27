@@ -5,6 +5,11 @@
 #include <linux/sched.h>
 #include <linux/task_work.h>
 #include <linux/printk.h>
+#include <linux/file.h>
+#include <linux/fs.h>
+
+#include "../include/ksu.h"
+#include "supercall.h"
 
 static int anon_ksu_release(struct inode *inode, struct file *filp)
 {
