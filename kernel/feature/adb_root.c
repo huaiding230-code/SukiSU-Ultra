@@ -1,8 +1,14 @@
 #include <linux/types.h>
 #include <linux/init.h>
 #include <linux/printk.h>
-#include "ksu.h"
-#include "../policy/feature.h"
+#include <linux/path.h>
+#include <linux/namei.h>
+#include <linux/slab.h>
+#include <linux/uaccess.h>
+#include <linux/sched.h>
+
+#include "../include/ksu.h"
+#include "../include/feature.h"
 #include "adb_root.h"
 
 #ifdef KSU_COMPAT_USE_STATIC_KEY
