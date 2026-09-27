@@ -1,3 +1,6 @@
+#include <linux/version.h>
+#include <linux/slab.h>
+#include <linux/mutex.h>
 #include <linux/cpu.h>
 #include <linux/memory.h>
 #include <asm-generic/errno-base.h>
@@ -8,6 +11,11 @@
 #include <ss/services.h>
 #include <ss/mls.h>
 #include <ss/conditional.h>
+
+#include "ksu.h"
+#include "feature.h"
+#include "feature/selinux_hide.h"
+#include "sepolicy.h"
 
 static DEFINE_MUTEX(selinux_hide_mutex);
 bool ksu_selinux_hide_enabled __read_mostly = false;
