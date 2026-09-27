@@ -1,12 +1,15 @@
 #include <linux/types.h>
 #include <linux/stddef.h>
+#include <linux/slab.h>
 #include <linux/string.h>
 #include <linux/uaccess.h>
+#include <linux/overflow.h>
 #include <linux/sched.h>
 #include <linux/sched/signal.h>
 #include <linux/gfp.h>
 #include "ksu.h"
 #include "runtime/ksud.h"
+#include "sulog.h"
 
 #define KSU_SULOG_MAX_QUEUED 256U
 #define KSU_SULOG_MAX_PAYLOAD_LEN 2048U
