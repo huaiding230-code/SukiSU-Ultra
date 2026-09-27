@@ -1,6 +1,6 @@
 #include <linux/types.h>
 #include <linux/cred.h>
-
+#include "../allowlist.h"
 #include "../include/ksu.h"
 #include "supercall.h"
 
