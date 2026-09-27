@@ -1,3 +1,7 @@
+#include <linux/init.h>
+#include <linux/mutex.h>
+#include "sulog.h"
+
 static DEFINE_MUTEX(ksu_sulog_fd_lock);
 static bool ksu_sulog_fd_active;
 
