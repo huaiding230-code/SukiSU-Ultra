@@ -1,6 +1,29 @@
-#include <linux/version.h>
 #include <linux/types.h>
+#include <linux/security.h>
 #include <linux/cred.h>
+#include <linux/version.h>
+#include <linux/string.h>
+#include "ksu.h"
+#include "selinux.h"
+#include "objsec.h"
+
+/* 补全全局变量声明 */
+extern struct cred *ksu_cred;
+extern int selinux_enforcing;
+
+/* 保证 SELinux 上下文宏定义存在 */
+#ifndef KERNEL_SU_CONTEXT
+#define KERNEL_SU_CONTEXT "u:r:su:s0"
+#endif
+#ifndef ZYGOTE_CONTEXT
+#define ZYGOTE_CONTEXT "u:r:zygote:s0"
+#endif
+#ifndef INIT_CONTEXT
+#define INIT_CONTEXT "u:r:init:s0"
+#endif
+#ifndef KSU_FILE_CONTEXT
+#define KSU_FILE_CONTEXT "u:object_r:ksu_file:s0"
+#endif
 
 #if LINUX_VERSION_CODE <= KERNEL_VERSION(4, 19, 0)
 bool __maybe_unused is_ksu_transition(const struct task_security_struct *old_tsec,
