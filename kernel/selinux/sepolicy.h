@@ -1,5 +1,4 @@
 #include <linux/version.h>
-#include <linux/flex_array.h>
 #include <linux/types.h>
 #include <linux/slab.h>
 
