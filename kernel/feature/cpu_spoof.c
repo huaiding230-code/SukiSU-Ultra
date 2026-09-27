@@ -11,7 +11,7 @@
 
 #include <linux/printk.h>
 #include "ksu.h"
-#include "feature.h"
+#include "../policy/feature.h"
 #include "feature/cpu_spoof.h"
 
 #include "cpu_spoof.h"
