@@ -21,6 +21,12 @@ extern bool is_uid_manager(uid_t uid);
 extern bool is_ksu_domain(void);
 extern bool ksu_is_manager_appid_valid(void);
 extern int ksu_get_manager_appid(void);
+/* 补齐漏掉的全局变量和宏定义 */
+extern bool ksu_boot_completed;
+
+#ifndef KSU_NS_INHERITED
+#define KSU_NS_INHERITED 0
+#endif
 /* 针对 5.4 内核缺少年代宏的兼容适配 */
 #ifndef TWA_RESUME
 #define TWA_RESUME 0
