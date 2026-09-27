@@ -8,8 +8,13 @@
 #include <linux/hashtable.h>
 #include <linux/rcupdate.h>
 #include <linux/kref.h>
+#include <linux/cred.h>
+#include <linux/task_work.h>
+#include <linux/sched/task.h>
 
-/* 引入 SukiSU 自身的结构体与配置定义 */
+/* 引入 SukiSU 核心与同级头文件 */
+#include "../core/ksu.h"
+#include "../core/manager.h"
 #include "app_profile.h"
 #include "allowlist.h"
 
