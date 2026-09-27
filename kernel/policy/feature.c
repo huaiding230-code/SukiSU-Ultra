@@ -1,3 +1,15 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/mutex.h>
+#include "ksu.h"
+#include "feature.h"
+
+/* 如果头文件中没有定义 KSU_FEATURE_MAX，在此处做个安全兼容适配 */
+#ifndef KSU_FEATURE_MAX
+#define KSU_FEATURE_MAX 32
+#endif
+
 static const struct ksu_feature_handler *feature_handlers[KSU_FEATURE_MAX];
 
 static DEFINE_MUTEX(feature_mutex);
