@@ -6,7 +6,7 @@
 #include <linux/fs.h>
 #include <linux/sched.h>
 #include "../include/ksu.h"
-#include "../policy/feature.h"
+#include "../include/feature.h"
 #include "feature/kernel_umount.h"
 
 extern bool ksu_module_mounted;
