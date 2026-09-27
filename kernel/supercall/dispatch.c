@@ -5,7 +5,6 @@
 #include <linux/cred.h>
 
 #include "../include/ksu.h"
-#include "../core/ksu.h"
 #include "../allowlist.h"
 #include "../sulog/sulog.h"
 
