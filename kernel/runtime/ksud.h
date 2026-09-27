@@ -1,3 +1,7 @@
+#include <linux/types.h>
+#include <linux/compat.h>
+#include <linux/fs.h>
+
 #ifndef __KSU_H_KSUD
 #define __KSU_H_KSUD
 
