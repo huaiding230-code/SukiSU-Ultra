@@ -1,3 +1,17 @@
+#include <linux/version.h>
+#include <linux/types.h>
+#include <linux/printk.h>
+#include <linux/sched.h>
+#include <linux/cpumask.h>
+#include <linux/smp.h>
+#include <linux/spinlock.h>
+
+#include "ksu.h"
+#include "selinux.h"
+#include "sepolicy.h"
+#include "ss/policydb.h"
+#include "ss/services.h"
+
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 #define SELINUX_POLICY_INSTEAD_SELINUX_SS
 struct selinux_policy *backup_sepolicy;
