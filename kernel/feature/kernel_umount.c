@@ -1,3 +1,10 @@
+#include <linux/types.h>
+#include <linux/printk.h>
+#include <linux/path.h>
+#include <linux/namei.h>
+#include <linux/fs.h>
+#include "feature/kernel_umount.h"
+
 static bool ksu_kernel_umount_enabled = true;
 
 static int kernel_umount_feature_get(u64 *value)
