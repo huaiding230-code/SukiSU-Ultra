@@ -13,6 +13,9 @@
 
 #include "apk_sign.h"
 #include "../include/ksu.h"
+#ifndef KSU_MAX_PACKAGE_NAME
+#define KSU_MAX_PACKAGE_NAME 256
+#endif
 
 struct sdesc {
     struct shash_desc shash;
