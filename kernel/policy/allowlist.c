@@ -12,7 +12,7 @@
 #include <linux/task_work.h>
 #include <linux/sched/task.h>
 
-#include "../include/ksu.h"
+#include "ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
 #include "../manager/manager.h"
