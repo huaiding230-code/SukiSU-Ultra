@@ -8,7 +8,7 @@
 #include <linux/sched.h>
 
 #include "../include/ksu.h"
-#include "../feature.h"
+#include "../include/feature.h"
 #include "adb_root.h"
 
 #ifdef KSU_COMPAT_USE_STATIC_KEY
