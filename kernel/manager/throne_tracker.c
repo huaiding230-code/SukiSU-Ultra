@@ -5,6 +5,15 @@
 #include <linux/printk.h>
 #include <linux/version.h>
 #include <linux/fs.h>
+#include <linux/slab.h>
+#include "manager_identity.h"
+
+#ifndef PER_USER_RANGE
+#define PER_USER_RANGE 100000
+#endif
+
+// 如果原文件有这一行，注释掉或删掉它以防冲突：
+// extern int ksu_get_manager_appid(void);
 
 #ifndef KSU_INVALID_APPID
 #define KSU_INVALID_APPID -1
