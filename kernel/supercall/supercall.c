@@ -1,3 +1,11 @@
+#include <linux/init.h>
+#include <linux/types.h>
+#include <linux/slab.h>
+#include <linux/gfp.h>
+#include <linux/sched.h>
+#include <linux/task_work.h>
+#include <linux/printk.h>
+
 static int anon_ksu_release(struct inode *inode, struct file *filp)
 {
     pr_info("ksu fd released\n");
