@@ -8,6 +8,10 @@
 #include <linux/sched/signal.h>
 #include <linux/gfp.h>
 #include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/fs.h>
+#include <linux/wait.h>
+#include <linux/poll.h>
 
 #include "../include/ksu.h"
 #include "runtime/ksud.h"
