@@ -12,7 +12,7 @@
 #include <linux/printk.h>
 #include "ksu.h"
 #include "../policy/feature.h"
-#include "feature/cpu_spoof.h"
+#include "cpu_spoof.h"
 
 #include "cpu_spoof.h"
 #include "infra/symbol_resolver.h"
