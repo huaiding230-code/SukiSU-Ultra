@@ -1,3 +1,5 @@
+#include <linux/cred.h>
+
 #ifndef __KSU_H_MANAGER_IDENTITY
 #define __KSU_H_MANAGER_IDENTITY
 
