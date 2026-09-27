@@ -1,4 +1,8 @@
 #include <linux/types.h>
+#include <linux/cred.h>
+
+#include "../include/ksu.h"
+#include "supercall.h"
 
 bool only_manager(void)
 {
