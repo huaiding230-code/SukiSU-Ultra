@@ -11,7 +11,9 @@
 #include <linux/sched/task_stack.h>
 #include <linux/sched/task.h>
 #include <linux/anon_inodes.h>
+#include <linux/version.h>
 
+#include "dispatch.h"
 #include "../include/ksu.h"
 #include "supercall.h"
 
