@@ -91,7 +91,7 @@ static long __nocfi ksu_hook_execve_common(int orig_nr, const struct pt_regs *re
 {
     const char __user **filename_user =
         execveat ? (const char __user **)&PT_REGS_PARM2(regs) : (const char __user **)&PT_REGS_PARM1(regs);
-    const char __user *const __user *argv_user = execveat ? (const char __user *const __user *)PT_REGS_PARM3(regs) :
+    __maybe_unused const char __user *const __user *argv_user = execveat ? (const char __user *const __user *)PT_REGS_PARM3(regs) :
                                                             (const char __user *const __user *)PT_REGS_PARM2(regs);
     bool current_is_init = is_init(current_cred());
     struct ksu_sulog_pending_event *pending_root_execve = NULL;
@@ -105,9 +105,9 @@ static long __nocfi ksu_hook_execve_common(int orig_nr, const struct pt_regs *re
         }
     }
 
-    if (current_euid().val == 0)
+    if (current_euid().val == 0){
         pending_root_execve = ksu_sulog_capture_root_execve(*filename_user, argv_user, GFP_KERNEL);
-
+    }
     if (current->pid != 1 && current_is_init) {
         ksu_handle_init_mark_tracker(filename_user);
         ret = execveat ? ksu_adb_root_handle_execveat((struct pt_regs *)regs) :
