@@ -5,7 +5,7 @@
 #include <linux/compiler.h>
 #include <linux/init.h>
 
-#include "sulog.h"
+#include "../feature/sulog.h"
 
 static DEFINE_MUTEX(ksu_sulog_fd_lock);
 static bool ksu_sulog_fd_active;
