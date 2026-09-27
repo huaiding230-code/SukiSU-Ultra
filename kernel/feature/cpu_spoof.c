@@ -163,7 +163,6 @@ int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd)
                     struct clocksource **curr_cs_ptr =
                         (struct clocksource **)find_kernel_symbol_exact("curr_clocksource");
                     if (curr_cs_ptr && *curr_cs_ptr) {
-                       /* struct clocksource *cs = *curr_cs_ptr; */
                         #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
                             pr_info("ksu: set_spoof_cpu found active clocksource '%s' (current vdso_clock_mode: %d)\n",
                                     cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
