@@ -2,6 +2,7 @@
 #include <linux/kernel.h>
 #include <linux/cred.h>
 #include <linux/sched.h>
+#include <linux/version.h>
 
 #include "ksu.h"
 #include "app_profile.h"
