@@ -15,8 +15,12 @@
 #include "ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
-#include "../manager/manager.h"
 
+/* 直接手动声明 Manager 外部函数，避开找不到 manager.h 的问题 */
+extern bool is_uid_manager(uid_t uid);
+extern bool is_ksu_domain(void);
+extern bool ksu_is_manager_appid_valid(void);
+extern int ksu_get_manager_appid(void);
 /* 针对 5.4 内核缺少年代宏的兼容适配 */
 #ifndef TWA_RESUME
 #define TWA_RESUME 0
