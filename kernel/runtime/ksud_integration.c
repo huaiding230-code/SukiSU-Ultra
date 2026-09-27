@@ -28,6 +28,7 @@
 #include "selinux/selinux.h"
 #include "hook/syscall_hook.h"
 #include "hook/syscall_event_bridge.h"
+void ksu_stop_input_hook_runtime(void);
 
 // clang-format off
 static const char KERNEL_SU_RC[] =
@@ -146,7 +147,7 @@ fail:
     return false;
 }
 
-void ksu_handle_execveat_ksud(const char *path, struct user_arg_ptr *argv)
+void ksu_handle_execveat_ksud_local(const char *path, struct user_arg_ptr *argv)
 {
     static const char app_process[] = "/system/bin/app_process";
     static bool first_zygote = true;
@@ -540,7 +541,7 @@ static void ksu_execve_hook_ksud_common(const char __user *filename_user, const 
         return;
     }
 
-    ksu_handle_execveat_ksud(path, &argv);
+    ksu_handle_execveat_ksud_local(path, &argv);
 }
 
 void ksu_execve_hook_ksud(const struct pt_regs *regs)
