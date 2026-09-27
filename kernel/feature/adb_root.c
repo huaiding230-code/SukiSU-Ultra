@@ -8,7 +8,11 @@
 #include <linux/sched.h>
 #include <linux/version.h>
 #include <linux/susfs.h>
+#include <linux/version.h>
+#include <linux/fs.h>
+#include <linux/stat.h>
 
+#include "feature.h"
 #include "../core/ksu.h"
 #include "../include/ksu.h"
 #include "../policy/feature.h"
