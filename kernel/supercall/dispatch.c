@@ -4,7 +4,7 @@
 #include <linux/gfp.h>
 #include <linux/cred.h>
 
-#include "../ksu.h"
+#include "../include/ksu.h"
 #include "../core_hook.h"
 #include "../allowlist.h"
 #include "../sulog/sulog.h"
