@@ -1,10 +1,12 @@
 #include <linux/types.h>
 #include <linux/printk.h>
 #include <linux/path.h>
+#include <linux/mount.h>
 #include <linux/namei.h>
 #include <linux/fs.h>
 #include <linux/sched.h>
 #include "ksu.h"
+#include "feature.h"
 #include "feature/kernel_umount.h"
 
 static bool ksu_kernel_umount_enabled = true;
