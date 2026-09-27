@@ -12,9 +12,6 @@
 #define PER_USER_RANGE 100000
 #endif
 
-// 如果原文件有这一行，注释掉或删掉它以防冲突：
-// extern int ksu_get_manager_appid(void);
-
 #ifndef KSU_INVALID_APPID
 #define KSU_INVALID_APPID -1
 #endif
@@ -23,7 +20,6 @@
 #define KSU_MAX_PACKAGE_NAME 256
 #endif
 
-extern int ksu_get_manager_appid(void);
 extern bool ksu_is_manager_appid_valid(void);
 extern void ksu_invalidate_manager_uid(void);
 extern void ksu_prune_allowlist(bool (*is_uid_exist)(uid_t uid, char *package, void *data), void *data);
