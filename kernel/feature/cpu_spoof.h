@@ -10,6 +10,9 @@
 struct ksu_set_spoof_cpu_cmd {
     unsigned int cpu_index;
     unsigned int midr;
+    unsigned long bogomips;
+    unsigned long hwcap;
+    unsigned long hwcap2;
 };
 
 int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd);
