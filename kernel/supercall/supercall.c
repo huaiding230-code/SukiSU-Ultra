@@ -7,6 +7,9 @@
 #include <linux/printk.h>
 #include <linux/file.h>
 #include <linux/fs.h>
+#include <linux/sched/task_stack.h>
+#include <linux/sched/task.h>
+#include <linux/anon_inodes.h>
 
 #include "../include/ksu.h"
 #include "supercall.h"
