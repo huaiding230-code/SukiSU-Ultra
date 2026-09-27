@@ -9,8 +9,8 @@
 #include "ksu.h"
 #include "selinux.h"
 #include "sepolicy.h"
-#include "ss/policydb.h"
-#include "ss/services.h"
+#include "../../../security/selinux/ss/policydb.h"
+#include "../../../security/selinux/ss/services.h"
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 #define SELINUX_POLICY_INSTEAD_SELINUX_SS
