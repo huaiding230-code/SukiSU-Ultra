@@ -1,7 +1,10 @@
 #include <linux/version.h>
+#include <linux/init.h>
+#include <linux/kernel.h>
 #include <linux/types.h>
 #include <linux/printk.h>
 #include <linux/sched.h>
+#include <linux/string.h>
 #include <linux/cpumask.h>
 #include <linux/smp.h>
 #include <linux/spinlock.h>
