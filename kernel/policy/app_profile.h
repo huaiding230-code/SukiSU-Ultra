@@ -1,24 +1,13 @@
-#ifndef __KSU_H_APP_PROFILE
-#define __KSU_H_APP_PROFILE
+#ifndef __KSU_POLICY_APP_PROFILE_H
+#define __KSU_POLICY_APP_PROFILE_H
 
 #include <linux/types.h>
-#include "uapi/app_profile.h"
+#include "uapi/app_profile.h"  /* 官方自带的结构体定义，由它统一提供 */
 
-#ifndef KSU_MAX_GROUPS
-#define KSU_MAX_GROUPS 32
+/* 只保留需要的函数声明（如果原本有的话），不要再写 struct 定义 */
+void setup_groups(struct root_profile *profile, struct cred *cred);
+
 #endif
-
-/* 补充完整定义，解决 allowlist.c 报不完整类型错误 */
-struct root_profile {
-    uid_t uid;
-    gid_t gid;
-    int groups_count;
-    gid_t groups[KSU_MAX_GROUPS];
-    kernel_cap_t capabilities;
-    u64 namespaces;
-    char selinux_domain[128];
-    int flags;
-};
 
 struct non_root_profile {
     bool umount_modules;
