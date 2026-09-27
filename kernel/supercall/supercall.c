@@ -14,6 +14,10 @@
 #include "../include/ksu.h"
 #include "supercall.h"
 
+#ifndef TWA_RESUME
+#define TWA_RESUME 0
+#endif
+
 static int anon_ksu_release(struct inode *inode, struct file *filp)
 {
     pr_info("ksu fd released\n");
