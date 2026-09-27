@@ -1,6 +1,7 @@
 #include <linux/types.h>
 #include <linux/slab.h>
 #include <linux/string.h>
+#include <linux/stddef.h>
 
 #include "sepolicy.h"
 #include "ss/policydb.h"
