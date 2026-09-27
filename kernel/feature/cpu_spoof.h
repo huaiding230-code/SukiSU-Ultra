@@ -4,7 +4,7 @@
 
 #include "uapi/supercall.h"
 #include <linux/types.h>
-#include "ksu.h"
+#include "../include/ksu.h"
 
 // 在这里补上结构体定义，解决可见性与不完整类型报错
 struct ksu_set_spoof_cpu_cmd {
