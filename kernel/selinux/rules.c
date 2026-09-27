@@ -17,6 +17,10 @@
 #include "sepolicy.h"
 #include "../../../security/selinux/ss/policydb.h"
 #include "../../../security/selinux/ss/services.h"
+#ifdef CONFIG_SECURITY_SELINUX
+#include "ss/policydb.h"
+#endif
+
 extern struct policydb policydb;
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
