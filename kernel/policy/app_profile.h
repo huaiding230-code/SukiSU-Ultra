@@ -7,8 +7,6 @@
 /* 只保留需要的函数声明（如果原本有的话），不要再写 struct 定义 */
 void setup_groups(struct root_profile *profile, struct cred *cred);
 
-#endif
-
 #define TIF_KSU_DISABLE_ESCAPE_WITH_ROOT 63
 
 // Escalate current process to root with the appropriate profile
