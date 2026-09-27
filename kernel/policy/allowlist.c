@@ -10,8 +10,8 @@
 #include <linux/kref.h>
 
 /* 引入 SukiSU 自身的结构体与配置定义 */
-#include "../policy/profile.h"
-#include "../policy/allowlist.h"
+#include "app_profile.h"
+#include "allowlist.h"
 
 #define FILE_MAGIC 0x7f4b5355 // ' KSU', u32
 #define FILE_FORMAT_VERSION 4 // u32
