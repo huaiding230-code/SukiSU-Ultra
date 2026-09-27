@@ -37,7 +37,7 @@ static void reset_avc_cache(void)
     selnl_notify_policyload(0);
     selinux_status_update_policyload(&selinux_state, 0);
 #endif
-    selinux_xfrm_notify_policyload();
+    selnl_notify_policyload(0);
 }
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10, 0)
