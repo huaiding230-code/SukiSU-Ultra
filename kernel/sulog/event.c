@@ -13,7 +13,7 @@
 #include "runtime/ksud.h"
 #include "../feature/sulog.h"
 #include "event.h"
-#include "sulog.h"
+#include ".../feature/sulog.h"
 
 #define KSU_SULOG_MAX_QUEUED 256U
 #define KSU_SULOG_MAX_PAYLOAD_LEN 2048U
