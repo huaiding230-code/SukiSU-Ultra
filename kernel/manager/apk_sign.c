@@ -1,3 +1,13 @@
+#include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/slab.h>
+#include <linux/err.h>
+#include <linux/errno.h>
+#include <linux/printk.h>
+#include <crypto/hash.h>
+
+#include "apk_sign.h"
+
 struct sdesc {
     struct shash_desc shash;
     char ctx[];
