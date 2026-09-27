@@ -2,10 +2,21 @@
 #define __KSU_POLICY_APP_PROFILE_H
 
 #include <linux/types.h>
-#include "uapi/app_profile.h"  /* 官方自带的结构体定义，由它统一提供 */
+#include <linux/sched.h>
+#include <linux/cred.h>
+#include "uapi/app_profile.h"
 
-/* 只保留需要的函数声明（如果原本有的话），不要再写 struct 定义 */
+#ifndef KERNEL_SU_CONTEXT
+#define KERNEL_SU_CONTEXT "u:r:su:s0"
+#endif
+
+/* 补充所有被调用的内部函数及 Seccomp 声明 */
 void setup_groups(struct root_profile *profile, struct cred *cred);
+struct root_profile *ksu_get_root_profile(uid_t uid);
+void ksu_put_root_profile(struct root_profile *profile);
+void setup_selinux(const char *domain, struct cred *cred);
+void setup_mount_ns(u64 namespaces);
+extern void put_seccomp_filter(struct task_struct *tsk);
 
 #define TIF_KSU_DISABLE_ESCAPE_WITH_ROOT 63
 
