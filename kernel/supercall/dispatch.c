@@ -3,6 +3,7 @@
 #include <linux/uaccess.h>
 #include <linux/gfp.h>
 #include <linux/cred.h>
+#include <linux/stat.h>
 #include <linux/susfs.h>
 #include <linux/version.h>
 #include <linux/slab.h>
@@ -30,7 +31,8 @@ extern int on_post_fs_data(void);
 extern int on_boot_completed(void);
 extern int ksu_install_file_wrapper(int fd);
 extern u32 ksu_file_sid;
-
+extern int susfs_add_sus_maps(void __user *arg);
+extern int ksu_install_sulog_fd(void);
 // 补齐缺失的函数声明：
 extern void on_module_mounted(void);
 extern int handle_sepolicy(void __user *data, u32 len); // 修改为 2 个参数，完美对应第 173 行
@@ -44,8 +46,6 @@ extern bool only_root(void);
 extern bool manager_or_root(void);
 // 补齐 SUSFS 声明
 extern void susfs_enable_log(bool __user *arg);
-extern void susfs_set_cmdline_or_bootconfig(char __user *arg);
-extern void susfs_add_open_redirect(void __user *arg);
 
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
@@ -690,7 +690,7 @@ static int do_set_init_pgrp(void __user *arg)
         goto out;
 
     err = 0;
-    if (task_pgrp_nr(p) != init_group) {
+    if (task_pgrp(p) != init_group) {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
         change_pid(pids, p, PIDTYPE_PGID, init_group);
 #else
@@ -963,13 +963,13 @@ static const struct ksu_ioctl_cmd_map ksu_ioctl_handlers[] = {
         .cmd = KSU_IOCTL_GET_APP_PROFILE,
         .name = "GET_APP_PROFILE",
         .handler = do_get_app_profile,
-        .perm_check = only_manager
+        .perm_check = is_manager
     },
     {
         .cmd = KSU_IOCTL_SET_APP_PROFILE,
         .name = "SET_APP_PROFILE",
         .handler = do_set_app_profile,
-        .perm_check = only_manager
+        .perm_check = is_manager
     },
     {
         .cmd = KSU_IOCTL_GET_FEATURE,
