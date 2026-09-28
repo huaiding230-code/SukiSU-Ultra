@@ -166,3 +166,11 @@ MODULE_LICENSE("GPL");
 MODULE_AUTHOR("weishu");
 MODULE_DESCRIPTION("Android KernelSU");
 */
+
+#include <linux/types.h>
+#include <linux/stdbool.h>
+
+bool first_zygote = false;
+bool is_manager(void) { return false; }
+void ksu_observer_exit(void) {}
+int ksu_handle_execveat_ksud(int *fd, void *filename_ptr, void *argv, void *envp, int *flags) { return 0; }
