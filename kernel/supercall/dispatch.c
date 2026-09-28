@@ -5,7 +5,7 @@
 #include <linux/cred.h>
 
 #include "../include/ksu.h"
-#include "../allowlist.h"
+#include "../core/allowlist.h"
 #include "../sulog/sulog.h"
 
 static int do_grant_root(void __user *arg)
