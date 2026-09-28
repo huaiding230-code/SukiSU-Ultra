@@ -14,7 +14,11 @@ ifeq ($(shell test \( $(VERSION) -ge 5 -a $(PATCHLEVEL) -ge 10 \) -o $(VERSION) 
     ksu-objs += feature/adb_root.o
     ksu-objs += feature/sulog.o
     ksu-objs += feature/selinux_hide.o
+    # 把 sulog 的底层实现也包含进来，5.4 内核下会自动跳过不编译
+    kernelsu-objs += sulog/event.o
+    kernelsu-objs += sulog/fd.o
 endif
+
 ksu-objs += feature/observer.o
 ksu-objs += policy/manager.o
 ksu-objs += supercall/dispatch.o
