@@ -1,4 +1,12 @@
 #include <linux/types.h>
+#include <linux/kernel.h>
+#include <linux/printk.h>
+#include <linux/cache.h>
+#include <linux/fs.h>
+#include <linux/namei.h>
+#include <linux/path.h>
+#include <linux/string.h>
+
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
 
