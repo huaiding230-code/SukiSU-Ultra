@@ -31,6 +31,11 @@ extern int handle_sepolicy(void __user *data, u32 len); // 修改为 2 个参数
 extern bool ksu_is_safe_mode(void);
 extern u32 ksu_get_manager_appid(void);                // 解决第 336 行隐式声明报错
 extern void susfs_start_sdcard_monitor_fn(void);        // 解决第 148 行隐式声明报错
+// 补齐 SUSFS 声明
+extern void susfs_enable_log(bool __user *arg);
+extern void susfs_set_cmdline_or_bootconfig(char __user *arg);
+extern void susfs_add_open_redirect(void __user *arg);
+
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
 #endif
@@ -512,6 +517,16 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
 }
 #endif
 
+// 1. 补齐外部清理函数的声明（必须放在函数外面）
+extern int nuke_ext4_sysfs(const char *mnt);
+
+// 2. 补齐 mount_entry 结构体定义（必须放在函数外面）
+struct mount_entry {
+    struct list_head list;
+    char mnt[256];
+};
+
+// 3. 函数本身（只保留这一个函数头！）
 static int do_nuke_ext4_sysfs(void __user *arg)
 {
     struct ksu_nuke_ext4_sysfs_cmd cmd;
@@ -526,7 +541,8 @@ static int do_nuke_ext4_sysfs(void __user *arg)
 
     memset(mnt, 0, sizeof(mnt));
 
-    ret = ksu_strncpy_from_user_nofault(mnt, cmd.arg, sizeof(mnt));
+    // 使用内核标准的 strncpy_from_user_nofault
+    ret = strncpy_from_user_nofault(mnt, cmd.arg, sizeof(mnt));
     if (ret < 0) {
         pr_err("nuke ext4 copy mnt failed: %ld\n", ret);
         return -EFAULT;
