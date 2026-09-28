@@ -3,6 +3,7 @@
 #include <linux/uaccess.h>
 #include <linux/gfp.h>
 #include <linux/cred.h>
+#include <linux/susfs.h>
 
 #include "../include/ksu.h"
 #include "../policy/allowlist.h"
