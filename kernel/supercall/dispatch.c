@@ -9,6 +9,7 @@
 #include <uapi/ksu.h>
 #include <linux/sched/task.h>
 #include <linux/sched/signal.h>
+#include <linux/vmalloc.h>
 
 #include "../include/uapi/ksu.h"
 #include "../include/ksu.h"
@@ -36,6 +37,11 @@ extern int handle_sepolicy(void __user *data, u32 len); // 修改为 2 个参数
 extern bool ksu_is_safe_mode(void);
 extern u32 ksu_get_manager_appid(void);                // 解决第 336 行隐式声明报错
 extern void susfs_start_sdcard_monitor_fn(void);        // 解决第 148 行隐式声明报错
+// 补齐权限检查函数的声明（解决 881 ~ 935 行 allowed_for_su / always_allow 等未声明）
+extern bool allowed_for_su(void);
+extern bool always_allow(void);
+extern bool only_root(void);
+extern bool manager_or_root(void);
 // 补齐 SUSFS 声明
 extern void susfs_enable_log(bool __user *arg);
 extern void susfs_set_cmdline_or_bootconfig(char __user *arg);
@@ -528,6 +534,7 @@ extern int nuke_ext4_sysfs(const char *mnt);
 struct mount_entry {
     struct list_head list;
     char *umountable;
+    u32 flags; // 补上 flags，解决 626, 628, 796 行报错
 };
 
 // 3. 函数本身（只保留这一个函数头！）
@@ -637,7 +644,7 @@ static int add_try_umount(void __user *arg)
 
     // this is just strcmp'd wipe anyway
     case KSU_UMOUNT_DEL: {
-        long len = ksu_strncpy_from_user_nofault(buf, (const char __user *)cmd.arg, sizeof(buf) - 1);
+        long len = strncpy_from_user_nofault(buf, (const char __user *)cmd.arg, sizeof(buf) - 1);
         if (len <= 0)
             return -EFAULT;
 
@@ -683,7 +690,7 @@ static int do_set_init_pgrp(void __user *arg)
         goto out;
 
     err = 0;
-    if (task_pgrp_r(p) != init_group) {
+    if (task_pgrp_nr(p) != init_group) {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
         change_pid(pids, p, PIDTYPE_PGID, init_group);
 #else
