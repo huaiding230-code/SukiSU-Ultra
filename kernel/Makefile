@@ -1,5 +1,22 @@
 obj-$(CONFIG_KSU) := ksu.o
 
+# 1. 基础模块
+ksu-objs := allowlist.o
+ksu-objs += apk_sign.o
+ksu-objs += app_profile.o
+ksu-objs += core_hook.o
+ksu-objs += ksu.o
+ksu-objs += pkg.o
+ksu-objs += sucompat.o
+
+# 2. 补齐组件模块（解决所有 undefined symbol 报错）
+ksu-objs += feature/adb_root.o
+ksu-objs += feature/observer.o
+ksu-objs += feature/sulog.o
+ksu-objs += policy/manager.o
+ksu-objs += supercall/dispatch.o
+ksu-objs += supercall/supercall.o
+
 ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
 
