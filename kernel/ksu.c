@@ -167,10 +167,33 @@ MODULE_AUTHOR("weishu");
 MODULE_DESCRIPTION("Android KernelSU");
 */
 
+/* --- SukiSU & SUSFS Missing Symbol Stubs --- */
 #include <linux/types.h>
 #include <linux/stdbool.h>
 
 bool first_zygote = false;
-bool is_manager(void) { return false; }
+u32 susfs_extra_works = 0;
+
+void ksu_sulog_init(void) {}
+void ksu_sulog_exit(void) {}
+void ksu_sulog_capture_sucompat(void *a, void *b) {}
+void ksu_sulog_emit_pending(void) {}
+
+void ksu_adb_root_init(void) {}
+void ksu_adb_root_exit(void) {}
+int ksu_adb_root_handle_execveat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags) { return 0; }
+
 void ksu_observer_exit(void) {}
 int ksu_handle_execveat_ksud(int *fd, void *filename_ptr, void *argv, void *envp, int *flags) { return 0; }
+
+bool is_manager(void) { return false; }
+bool is_uid_manager(uid_t uid) { return false; }
+bool is_appuid(uid_t uid) { return false; }
+bool is_isolated_process(uid_t uid) { return false; }
+bool ksu_is_manager_appid_valid(void) { return false; }
+bool ksu_is_allow_uid_for_current(void) { return false; }
+
+void susfs_set_current_proc_no_su(void) {}
+EXPORT_SYMBOL_GPL(susfs_set_current_proc_no_su);
+void susfs_set_current_proc_umounted(void) {}
+void susfs_set_current_proc_umounted_for_zygote_next(void) {}
