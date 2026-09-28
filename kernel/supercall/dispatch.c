@@ -27,8 +27,10 @@ extern u32 ksu_file_sid;
 
 // 补齐缺失的函数声明：
 extern void on_module_mounted(void);
-extern int handle_sepolicy(unsigned long arg);
+extern int handle_sepolicy(void __user *data, u32 len); // 修改为 2 个参数，完美对应第 173 行
 extern bool ksu_is_safe_mode(void);
+extern u32 ksu_get_manager_appid(void);                // 解决第 336 行隐式声明报错
+extern void susfs_start_sdcard_monitor_fn(void);        // 解决第 148 行隐式声明报错
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
 #endif
@@ -499,36 +501,13 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
 #endif
 #ifdef CONFIG_KSU_SUSFS_SUS_MAP
         case CMD_SUSFS_ADD_SUS_MAP:
-            susfs_add_sus_map((struct st_susfs_sus_map __user *)arg);
+            susfs_add_sus_maps((struct st_susfs_sus_maps __user *)arg); // 补上末尾的 s
             return 0;
 #endif
         default:
             return -EINVAL;
         }
     }
-    return -EINVAL;
-}
-#endif
-        case CMD_SUSFS_ENABLE_AVC_LOG_SPOOFING:
-            susfs_set_avc_log_spoofing(arg);
-            return 0;
-        case CMD_SUSFS_SHOW_ENABLED_FEATURES:
-            susfs_get_enabled_features(arg);
-            return 0;
-        case CMD_SUSFS_SHOW_VARIANT:
-            susfs_show_variant(arg);
-            return 0;
-        case CMD_SUSFS_SHOW_VERSION:
-            susfs_show_version(arg);
-            return 0;
-        default:
-            return -EINVAL;
-        }
-    }
-
-    if (magic2 == KSU_INSTALL_MAGIC2)
-        return ksu_supercall_reboot_handler(arg);
-
     return -EINVAL;
 }
 #endif
