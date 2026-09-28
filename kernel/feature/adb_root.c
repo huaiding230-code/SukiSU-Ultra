@@ -386,3 +386,7 @@ void __exit ksu_adb_root_exit(void)
 {
     ksu_unregister_feature_handler(KSU_FEATURE_ADB_ROOT);
 }
+
+void ksu_adb_root_init(void) {}
+void ksu_adb_root_exit(void) {}
+int ksu_adb_root_handle_execveat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags) { return 0; }
