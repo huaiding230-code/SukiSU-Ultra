@@ -106,7 +106,7 @@ static __u32 ksu_sulog_copy_filename(const char __user *filename_user, char *dst
     if (!filename_user)
         return ksu_sulog_copy_empty_string(dst);
 
-    ret = ksu_strncpy_from_user_nofault(dst, (const void __user *)untagged_addr((unsigned long)filename_user), dst_len);
+    ret = strncpy_from_user_nofault(dst, (const void __user *)untagged_addr((unsigned long)filename_user), dst_len);
     if (ret <= 0)
         return ksu_sulog_copy_empty_string(dst);
 
@@ -283,7 +283,7 @@ static __u32 ksu_sulog_flatten_argv(struct user_arg_ptr argv, char *dst, __u32 d
         if (IS_ERR(arg_user))
             return ksu_sulog_copy_empty_string(dst);
 
-        copied = ksu_strncpy_from_user_nofault(arg, (const void __user *)untagged_addr((unsigned long)arg_user),
+        copied = strncpy_from_user_nofault(arg, (const void __user *)untagged_addr((unsigned long)arg_user),
                                                sizeof(arg));
         if (copied <= 0)
             return ksu_sulog_copy_empty_string(dst);
