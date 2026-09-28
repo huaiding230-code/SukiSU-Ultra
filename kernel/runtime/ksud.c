@@ -1,3 +1,6 @@
+#include <linux/types.h>
+#include <linux/stdbool.h>
+
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
 
