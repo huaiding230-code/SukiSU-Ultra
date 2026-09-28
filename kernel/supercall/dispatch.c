@@ -4,10 +4,17 @@
 #include <linux/gfp.h>
 #include <linux/cred.h>
 #include <linux/susfs.h>
+#include <linux/version.h>
 
-#include "../include/ksu.h"
 #include "../policy/allowlist.h"
+#include "../policy/app_profile.h"
+#include "../policy/feature.h"
+#include "supercall.h"
+#include "../include/ksu.h"
 #include "../feature/sulog.h"
+
+// 补全前置声明
+bool is_manager(void);
 
 static int do_grant_root(void __user *arg)
 {
