@@ -13,6 +13,14 @@
 
 #define get_user_arg_ptr ksu_get_user_arg_ptr
 
+#ifndef KERNEL_SU_DOMAIN
+#define KERNEL_SU_DOMAIN "su"
+#endif
+
+#ifndef KSUD_PATH
+#define KSUD_PATH "/system/bin/ksud"
+#endif
+
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
 
