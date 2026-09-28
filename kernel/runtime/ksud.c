@@ -1,5 +1,12 @@
 #include <linux/types.h>
-#include <linux/stdbool.h>
+
+/* 兼容 5.4 等旧内核：如果环境中没有定义 bool，则手动安全声明 */
+#ifndef __bool_true_false_are_defined
+#define __bool_true_false_are_defined 1
+typedef _Bool bool;
+#define true 1
+#define false 0
+#endif
 
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
