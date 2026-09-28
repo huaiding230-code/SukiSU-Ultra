@@ -13,6 +13,7 @@
 #include <linux/stat.h>
 
 #include "feature.h"
+#include "../include/ksu.h"
 #include "../core/ksu.h"
 #include "../include/ksu.h"
 #include "../policy/feature.h"
