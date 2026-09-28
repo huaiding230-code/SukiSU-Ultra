@@ -20,7 +20,6 @@
 #include "supercall.h"
 #include "arch.h"
 #include "../kernel_compat.h"
-#include "../susfs.h"
 
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
