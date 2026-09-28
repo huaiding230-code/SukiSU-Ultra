@@ -12,11 +12,6 @@ bool only_manager(void)
     return is_manager();
 }
 
-bool only_manager(void)
-{
-    return is_manager();
-}
-
 bool only_root(void)
 {
     return current_uid().val == 0;
