@@ -31,7 +31,6 @@ extern int on_post_fs_data(void);
 extern int on_boot_completed(void);
 extern int ksu_install_file_wrapper(int fd);
 extern u32 ksu_file_sid;
-extern int susfs_add_sus_maps(void __user *arg);
 extern int ksu_install_sulog_fd(void);
 // 补齐缺失的函数声明：
 extern void on_module_mounted(void);
