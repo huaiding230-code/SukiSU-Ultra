@@ -6,7 +6,7 @@
 
 #include "../include/ksu.h"
 #include "../policy/allowlist.h"
-#include "../sulog/sulog.h"
+#include "../feature/sulog.h"
 
 static int do_grant_root(void __user *arg)
 {
