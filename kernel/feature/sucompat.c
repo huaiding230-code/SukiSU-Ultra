@@ -41,14 +41,14 @@
 #define current_user_stack_pointer() user_stack_pointer(task_pt_regs(current))
 #endif
 
-/* 1. 结构体与前置类型定义 */
+/* 1. 结构体与前置类型定义 
 struct user_arg_ptr {
 	bool is_compat;
 	union {
 		const char __user *const __user *native;
 		const compat_uptr_t __user *compat;
 	} ptr;
-};
+};*/
 struct ksu_sulog_pending_event;
 
 /* 2. 外部全局变量 */
