@@ -6,6 +6,10 @@
 #include <linux/namei.h>
 #include <linux/path.h>
 #include <linux/string.h>
+#include <linux/version.h>
+#include <linux/uaccess.h>
+#include <linux/sched/signal.h>
+#include <linux/binfmts.h>
 
 #define get_user_arg_ptr ksu_get_user_arg_ptr
 
