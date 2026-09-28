@@ -11,7 +11,7 @@
 #include "../policy/feature.h"
 #include "supercall.h"
 #include "../include/ksu.h"
-#include "../include/core_hook.h"
+#include "../core_hook.h"
 // 补全前置声明
 bool is_manager(void);
 
