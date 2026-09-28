@@ -24,10 +24,7 @@
 #include <asm/ptrace.h>
 
 #include <linux/version.h>
-// 1. 头文件隔离
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 #include "sulog/event.h"
-#endif
 // 2. 函数调用隔离 (在你原来报错提示找不到 ksu_sulog 的函数里)
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
     ksu_sulog(...); // 这里保留原来的调用代码
