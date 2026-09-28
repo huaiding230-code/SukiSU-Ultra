@@ -12,7 +12,6 @@
 #include <linux/fs.h>
 #include <linux/stat.h>
 
-#include "feature.h"
 #include "../include/ksu.h"
 #include "../policy/feature.h"
 #include "adb_root.h"
