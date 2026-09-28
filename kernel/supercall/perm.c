@@ -4,6 +4,14 @@
 #include "../policy/allowlist.h"
 #include "../include/ksu.h"
 #include "supercall.h"
+// 【在这里手动添加函数声明】
+bool is_manager(void);
+
+bool only_manager(void)
+{
+    return is_manager();
+}
+...
 
 bool only_manager(void)
 {
