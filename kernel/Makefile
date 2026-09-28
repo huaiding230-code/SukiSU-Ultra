@@ -9,10 +9,13 @@ ksu-objs += ksu.o
 ksu-objs += pkg.o
 ksu-objs += sucompat.o
 
-# 2. 补齐组件模块（解决所有 undefined symbol 报错）
-ksu-objs += feature/adb_root.o
+# 仅在内核版本 >= 5.10 (GKI 2.0+) 时编译这几个模块
+ifeq ($(shell test \( $(VERSION) -ge 5 -a $(PATCHLEVEL) -ge 10 \) -o $(VERSION) -ge 6; echo $$?),0)
+    ksu-objs += feature/adb_root.o
+    ksu-objs += feature/sulog.o
+    ksu-objs += feature/selinux_hide.o
+endif
 ksu-objs += feature/observer.o
-ksu-objs += feature/sulog.o
 ksu-objs += policy/manager.o
 ksu-objs += supercall/dispatch.o
 ksu-objs += supercall/supercall.o
