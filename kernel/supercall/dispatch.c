@@ -5,7 +5,8 @@
 #include <linux/cred.h>
 #include <linux/susfs.h>
 #include <linux/version.h>
-#include "../ksu.h"
+#include <linux/slab.h>
+
 #include "../include/ksu.h"
 #include "../policy/allowlist.h"
 #include "../policy/app_profile.h"
@@ -14,11 +15,16 @@
 
 // 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
 __maybe_unused __u32 audit_euid;
-bool is_manager(void);
-int on_post_fs_data(void);
-int on_boot_completed(void);
-int ksu_install_file_wrapper(int fd);
+extern bool is_manager(void);
+extern int on_post_fs_data(void);
+extern int on_boot_completed(void);
+extern int ksu_install_file_wrapper(int fd);
 extern u32 ksu_file_sid;
+
+// 补齐缺失的函数声明：
+extern void on_module_mounted(void);
+extern int handle_sepolicy(unsigned long arg);
+extern bool ksu_is_safe_mode(void);
 
 static int do_grant_root(void __user *arg)
 {
@@ -412,7 +418,7 @@ static int do_manage_mark(void __user *arg)
 }
 
 #ifdef CONFIG_KSU_SUSFS
-int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user **arg) {
+int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user *arg) {
     if (magic1 != KSU_INSTALL_MAGIC1) {
         return -EINVAL;
     }
@@ -440,6 +446,26 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
             susfs_set_uname((struct st_susfs_uname __user *)arg);
             return 0;
 #endif
+#ifdef CONFIG_KSU_SUSFS_ENABLE_LOG
+        case CMD_SUSFS_ENABLE_LOG:
+            susfs_enable_log((bool __user *)arg);
+            return 0;
+#endif
+#ifdef CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
+        case CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG:
+            susfs_set_cmdline_or_bootconfig((char __user *)arg);
+            return 0;
+#endif
+#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+        case CMD_SUSFS_ADD_OPEN_REDIRECT:
+            susfs_add_open_redirect((struct st_susfs_open_redirect __user *)arg);
+            return 0;
+#endif
+#ifdef CONFIG_KSU_SUSFS_SUS_MAP
+        case CMD_SUSFS_ADD_SUS_MAP:
+            susfs_add_sus_map((struct st_susfs_sus_map __user *)arg);
+            return 0;
+#endif
         default:
             return -EINVAL;
         }
@@ -447,42 +473,6 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
     return -EINVAL;
 }
 #endif
-#ifdef CONFIG_KSU_SUSFS_SUS_KSTAT
-        case CMD_SUSFS_ADD_SUS_KSTAT:
-            susfs_add_sus_kstat(arg);
-            return 0;
-        case CMD_SUSFS_UPDATE_SUS_KSTAT:
-            susfs_update_sus_kstat(arg);
-            return 0;
-        case CMD_SUSFS_ADD_SUS_KSTAT_STATICALLY:
-            susfs_add_sus_kstat(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_SUS_KSTAT
-#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
-        case CMD_SUSFS_SET_UNAME:
-            susfs_set_uname(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
-#ifdef CONFIG_KSU_SUSFS_ENABLE_LOG
-        case CMD_SUSFS_ENABLE_LOG:
-            susfs_enable_log(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_ENABLE_LOG
-#ifdef CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
-        case CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG:
-            susfs_set_cmdline_or_bootconfig(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
-#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
-        case CMD_SUSFS_ADD_OPEN_REDIRECT:
-            susfs_add_open_redirect(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
-#ifdef CONFIG_KSU_SUSFS_SUS_MAP
-        case CMD_SUSFS_ADD_SUS_MAP:
-            susfs_add_sus_map(arg);
-            return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_SUS_MAP
         case CMD_SUSFS_ENABLE_AVC_LOG_SPOOFING:
             susfs_set_avc_log_spoofing(arg);
             return 0;
