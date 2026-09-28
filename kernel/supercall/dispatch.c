@@ -6,12 +6,16 @@
 #include <linux/susfs.h>
 #include <linux/version.h>
 #include <linux/slab.h>
+#include <uapi/ksu.h>
 
+#include "../include/uapi/ksu.h"
 #include "../include/ksu.h"
 #include "../policy/allowlist.h"
 #include "../policy/app_profile.h"
 #include "../policy/feature.h"
 #include "supercall.h"
+#include "arch.h"
+#include "kcompat.h"
 
 // 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
 __maybe_unused __u32 audit_euid;
@@ -25,6 +29,9 @@ extern u32 ksu_file_sid;
 extern void on_module_mounted(void);
 extern int handle_sepolicy(unsigned long arg);
 extern bool ksu_is_safe_mode(void);
+#ifdef CONFIG_KSU_SUSFS
+#include <linux/susfs.h>
+#endif
 
 static int do_grant_root(void __user *arg)
 {
