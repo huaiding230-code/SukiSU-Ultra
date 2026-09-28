@@ -33,6 +33,35 @@ extern bool ksu_is_safe_mode(void);
 #include <linux/susfs.h>
 #endif
 
+/* 补齐 SUSFS 缺失的魔数和命令宏定义，防止内核自带头文件版本过低导致报错 */
+#ifndef SUSFS_MAGIC
+#define SUSFS_MAGIC 0x55534653
+#endif
+
+#ifndef CMD_SUSFS_ADD_SUS_PATH
+#define CMD_SUSFS_ADD_SUS_PATH 0x1000
+#endif
+
+#ifndef CMD_SUSFS_ADD_SUS_KSTAT
+#define CMD_SUSFS_ADD_SUS_KSTAT 0x1001
+#endif
+
+#ifndef CMD_SUSFS_ADD_OPEN_REDIRECT
+#define CMD_SUSFS_ADD_OPEN_REDIRECT 0x1002
+#endif
+
+#ifndef CMD_SUSFS_ADD_SUS_MAP
+#define CMD_SUSFS_ADD_SUS_MAP 0x1003
+#endif
+
+#ifndef CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG
+#define CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG 0x1004
+#endif
+
+#ifndef CMD_SUSFS_ENABLE_LOG
+#define CMD_SUSFS_ENABLE_LOG 0x1005
+#endif
+
 static int do_grant_root(void __user *arg)
 {
     int ret;
