@@ -32,6 +32,8 @@ ifeq ($(shell test $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 
 kernelsu-objs += feature/sulog.o
 kernelsu-objs += sulog/event.o
 kernelsu-objs += sulog/fd.o
+kernelsu-objs += feature/adb_root.o
+kernelsu-objs += feature/selinux_hide.o
 endif
 kernelsu-objs += policy/allowlist.o
 kernelsu-objs += policy/app_profile.o
@@ -47,10 +49,6 @@ kernelsu-objs += selinux/sepolicy.o
 kernelsu-objs += supercall/dispatch.o
 kernelsu-objs += supercall/perm.o
 kernelsu-objs += supercall/supercall.o
-
-kernelsu-objs += feature/adb_root.o
-
-kernelsu-objs += feature/selinux_hide.o
 
 kernelsu-objs += feature/uts_spoof.o
 
