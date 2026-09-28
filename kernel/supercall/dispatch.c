@@ -5,15 +5,16 @@
 #include <linux/cred.h>
 #include <linux/susfs.h>
 #include <linux/version.h>
-
 #include "../policy/allowlist.h"
 #include "../policy/app_profile.h"
 #include "../policy/feature.h"
 #include "supercall.h"
+#include "../ksu.h"
 #include "../include/ksu.h"
-#include "../core_hook.h"
-// 补全前置声明
+
+// 补全前置函数声明（防止隐式声明报错）
 bool is_manager(void);
+int on_post_fs_data(void);
 
 static int do_grant_root(void __user *arg)
 {
