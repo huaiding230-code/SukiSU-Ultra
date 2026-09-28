@@ -15,7 +15,6 @@
 #include "../policy/feature.h"
 #include "supercall.h"
 #include "arch.h"
-#include "kcompat.h"
 
 // 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
 __maybe_unused __u32 audit_euid;
