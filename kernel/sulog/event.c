@@ -19,6 +19,11 @@
 #include "event.h"
 #include "../feature/sulog.h"
 
+void ksu_sulog_init(void) {}
+void ksu_sulog_exit(void) {}
+void ksu_sulog_capture_sucompat(void *a, void *b) {}
+void ksu_sulog_emit_pending(void) {}
+
 #define KSU_SULOG_MAX_QUEUED 256U
 #define KSU_SULOG_MAX_PAYLOAD_LEN 2048U
 #define KSU_SULOG_MAX_ARG_STRINGS 0x7FFFFFFF
