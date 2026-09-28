@@ -7,6 +7,8 @@
 #include <linux/path.h>
 #include <linux/string.h>
 
+#define get_user_arg_ptr ksu_get_user_arg_ptr
+
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
 
