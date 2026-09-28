@@ -7,6 +7,8 @@
 #include <linux/version.h>
 #include <linux/slab.h>
 #include <uapi/ksu.h>
+#include <linux/sched/task.h>
+#include <linux/sched/signal.h>
 
 #include "../include/uapi/ksu.h"
 #include "../include/ksu.h"
@@ -16,6 +18,9 @@
 #include "supercall.h"
 #include "arch.h"
 #include "../kernel_compat.h"
+
+extern struct task_struct init_task;
+extern struct pid *task_session(struct task_struct *tsk);
 
 // 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
 __maybe_unused __u32 audit_euid;
@@ -520,10 +525,9 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
 // 1. 补齐外部清理函数的声明（必须放在函数外面）
 extern int nuke_ext4_sysfs(const char *mnt);
 
-// 2. 补齐 mount_entry 结构体定义（必须放在函数外面）
 struct mount_entry {
     struct list_head list;
-    char mnt[256];
+    char *umountable;
 };
 
 // 3. 函数本身（只保留这一个函数头！）
@@ -586,7 +590,7 @@ static int add_try_umount(void __user *arg)
     }
 
     case KSU_UMOUNT_ADD: {
-        long len = ksu_strncpy_from_user_nofault(buf, (const char __user *)cmd.arg, 256);
+        long len = strncpy_from_user_nofault(buf, (const char __user *)cmd.arg, 256);
         if (len <= 0)
             return -EFAULT;
 
@@ -679,7 +683,7 @@ static int do_set_init_pgrp(void __user *arg)
         goto out;
 
     err = 0;
-    if (task_pgrp(p) != init_group) {
+    if (task_pgrp_r(p) != init_group) {
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0)
         change_pid(pids, p, PIDTYPE_PGID, init_group);
 #else
