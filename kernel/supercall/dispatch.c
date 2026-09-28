@@ -20,6 +20,7 @@
 #include "supercall.h"
 #include "arch.h"
 #include "../kernel_compat.h"
+#include "../susfs.h"
 
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
@@ -46,6 +47,10 @@ extern bool manager_or_root(void);
 // 补齐 SUSFS 声明
 extern void susfs_enable_log(bool __user *arg);
 
+/* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
+int susfs_set_cmdline_or_bootconfig(char __user *arg);
+int susfs_add_open_redirect(void __user *arg);
+
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
 #endif
@@ -56,7 +61,8 @@ extern void susfs_enable_log(bool __user *arg);
 #endif
 
 #ifndef CMD_SUSFS_ADD_SUS_PATH
-#define CMD_SUSFS_ADD_SUS_PATH 0x1000
+#define 
+CMD_SUSFS_ADD_SUS_PATH 0x1000
 #endif
 
 #ifndef CMD_SUSFS_ADD_SUS_KSTAT
