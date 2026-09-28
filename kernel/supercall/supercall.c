@@ -13,9 +13,13 @@
 #include <linux/anon_inodes.h>
 #include <linux/version.h>
 
-#include "dispatch.h"
+#include <linux/version.h>
 #include "../include/ksu.h"
 #include "supercall.h"
+
+extern int ksu_supercall_handle_ioctl(unsigned int cmd, void __user *arg);
+extern void ksu_supercall_dump_commands(void);
+extern void ksu_supercall_cleanup_state(void);
 
 #ifndef TWA_RESUME
 #define TWA_RESUME 0
