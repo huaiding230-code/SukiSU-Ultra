@@ -5,21 +5,26 @@
 #include <linux/cred.h>
 #include <linux/susfs.h>
 #include <linux/version.h>
-#include "ksu.h"
+#include "../ksu.h"
+#include "../include/ksu.h"
 #include "../policy/allowlist.h"
 #include "../policy/app_profile.h"
 #include "../policy/feature.h"
 #include "supercall.h"
 
-// 前置声明
+// 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
+__maybe_unused __u32 audit_euid;
 bool is_manager(void);
 int on_post_fs_data(void);
+int on_boot_completed(void);
+int ksu_install_file_wrapper(int fd);
+extern u32 ksu_file_sid;
 
 static int do_grant_root(void __user *arg)
 {
     int ret;
     __u32 audit_uid = current_uid().val;
-    __maybe_unused__u32 audit_euid = current_euid().val;
+    __maybe_unused __u32 audit_euid = current_euid().val;
 
     // we already check uid above on allowed_for_su()
 
