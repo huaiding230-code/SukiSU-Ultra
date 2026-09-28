@@ -11,8 +11,7 @@
 #include "../policy/feature.h"
 #include "supercall.h"
 #include "../include/ksu.h"
-#include "../feature/sulog.h"
-
+#include "../include/core_hook.h"
 // 补全前置声明
 bool is_manager(void);
 
@@ -26,7 +25,7 @@ static int do_grant_root(void __user *arg)
 
     pr_info("allow root for: %d\n", audit_uid);
     ret = escape_with_root_profile();
-    ksu_sulog_emit_grant_root(ret, audit_uid, audit_euid, GFP_KERNEL);
+    // ksu_sulog_emit_grant_root(ret, audit_uid, audit_euid, GFP_KERNEL);
 
     return ret;
 }
@@ -408,23 +407,46 @@ static int do_manage_mark(void __user *arg)
 }
 
 #ifdef CONFIG_KSU_SUSFS
-int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user **arg)
-{
+int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user **arg) {
     if (magic1 != KSU_INSTALL_MAGIC1) {
-        return -EINVAL; 
+        return -EINVAL;
     }
 
-    // If magic2 is susfs and current process is root
     if (magic2 == SUSFS_MAGIC && current_uid().val == 0) {
         switch(cmd) {
 #ifdef CONFIG_KSU_SUSFS_SUS_PATH
         case CMD_SUSFS_ADD_SUS_PATH:
-            susfs_add_sus_path(arg);
+            susfs_add_sus_path((struct st_susfs_sus_path __user *)arg);
             return 0;
-        case CMD_SUSFS_ADD_SUS_PATH_LOOP:
-            susfs_add_sus_path_loop(arg);
+#endif
+#ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
+        case CMD_SUSFS_HIDE_SUS_MNTS_FOR_NON_SU_PROCS:
+            susfs_set_hide_sus_mnts_for_non_su_procs((bool __user *)arg);
             return 0;
-#endif // #ifdef CONFIG_KSU_SUSFS_SUS_PATH
+#endif
+#ifdef CONFIG_KSU_SUSFS_SUS_KSTAT
+        case CMD_SUSFS_ADD_SUS_KSTAT:
+            susfs_add_sus_kstat((struct st_susfs_sus_kstat __user *)arg);
+            return 0;
+        case CMD_SUSFS_UPDATE_SUS_KSTAT:
+            susfs_update_sus_kstat((struct st_susfs_sus_kstat __user *)arg);
+            return 0;
+        case CMD_SUSFS_ADD_SUS_KSTAT_STATICALLY:
+            susfs_add_sus_kstat((struct st_susfs_sus_kstat __user *)arg);
+            return 0;
+#endif
+#ifdef CONFIG_KSU_SUSFS_SPOOF_UNAME
+        case CMD_SUSFS_SET_UNAME:
+            susfs_set_uname((struct st_susfs_uname __user *)arg);
+            return 0;
+#endif
+        default:
+            return -EINVAL;
+        }
+    }
+    return -EINVAL;
+}
+#endif
 #ifdef CONFIG_KSU_SUSFS_SUS_MOUNT
          case CMD_SUSFS_HIDE_SUS_MNTS_FOR_NON_SU_PROCS:
             susfs_set_hide_sus_mnts_for_non_su_procs(arg);
