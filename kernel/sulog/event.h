@@ -6,6 +6,7 @@ struct ksu_sulog_pending_event;
 
 int ksu_sulog_events_init(void);
 void ksu_sulog_events_exit(void);
+void ksu_sulog_emit_pending(void *pending, int ret, gfp_t flags);
 
 #ifdef CONFIG_KSU_SUSFS
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename,
