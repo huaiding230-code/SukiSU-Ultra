@@ -3,7 +3,7 @@
 #ifndef __KSU_H_CPU_SPOOF
 #define __KSU_H_CPU_SPOOF
 
-#include "uapi/supercall.h"
+#include "../uapi/supercall.h"
 #include <linux/types.h>
 #include "../include/ksu.h"
 
