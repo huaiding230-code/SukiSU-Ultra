@@ -10,7 +10,11 @@
 #include <linux/uaccess.h>
 #include <linux/sched/signal.h>
 #include <linux/binfmts.h>
-#include "ksu.h"
+#include <linux/file.h>
+#include <linux/input.h>
+#include <linux/uio.h>
+
+#include "../include/ksu.h"
 
 #define get_user_arg_ptr ksu_get_user_arg_ptr
 
