@@ -2,7 +2,15 @@ kernelsu-objs := core/init.o
 
 kernelsu-objs += feature/kernel_umount.o
 kernelsu-objs += feature/sucompat.o
-
+ccflags-y += -DCONFIG_KSU=1 \
+             -DCONFIG_KSU_SUCOMPAT=1 \
+             -DCONFIG_KSU_SULOG=1 \
+             -DCONFIG_KSU_ADB_ROOT=1 \
+             -DCONFIG_KSU_SUSFS=1 \
+             -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=1 \
+             -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=1 \
+             -DCONFIG_KSU_SUSFS_ENABLE_LOG=1 \
+             -DCONFIG_KSU_SUSFS_OPEN_REDIRECT=1
 kernelsu-objs += hook/lsm_hook.o
 kernelsu-objs += hook/setuid_hook.o
 kernelsu-objs += hook/syscall_event_bridge.o
@@ -95,7 +103,7 @@ endif
 
 ccflags-y += -I$(KSU_KERNEL_DIR) -I$(KSU_KERNEL_DIR)/include
 
-obj-$(CONFIG_KSU) += kernelsu.o
+obj-y += kernelsu.o
 
 MDIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
