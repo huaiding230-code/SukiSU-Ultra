@@ -147,8 +147,10 @@ int __init kernelsu_init(void)
     ksu_syscall_hook_init();
 
     ksu_feature_init();
-    ksu_sulog_init();
-    ksu_adb_root_init();
+    #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+        ksu_sulog_init();
+        ksu_adb_root_init();
+    #endif
     ksu_lsm_hook_init();
     ksu_selinux_hide_init();
 
@@ -217,15 +219,18 @@ void __exit kernelsu_exit(void)
     synchronize_rcu();
 
     // Phase 2: Now safe to release data structures
-    ksu_observer_exit();
-
+    #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+        ksu_observer_exit();
+        ksu_adb_root_exit();
+        ksu_sulog_exit();
+    #endif
+    
     ksu_throne_tracker_exit();
 
     ksu_allowlist_exit();
 
     ksu_selinux_hide_exit();
-    ksu_adb_root_exit();
-    ksu_sulog_exit();
+    
     ksu_feature_exit();
 
     put_cred(ksu_cred);
