@@ -15,14 +15,9 @@ extern void setup_ksu_cred(void);
 extern void track_throne(bool active);
 extern long ksu_strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long count);
 
-/* 5.4 内核兼容：高版本专属模块在 5.4 下被 Kbuild 跳过编译，此处自动降级为空实现 */
-#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+/* 正确修改：直接使用 extern 声明，不再手写 static inline 定义 */
 extern void ksu_selinux_hide_handle_post_fs_data(void);
 extern void ksu_selinux_hide_handle_second_stage(void);
-#else
-static inline void ksu_selinux_hide_handle_post_fs_data(void) {}
-static inline void ksu_selinux_hide_handle_second_stage(void) {}
-#endif
 
 #define KERNEL_SU_VERSION KSU_VERSION
 
