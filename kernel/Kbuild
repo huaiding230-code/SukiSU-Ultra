@@ -7,7 +7,6 @@ ccflags-y += -DCONFIG_KSU=1 \
              -DCONFIG_KSU_SUSFS=1 \
              -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=1 \
              -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=1 \
-             -DCONFIG_KSU_SUSFS_ENABLE_LOG=1 \
              -DCONFIG_KSU_SUSFS_OPEN_REDIRECT=1
 kernelsu-objs += hook/lsm_hook.o
 kernelsu-objs += hook/setuid_hook.o
