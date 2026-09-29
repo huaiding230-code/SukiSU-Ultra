@@ -6,6 +6,17 @@
 #include <linux/workqueue.h>
 #include <linux/version.h>
 
+// 添加外部函数声明以解决 implicit declaration 报错
+extern void ksu_load_allow_list(void);
+extern void ksu_observer_init(void);
+extern void ksu_selinux_hide_handle_post_fs_data(void);
+extern void ksu_selinux_hide_handle_second_stage(void);
+extern void apply_kernelsu_rules(void);
+extern void cache_sid(void);
+extern void setup_ksu_cred(void);
+extern void track_throne(bool active);
+extern long ksu_strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long count);
+
 #define KERNEL_SU_VERSION KSU_VERSION
 
 extern struct cred *ksu_cred;
