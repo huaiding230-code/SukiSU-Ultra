@@ -5,6 +5,7 @@
 #include <linux/cred.h>
 #include <linux/workqueue.h>
 #include <linux/version.h>
+#include "../manager/manager_observer.h"
 
 /* 通用外部函数声明（排除掉需要在 5.4 降级的函数） */
 extern void ksu_load_allow_list(void);
