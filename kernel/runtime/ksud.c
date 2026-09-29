@@ -16,6 +16,8 @@
 #include <linux/module.h>
 
 #include "../include/ksu.h"
+#include "../include/klog.h"
+#include "../kernel_compat.h"
 
 #define get_user_arg_ptr ksu_get_user_arg_ptr
 
