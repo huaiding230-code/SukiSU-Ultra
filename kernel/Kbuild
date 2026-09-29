@@ -35,11 +35,11 @@ kernelsu-objs += sulog/fd.o
 kernelsu-objs += feature/adb_root.o
 kernelsu-objs += feature/selinux_hide.o
 kernelsu-objs += feature/observer.o
-kernelsu-objs += manager/manager.o
 endif
 kernelsu-objs += policy/allowlist.o
 kernelsu-objs += policy/app_profile.o
 kernelsu-objs += policy/feature.o
+kernelsu-objs += manager/manager.o
 
 kernelsu-objs += selinux/selinux.o
 kernelsu-objs += selinux/rules.o
