@@ -42,7 +42,7 @@ setup_kernelsu() {
     echo "[+] Setting up KernelSU..."
     # 【修改1】把这里的 URL 换成你自己的 SukiSU-Ultra 仓库地址
     # 假设你的分支叫 main，直接拉取你的仓库，不再依赖别人的
-    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/你的用户名/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
+    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/huaiding230-code/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
     
     cd "$GKI_ROOT/KernelSU"
     
