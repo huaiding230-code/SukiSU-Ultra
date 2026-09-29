@@ -1,4 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0 */
+
 #ifndef __KSU_H_CPU_SPOOF
 #define __KSU_H_CPU_SPOOF
 
@@ -6,15 +7,16 @@
 #include <linux/types.h>
 #include "../include/ksu.h"
 
-// 在这里补上结构体定义，解决可见性与不完整类型报错
-struct ksu_set_spoof_cpu_cmd {
-    unsigned int cpu_index;
-    unsigned int midr;
-    unsigned long bogomips;
-    unsigned long hwcap;
-    unsigned long hwcap2;
-};
-
+#ifdef CONFIG_KSU_SPOOF_CPU
 int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd);
+#else
+
+/* 未开启 CPU Spoof 时的空实现存根，必须带 static inline 防止重定义 */
+static inline int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd)
+{
+    return 0;
+}
+
+#endif /* CONFIG_KSU_SPOOF_CPU */
 
 #endif /* __KSU_H_CPU_SPOOF */
