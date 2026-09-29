@@ -2,7 +2,6 @@ kernelsu-objs := core/init.o
 
 kernelsu-objs += feature/kernel_umount.o
 kernelsu-objs += feature/sucompat.o
-kernelsu-objs += core/susfs.o
 ccflags-y += -DCONFIG_KSU=1 \
              -DCONFIG_KSU_SUCOMPAT=1 \
              -DCONFIG_KSU_SUSFS=1 \
