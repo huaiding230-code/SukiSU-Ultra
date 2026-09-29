@@ -37,20 +37,23 @@ perform_cleanup() {
 }
 
 # Sets up or update KernelSU environment
+# Sets up or update KernelSU environment
 setup_kernelsu() {
     echo "[+] Setting up KernelSU..."
-    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/huaiding230-code/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
+    # 【修改1】把这里的 URL 换成你自己的 SukiSU-Ultra 仓库地址
+    # 假设你的分支叫 main，直接拉取你的仓库，不再依赖别人的
+    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/你的用户名/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
+    
     cd "$GKI_ROOT/KernelSU"
-    git stash && echo "[-] Stashed current changes."
-    if [ "$(git status | grep -Po 'v\d+(\.\d+)*' | head -n1)" ]; then
-        git checkout main && echo "[-] Switched to main branch."
-    fi
-    git pull && echo "[+] Repository updated."
-    if [ -z "${1-}" ]; then
-        git checkout "$(git describe --abbrev=0 --tags)" && echo "[-] Checked out latest tag."
-    else
-        git checkout "$1" && echo "[-] Checked out $1." || echo "[-] Checkout default branch"
-    fi
+    
+    # 【修改2】注释或删除原版脚本里强制切换 tag 和 main 分支的代码
+    # 因为这会导致你自己的代码被覆盖回旧版本
+    # git stash && echo "[-] Stashed current changes."
+    # if [ "$(git status | grep -Po 'v\d+(\.\d+)*' | head -n1)" ]; then
+    #     git checkout main && echo "[-] Switched to main branch."
+    # fi
+    git pull origin main && echo "[+] Repository updated."
+
     cd "$DRIVER_DIR"
     ln -sf "$(realpath --relative-to="$DRIVER_DIR" "$GKI_ROOT/KernelSU/kernel")" "kernelsu" && echo "[+] Symlink created."
 
