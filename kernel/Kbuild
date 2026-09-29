@@ -75,6 +75,9 @@ kernelsu-objs += runtime/ksud.o
 
 ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
+# 仅对 KernelSU 模块内部注入所需宏定义（不影响全局内核编译）
+ccflags-y += -DCONFIG_KSU_SUCOMPAT=1
+ccflags-y += -DCONFIG_KSU_SUSFS=1
 
 ifneq ($(KBUILD_EXTMOD),)
 # 6.18 exports the external module source as srcroot when M/MO are used.
