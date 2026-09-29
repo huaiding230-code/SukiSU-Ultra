@@ -2,6 +2,7 @@ kernelsu-objs := core/init.o
 
 kernelsu-objs += feature/kernel_umount.o
 kernelsu-objs += feature/sucompat.o
+kernelsu-objs += core/susfs.o
 ccflags-y += -DCONFIG_KSU=1 \
              -DCONFIG_KSU_SUCOMPAT=1 \
              -DCONFIG_KSU_SULOG=1 \
@@ -35,15 +36,14 @@ kernelsu-objs += manager/apk_sign.o
 kernelsu-objs += manager/pkg_observer.o
 kernelsu-objs += manager/throne_tracker.o
 endif
-# 仅在内核版本 >= 5.10 时才引入 sulog 模块（5.4 等旧内核自动跳过）
-ifeq ($(shell test $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 10 \); echo $$?),0)
+
 kernelsu-objs += feature/sulog.o
 kernelsu-objs += sulog/event.o
 kernelsu-objs += sulog/fd.o
 kernelsu-objs += feature/adb_root.o
 kernelsu-objs += feature/selinux_hide.o
 kernelsu-objs += feature/observer.o
-endif
+
 kernelsu-objs += policy/allowlist.o
 kernelsu-objs += policy/app_profile.o
 kernelsu-objs += policy/feature.o
