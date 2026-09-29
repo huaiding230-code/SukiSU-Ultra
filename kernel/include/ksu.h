@@ -6,16 +6,24 @@
 #include <linux/workqueue.h>
 #include <linux/version.h>
 
-// 添加外部函数声明以解决 implicit declaration 报错
+/* 通用外部函数声明（排除掉需要在 5.4 降级的函数） */
 extern void ksu_load_allow_list(void);
-extern void ksu_observer_init(void);
-extern void ksu_selinux_hide_handle_post_fs_data(void);
-extern void ksu_selinux_hide_handle_second_stage(void);
 extern void apply_kernelsu_rules(void);
 extern void cache_sid(void);
 extern void setup_ksu_cred(void);
 extern void track_throne(bool active);
 extern long ksu_strncpy_from_user_nofault(char *dst, const void __user *unsafe_addr, long count);
+
+/* 5.4 内核兼容：高版本专属模块在 5.4 下被 Kbuild 跳过编译，此处自动降级为空实现 */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
+extern void ksu_observer_init(void);
+extern void ksu_selinux_hide_handle_post_fs_data(void);
+extern void ksu_selinux_hide_handle_second_stage(void);
+#else
+static inline void ksu_observer_init(void) {}
+static inline void ksu_selinux_hide_handle_post_fs_data(void) {}
+static inline void ksu_selinux_hide_handle_second_stage(void) {}
+#endif
 
 #define KERNEL_SU_VERSION KSU_VERSION
 
