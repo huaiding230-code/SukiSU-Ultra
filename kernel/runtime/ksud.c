@@ -13,6 +13,7 @@
 #include <linux/file.h>
 #include <linux/input.h>
 #include <linux/uio.h>
+#include <linux/module.h>
 
 #include "../include/ksu.h"
 
