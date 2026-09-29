@@ -50,7 +50,6 @@ ifeq ($(shell test $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 
     ccflags-y += -DCONFIG_KSU_SELINUX_HIDE=1
 else
     # ====== 5.4 旧内核：编入通用观察者模块，彻底不定义 5.10 专属宏 ======
-    kernelsu-objs += feature/observer.o
 endif
 
 kernelsu-objs += policy/allowlist.o
