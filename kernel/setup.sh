@@ -1,78 +1,68 @@
-#!/bin/sh
-set -eu
+#!/bin/bash
+set -euo pipefail
 
 GKI_ROOT=$(pwd)
 
-display_usage() {
-    echo "Usage: $0 [--cleanup | <commit-or-tag>]"
-    echo "  --cleanup:              Cleans up previous modifications made by the script."
-    echo "  <commit-or-tag>:        Sets up or updates the KernelSU to specified tag or commit."
-    echo "  -h, --help:             Displays this usage information."
-    echo "  (no args):              Sets up or updates the KernelSU environment to the latest tagged version."
-}
-
 initialize_variables() {
-    if test -d "$GKI_ROOT/common/drivers"; then
+    if [ -d "$GKI_ROOT/common/drivers" ]; then
          DRIVER_DIR="$GKI_ROOT/common/drivers"
-    elif test -d "$GKI_ROOT/drivers"; then
+    elif [ -d "$GKI_ROOT/drivers" ]; then
          DRIVER_DIR="$GKI_ROOT/drivers"
     else
          echo '[ERROR] "drivers/" directory not found.'
          exit 127
     fi
 
-    DRIVER_MAKEFILE=$DRIVER_DIR/Makefile
-    DRIVER_KCONFIG=$DRIVER_DIR/Kconfig
+    DRIVER_MAKEFILE="$DRIVER_DIR/Makefile"
+    DRIVER_KCONFIG="$DRIVER_DIR/Kconfig"
 }
 
-# Reverts modifications made by this script
-perform_cleanup() {
-    echo "[+] Cleaning up..."
-    [ -L "$DRIVER_DIR/kernelsu" ] && rm "$DRIVER_DIR/kernelsu" && echo "[-] Symlink removed."
-    grep -q "kernelsu" "$DRIVER_MAKEFILE" && sed -i '/kernelsu/d' "$DRIVER_MAKEFILE" && echo "[-] Makefile reverted."
-    grep -q "drivers/kernelsu/Kconfig" "$DRIVER_KCONFIG" && sed -i '/drivers\/kernelsu\/Kconfig/d' "$DRIVER_KCONFIG" && echo "[-] Kconfig reverted."
-    if [ -d "$GKI_ROOT/KernelSU" ]; then
-        rm -rf "$GKI_ROOT/KernelSU" && echo "[-] KernelSU directory deleted."
-    fi
-}
-
-# Sets up or update KernelSU environment
-# Sets up or update KernelSU environment
-setup_kernelsu() {
-    echo "[+] Setting up KernelSU..."
-    # 【修改1】把这里的 URL 换成你自己的 SukiSU-Ultra 仓库地址
-    # 假设你的分支叫 main，直接拉取你的仓库，不再依赖别人的
-    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/huaiding230-code/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
-    
-    cd "$GKI_ROOT/KernelSU"
-    
-    # 【修改2】注释或删除原版脚本里强制切换 tag 和 main 分支的代码
-    # 因为这会导致你自己的代码被覆盖回旧版本
-    # git stash && echo "[-] Stashed current changes."
-    # if [ "$(git status | grep -Po 'v\d+(\.\d+)*' | head -n1)" ]; then
-    #     git checkout main && echo "[-] Switched to main branch."
-    # fi
-    git pull origin main && echo "[+] Repository updated."
-
+setup_sukisu_and_susfs() {
+    echo "[+] 1. 挂载 SukiSU-Ultra 到 drivers/kernelsu..."
     cd "$DRIVER_DIR"
-    ln -sf "$(realpath --relative-to="$DRIVER_DIR" "$GKI_ROOT/KernelSU/kernel")" "kernelsu" && echo "[+] Symlink created."
+    rm -rf kernelsu
+    # 创建指向 KernelSU/kernel 的软链接
+    ln -sf "$(realpath --relative-to="$DRIVER_DIR" "$GKI_ROOT/KernelSU/kernel")" "kernelsu" && echo "[+] 软链接创建成功。"
 
-    # Add entries in Makefile and Kconfig if not already existing
-    grep -q "kernelsu" "$DRIVER_MAKEFILE" || printf "\nobj-\$(CONFIG_KSU) += kernelsu/\n" >> "$DRIVER_MAKEFILE" && echo "[+] Modified Makefile."
-    grep -q "source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" || sed -i "/endmenu/i\source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" && echo "[+] Modified Kconfig."
-    echo '[+] Done.'
+    # 配置 drivers/Makefile 与 Kconfig
+    grep -q "kernelsu" "$DRIVER_MAKEFILE" || echo "obj-y += kernelsu/" >> "$DRIVER_MAKEFILE"
+    grep -q "drivers/kernelsu/Kconfig" "$DRIVER_KCONFIG" || sed -i "/endmenu/i\source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG"
+
+    echo "[+] 2. 拉取并注入 SUSFS 源码与内核补丁..."
+    cd "$GKI_ROOT"
+    mkdir -p fs include/linux
+    rm -rf /tmp/susfs4ksu
+    git clone --depth=1 https://github.com/huaiding230-code/susfs4ksu.git /tmp/susfs4ksu
+
+    # 复制 susfs C 源文件及头文件
+    SUSFS_C=$(find /tmp/susfs4ksu -name "susfs.c" | head -n 1)
+    cp "$SUSFS_C" fs/
+    find /tmp/susfs4ksu -name "susfs*.h" -exec cp {} include/linux/ \;
+
+    # 修复 susfs.h 前置结构体声明
+    if [ -f include/linux/susfs.h ]; then
+        sed -i '/int susfs_add_sus_path/i struct filename;\nstruct stat;' include/linux/susfs.h
+    fi
+
+    # 配置 fs/Makefile 编译 susfs.o
+    sed -i '/susfs.o/d' fs/Makefile
+    echo "CFLAGS_susfs.o += -DCONFIG_KSU_SUSFS=1 -DCONFIG_KSU_SUSFS_SUS_PATH=1 -DCONFIG_KSU_SUSFS_SUS_MOUNT=1 -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=1 -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=1 -DCONFIG_KSU_SUSFS_SUS_KSTAT=1 -DCONFIG_KSU_SUSFS_SPOOF_UNAME=1 -DCONFIG_KSU_SUSFS_ENABLE_LOG=1 -DCONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=1 -DCONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=1 -DCONFIG_KSU_SUSFS_OPEN_REDIRECT=1" >> fs/Makefile
+    echo "obj-$(CONFIG_KSU_SUSFS) += susfs.o" >> fs/Makefile
+
+    # 补充 Kconfig 配置项
+    if ! grep -q "CONFIG_KSU_SUSFS" fs/Kconfig; then
+        echo -e '\nconfig KSU_SUSFS\n\tbool "SUSFS support"\n\tdefault y\n' >> fs/Kconfig
+    fi
+
+    # 应用 Linux 5.4 内核挂钩 Patch
+    PATCH_FILE="/tmp/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-5.4.patch"
+    if [ -f "$PATCH_FILE" ]; then
+        echo "[+] 应用 5.4 内核 SUSFS 挂钩补丁..."
+        patch -p1 < "$PATCH_FILE" || echo "[!] 警告: Patch 应用有冲突，请检查内核源码。"
+    fi
+
+    echo "[+] SukiSU-Ultra 与 SUSFS 完整集成结束！"
 }
 
-# Process command-line arguments
-if [ "$#" -eq 0 ]; then
-    initialize_variables
-    setup_kernelsu
-elif [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    display_usage
-elif [ "$1" = "--cleanup" ]; then
-    initialize_variables
-    perform_cleanup
-else
-    initialize_variables
-    setup_kernelsu "$@"
-fi
+initialize_variables
+setup_sukisu_and_susfs
