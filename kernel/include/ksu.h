@@ -16,11 +16,9 @@ extern long ksu_strncpy_from_user_nofault(char *dst, const void __user *unsafe_a
 
 /* 5.4 内核兼容：高版本专属模块在 5.4 下被 Kbuild 跳过编译，此处自动降级为空实现 */
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
-extern void ksu_observer_init(void);
 extern void ksu_selinux_hide_handle_post_fs_data(void);
 extern void ksu_selinux_hide_handle_second_stage(void);
 #else
-static inline void ksu_observer_init(void) {}
 static inline void ksu_selinux_hide_handle_post_fs_data(void) {}
 static inline void ksu_selinux_hide_handle_second_stage(void) {}
 #endif
