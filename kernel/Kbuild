@@ -34,22 +34,25 @@ kernelsu-objs += manager/pkg_observer.o
 kernelsu-objs += manager/throne_tracker.o
 endif
 
-# ====== >= 5.10 新内核：编译模块并开启宏 ======
-# 替换 Kbuild 中的版本判断部分：
+# Kernel 5.4 compatibility:
+# SULOG / ADB_ROOT / SELINUX_HIDE implementations are not built on 5.4.
+# Do not define their CONFIG macros on 5.4, otherwise sucompat may reference
+# functions whose implementation objects are not linked.
+
 ifeq ($(shell test $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 10 \); echo $$?),0)
-    # ====== >= 5.10 新内核专属模块 ======
     kernelsu-objs += feature/sulog.o
     kernelsu-objs += sulog/event.o
     kernelsu-objs += sulog/fd.o
     kernelsu-objs += feature/adb_root.o
     kernelsu-objs += feature/selinux_hide.o
     kernelsu-objs += feature/observer.o
-    
+
     ccflags-y += -DCONFIG_KSU_SULOG=1
     ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
     ccflags-y += -DCONFIG_KSU_SELINUX_HIDE=1
 else
-    # ====== 5.4 旧内核：编入通用观察者模块，彻底不定义 5.10 专属宏 ======
+    # Linux 5.4:
+    # These features remain disabled.
 endif
 
 kernelsu-objs += policy/allowlist.o
