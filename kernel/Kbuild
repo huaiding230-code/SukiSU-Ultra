@@ -5,8 +5,6 @@ kernelsu-objs += feature/sucompat.o
 kernelsu-objs += core/susfs.o
 ccflags-y += -DCONFIG_KSU=1 \
              -DCONFIG_KSU_SUCOMPAT=1 \
-             -DCONFIG_KSU_SULOG=1 \
-             -DCONFIG_KSU_ADB_ROOT=1 \
              -DCONFIG_KSU_SUSFS=1 \
              -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=1 \
              -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=1 \
@@ -37,12 +35,23 @@ kernelsu-objs += manager/pkg_observer.o
 kernelsu-objs += manager/throne_tracker.o
 endif
 
-kernelsu-objs += feature/sulog.o
-kernelsu-objs += sulog/event.o
-kernelsu-objs += sulog/fd.o
-kernelsu-objs += feature/adb_root.o
-kernelsu-objs += feature/selinux_hide.o
-kernelsu-objs += feature/observer.o
+# 针对内核版本动态匹配特性：5.4 自动关闭，5.10+ 自动开启
+ifeq ($(shell test $(VERSION) -ge 6 -o \( $(VERSION) -eq 5 -a $(PATCHLEVEL) -ge 10 \); echo $$?),0)
+    # ====== >= 5.10 新内核：编译模块并开启宏 ======
+    kernelsu-objs += feature/sulog.o
+    kernelsu-objs += sulog/event.o
+    kernelsu-objs += sulog/fd.o
+    kernelsu-objs += feature/adb_root.o
+    kernelsu-objs += feature/selinux_hide.o
+    kernelsu-objs += feature/observer.o
+    
+    ccflags-y += -DCONFIG_KSU_SULOG=1
+    ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
+else
+    # ====== 5.4 及以下旧内核：不编译模块，并将宏设为 0（让 C 代码自动裁剪调用） ======
+    ccflags-y += -DCONFIG_KSU_SULOG=0
+    ccflags-y += -DCONFIG_KSU_ADB_ROOT=0
+endif
 
 kernelsu-objs += policy/allowlist.o
 kernelsu-objs += policy/app_profile.o
