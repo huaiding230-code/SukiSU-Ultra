@@ -47,7 +47,7 @@ setup_sukisu_and_susfs() {
     # 配置 fs/Makefile 编译 susfs.o
     sed -i '/susfs.o/d' fs/Makefile
     echo "CFLAGS_susfs.o += -DCONFIG_KSU_SUSFS=1 -DCONFIG_KSU_SUSFS_SUS_PATH=1 -DCONFIG_KSU_SUSFS_SUS_MOUNT=1 -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT=1 -DCONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT=1 -DCONFIG_KSU_SUSFS_SUS_KSTAT=1 -DCONFIG_KSU_SUSFS_SPOOF_UNAME=1 -DCONFIG_KSU_SUSFS_ENABLE_LOG=1 -DCONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS=1 -DCONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG=1 -DCONFIG_KSU_SUSFS_OPEN_REDIRECT=1" >> fs/Makefile
-    echo "obj-$(CONFIG_KSU_SUSFS) += susfs.o" >> fs/Makefile
+    echo 'obj-$(CONFIG_KSU_SUSFS) += susfs.o' >> fs/Makefile
 
     # 补充 Kconfig 配置项
     if ! grep -q "CONFIG_KSU_SUSFS" fs/Kconfig; then
