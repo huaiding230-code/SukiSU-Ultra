@@ -18,6 +18,23 @@ initialize_variables() {
 }
 
 setup_sukisu_and_susfs() {
+
+    echo "========================================"
+    echo "彻底重置并还原 DTS 设备树子模块"
+    echo "========================================"
+
+    # 1. 递归重置并清理主仓库及所有子模块
+    git submodule foreach --recursive git reset --hard
+    git submodule foreach --recursive git clean -fdx
+
+    # 2. 针对 vendor DTS 嵌套目录单独强行重置
+    if [ -d "arch/arm64/boot/dts/vendor" ]; then
+        pushd arch/arm64/boot/dts/vendor > /dev/null
+        git reset --hard HEAD
+        git clean -fdx
+        popd > /dev/null
+    fi
+
     echo "[+] 1. 挂载 SukiSU-Ultra 到 drivers/kernelsu..."
     cd "$DRIVER_DIR"
     rm -rf kernelsu
