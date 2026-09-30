@@ -8,6 +8,22 @@
 #include <trace/events/syscalls.h>
 
 #include <linux/version.h>
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10)
+#ifndef register_trace_prio_sys_enter
+#define register_trace_prio_sys_enter(probe, data, prio) register_trace_sys_enter(probe, data)
+#endif
+#ifndef unregister_trace_prio_sys_enter
+#define unregister_trace_prio_sys_enter(probe, data) unregister_trace_sys_enter(probe, data)
+#endif
+#ifndef register_trace_prio_sys_exit
+#define register_trace_prio_sys_exit(probe, data, prio) register_trace_sys_exit(probe, data)
+#endif
+#ifndef unregister_trace_prio_sys_exit
+#define unregister_trace_prio_sys_exit(probe, data) unregister_trace_sys_exit(probe, data)
+#endif
+#endif
+
 #include <linux/sched/task_stack.h>
 #if LINUX_VERSION_CODE < KERNEL_VERSION(6, 7, 0)
 #include <linux/compat.h>
