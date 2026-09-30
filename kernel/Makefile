@@ -9,15 +9,13 @@ ksu-objs += ksu.o
 ksu-objs += pkg.o
 ksu-objs += sucompat.o
 
-# 仅在内核版本 >= 5.10 (GKI 2.0+) 时编译这几个模块
-ifeq ($(shell test \( $(VERSION) -ge 5 -a $(PATCHLEVEL) -ge 10 \) -o $(VERSION) -ge 6; echo $$?),0)
-    ksu-objs += feature/adb_root.o
-    ksu-objs += feature/sulog.o
-    ksu-objs += feature/selinux_hide.o
-    # 把 sulog 的底层实现也包含进来，5.4 内核下会自动跳过不编译
-    kernelsu-objs += sulog/event.o
-    kernelsu-objs += sulog/fd.o
-endif
+# 替换原本的 ifeq ($(shell test \( $(VERSION) -ge 5 ...),0) 条件块为：
+ksu-objs += feature/adb_root.o
+ksu-objs += feature/sulog.o
+ksu-objs += feature/selinux_hide.o
+ksu-objs += feature/sulog/event.o
+ksu-objs += feature/sulog/fd.o
+
 
 ksu-objs += feature/observer.o
 ksu-objs += policy/manager.o
