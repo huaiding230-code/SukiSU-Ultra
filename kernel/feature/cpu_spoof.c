@@ -8,12 +8,10 @@
 #include <linux/clocksource.h>
 #include <linux/errno.h>
 #include <linux/version.h>
-
 #include <linux/printk.h>
+
 #include "ksu.h"
 #include "../policy/feature.h"
-#include "cpu_spoof.h"
-
 #include "cpu_spoof.h"
 #include "infra/symbol_resolver.h"
 #include "klog.h"
@@ -163,6 +161,7 @@ int ksu_set_spoof_cpu(const struct ksu_set_spoof_cpu_cmd *cmd)
                     struct clocksource **curr_cs_ptr =
                         (struct clocksource **)find_kernel_symbol_exact("curr_clocksource");
                     if (curr_cs_ptr && *curr_cs_ptr) {
+                        struct clocksource *cs = *curr_cs_ptr; /* 修复点：添加指针变量 cs 声明 */
                         #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
                             pr_info("ksu: set_spoof_cpu found active clocksource '%s' (current vdso_clock_mode: %d)\n",
                                     cs->name ? cs->name : "unknown", cs->vdso_clock_mode);
