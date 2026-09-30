@@ -6,7 +6,6 @@
 #include <linux/ptrace.h>
 #include <linux/slab.h>
 #include <trace/events/syscalls.h>
-
 #include <linux/version.h>
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10，0)
