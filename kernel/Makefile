@@ -1,4 +1,4 @@
-obj-$(CONFIG_KSU) := ksu.o
+obj-y += ksu.o
 
 # 1. 基础模块
 ksu-objs := allowlist.o
