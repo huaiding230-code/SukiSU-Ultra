@@ -60,9 +60,6 @@ setup_sukisu_and_susfs() {
         patch -p1 < "$PATCH_FILE" || echo "[!] 警告: Patch 应用有冲突，请检查内核源码。"
     fi
 
-    # 【关键】打完补丁后立即清理并恢复设备树 Makefile，彻底杜绝空格/TAB冲突报错
-    git checkout -- arch/arm64/boot/dts/ || true
-
     echo "[+] SukiSU-Ultra 与 SUSFS 完整集成结束！"
 }
 
