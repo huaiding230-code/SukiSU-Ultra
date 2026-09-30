@@ -124,6 +124,4 @@ config KSU_SUSFS_SUS_MAP
 
 endmenu
 
-source "drivers/kernelsu/Kconfig"
-
 endmenu
