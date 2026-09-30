@@ -60,6 +60,14 @@ setup_sukisu_and_susfs()
         echo "[+] 应用 5.4 内核 SUSFS 挂钩补丁..."
         patch -p1 < "$PATCH_FILE" || echo "[!] 警告: Patch 应用有冲突，请检查内核源码。"
     fi
+    # ----------------------------------------------------
+    # 针对 oplus 驱动与 DTS Makefile 报错的精准
+
+    #  精准去除 lemonadev/Makefile 行首误加的 TAB 键（彻底解决 recipe commences before first target）
+    DTS_MAKEFILE="$GKI_ROOT/arch/arm64/boot/dts/vendor/oplus/lemonadev/Makefile"
+    if [ -f "$DTS_MAKEFILE" ]; then
+        sed -i 's/^\t//' "$DTS_MAKEFILE"
+    fi
 
     echo "[+] SukiSU-Ultra 与 SUSFS 完整集成结束！"
 }
