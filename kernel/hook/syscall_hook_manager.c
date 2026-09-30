@@ -9,7 +9,7 @@
 
 #include <linux/version.h>
 
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 10，0)
 #ifndef register_trace_prio_sys_enter
 #define register_trace_prio_sys_enter(probe, data, prio) register_trace_sys_enter(probe, data)
 #endif
