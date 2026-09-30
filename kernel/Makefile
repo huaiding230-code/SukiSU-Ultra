@@ -1,11 +1,11 @@
-obj-y += ksu.o
+obj-$(CONFIG_KSU) := ksu.o
 
 # 1. 基础模块
 ksu-objs := allowlist.o
 ksu-objs += apk_sign.o
 ksu-objs += app_profile.o
 ksu-objs += core_hook.o
-ksu-objs += ksu.o
+objs-y += ksu.o
 ksu-objs += pkg.o
 ksu-objs += sucompat.o
 
