@@ -18,6 +18,7 @@ initialize_variables() {
 }
 
 setup_sukisu_and_susfs() {
+    sed -i 's/^\t//' arch/arm64/boot/dts/vendor/oplus/lemonadev/Makefile
 
     echo "========================================"
     echo "彻底重置并还原 DTS 设备树子模块"
