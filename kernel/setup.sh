@@ -53,12 +53,15 @@ setup_sukisu_and_susfs() {
         echo -e '\nconfig KSU_SUSFS\n\tbool "SUSFS support"\n\tdefault y\n' >> fs/Kconfig
     fi
 
-    # 应用 Linux 5.4 内核挂钩 Patch
+    # 应用 Linux 内核挂钩 Patch
     PATCH_FILE="/tmp/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-5.4.patch"
     if [ -f "$PATCH_FILE" ]; then
         echo "[+] 应用 5.4 内核 SUSFS 挂钩补丁..."
         patch -p1 < "$PATCH_FILE" || echo "[!] 警告: Patch 应用有冲突，请检查内核源码。"
     fi
+
+    # 【关键】打完补丁后立即清理并恢复设备树 Makefile，彻底杜绝空格/TAB冲突报错
+    git checkout -- arch/arm64/boot/dts/ || true
 
     echo "[+] SukiSU-Ultra 与 SUSFS 完整集成结束！"
 }
