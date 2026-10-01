@@ -16,7 +16,7 @@ long ksu_adb_root_handle_execveat(const char *filename, void ***envp_user_ptr);
 /* 5.4 内核或未开启宏时的 static inline 内联空实现 (防止链接阶段报 undefined symbol) */
 static inline void ksu_adb_root_init(void) { }
 static inline void ksu_adb_root_exit(void) { }
-static inline long ksu_adb_root_handle_execveat(const char *filename, void ***envp_user_ptr) { return 0; }
+static inline int ksu_adb_root_handle_execveat(const char *filename, void ***envp_user_ptr) { return 0; }
 
 #endif
 
