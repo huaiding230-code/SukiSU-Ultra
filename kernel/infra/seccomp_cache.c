@@ -8,6 +8,8 @@
 #include "klog.h" // IWYU pragma: keep
 #include "infra/seccomp_cache.h"
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 11, 0) && defined(SECCOMP_ARCH_NATIVE_NR)
+
 struct action_cache {
     DECLARE_BITMAP(allow_native, SECCOMP_ARCH_NATIVE_NR);
 #ifdef SECCOMP_ARCH_COMPAT
@@ -63,3 +65,14 @@ void ksu_seccomp_allow_cache(struct seccomp_filter *filter, int nr)
     }
 #endif
 }
+
+#else
+
+/* 5.4 内核降级桩 (Stub)：防止 5.4 内核因缺少结构体成员而编译报错 */
+
+void ksu_seccomp_allow_cache(void *filter, int nr)
+{
+    // 5.4 内核不支持该特性，直接返回空操作
+}
+
+#endif
