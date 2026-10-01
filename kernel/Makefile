@@ -2,20 +2,27 @@ obj-$(CONFIG_KSU) := ksu.o
 
 # 1. 基础模块
 ksu-objs := policy/allowlist.o
-ksu-objs += manager/apk_sign.o
 ksu-objs += policy/app_profile.o
-ksu-objs += feature/sucompat.o
 
+ksu-objs += manager/apk_sign.o
+ksu-objs += manager/pkg_observer.o
+ksu-objs += manager/manager.o
+ksu-objs += manager/manager_observer.o
+
+ksu-objs += feature/sucompat.o
 ksu-objs += feature/adb_root.o
 ksu-objs += feature/sulog.o
 ksu-objs += feature/selinux_hide.o
+ksu-objs += feature/kernel_umount.o
+
 ksu-objs += sulog/event.o
 ksu-objs += sulog/fd.o
 
-
-ksu-objs += manager/pkg_observer.o
 ksu-objs += supercall/dispatch.o
 ksu-objs += supercall/supercall.o
+
+ksu-objs += hook/lsm_hook.o
+ksu-objs += hook/syscall_event_bridge.o
 
 ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
