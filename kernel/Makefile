@@ -1,4 +1,4 @@
-obj-$(CONFIG_KSU) := ksu.o
+obj-$(CONFIG_KSU) += ksu.o
 
 # 1. 基础模块
 ksu-objs := policy/allowlist.o
