@@ -61,7 +61,7 @@ setup_kernelsu() {
     PATCH_FILE="/tmp/susfs4ksu/kernel_patches/50_add_susfs_in_kernel-5.4.patch"
     if [ -f "$PATCH_FILE" ]; then
         echo "[+] 应用 5.4 内核 SUSFS 挂钩补丁..."
-        yes | patch -p1 --forward --fuzz=3 < "$PATCH_FILE" || echo "[!] 提示: 部分补丁已应用或已自动跳过不存在的文件。"
+        patch -p1 --forward --batch < your_susfs_patch.patch || true
     fi
 
     echo '[+] Done.'
