@@ -15,7 +15,7 @@
 #include "ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
-#include "../manager/manager_identity.h"
+#include "manager/manager_identity.h"
 
 #ifndef KSU_NS_INHERITED
 #define KSU_NS_INHERITED 0
