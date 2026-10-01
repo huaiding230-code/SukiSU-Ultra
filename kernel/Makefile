@@ -180,6 +180,7 @@ ccflags-y += -Wno-declaration-after-statement -Wno-unused-function
 
 ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/uapi -I$(srctree)/$(src)/policy -I$(srctree)/$(src)/feature
 
+ccflags-y += -DCONFIG_KSU=1
 ccflags-y += -DCONFIG_KSU_SUSFS=1
 ccflags-y += -DCONFIG_KSU_SUSFS_SUS_SU=1
 
