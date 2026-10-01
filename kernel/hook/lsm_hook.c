@@ -105,7 +105,9 @@ static int handle_zygote_next_setresuid(uid_t ruid) {
     if (is_isolated_process(ruid)) {
         susfs_set_current_proc_no_su();
         susfs_set_current_proc_umounted();
-        susfs_set_current_proc_umounted_for_zygote_next();
+        #ifdef CONFIG_KSU_SUSFS_TRY_UMOUNT
+            susfs_set_current_proc_umounted_for_zygote_next();
+        #endif
         goto do_susfs_work;
     }
 
@@ -125,7 +127,9 @@ static int handle_zygote_next_setresuid(uid_t ruid) {
     if (likely(is_appuid(ruid) && ksu_uid_should_umount(ruid))) {
         susfs_set_current_proc_no_su();
         susfs_set_current_proc_umounted();
-        susfs_set_current_proc_umounted_for_zygote_next();
+        #ifdef CONFIG_KSU_SUSFS_TRY_UMOUNT
+            susfs_set_current_proc_umounted_for_zygote_next();
+        #endif
         goto do_susfs_work;
     }
 
