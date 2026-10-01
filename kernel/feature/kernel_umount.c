@@ -5,10 +5,12 @@
 #include <linux/namei.h>
 #include <linux/fs.h>
 #include <linux/sched.h>
+
 #include "include/ksu.h"
 #include "../uapi/feature.h"
 #include "policy/feature.h"
 #include "feature/kernel_umount.h"
+#include "manager/pkg_observer.h"
 
 static bool ksu_kernel_umount_enabled = true;
 
