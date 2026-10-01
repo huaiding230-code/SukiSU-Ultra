@@ -70,7 +70,7 @@ void ksu_seccomp_allow_cache(struct seccomp_filter *filter, int nr)
 
 /* 5.4 内核降级桩 (Stub)：防止 5.4 内核因缺少结构体成员而编译报错 */
 
-void ksu_seccomp_allow_cache(void *filter, int nr)
+void ksu_seccomp_allow_cache(struct seccomp_filter *filter, int nr)
 {
     // 5.4 内核不支持该特性，直接返回空操作
 }
