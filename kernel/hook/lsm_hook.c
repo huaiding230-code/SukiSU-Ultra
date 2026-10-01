@@ -10,24 +10,12 @@
 #include <linux/mm_types.h>
 #include <linux/security.h>
 #include <linux/lsm_hooks.h>
+#include "../policy/allowlist.h"
+#include "../manager/manager_identity.h"
 
 #ifdef CONFIG_KSU_SUSFS
-void susfs_set_current_proc_no_su(void);
-void susfs_set_current_proc_umounted(void);
-void susfs_set_current_proc_umounted_for_zygote_next(void);
-bool susfs_is_sid_equal(const struct cred *cred, u32 sid);
 #include <linux/susfs.h>
 #endif
-
-/* KSU 核心前置函数声明 */
-bool is_isolated_process(uid_t uid);
-bool ksu_is_manager_appid_valid(void);
-bool is_uid_manager(uid_t uid);
-void ksu_install_fd(void);
-bool is_appuid(uid_t uid);
-bool ksu_uid_should_umount(uid_t uid);
-bool ksu_is_allow_uid_for_current(uid_t uid);
-void ksu_handle_umount(uid_t old_uid, uid_t new_uid);
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) ||                                     \
     defined(CONFIG_KSU_ALLOWLIST_WORKAROUND)
