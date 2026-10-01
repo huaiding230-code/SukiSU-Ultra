@@ -28,9 +28,6 @@
 
 struct ksu_sulog_pending_event;
 
-/* 补全外部函数原型声明 */
-int ksu_handle_stat_sucompat(int orig_nr, struct pt_regs *regs);
-int ksu_handle_faccessat_sucompat(int orig_nr, struct pt_regs *regs);
 void ksu_execveat_hook_ksud(const struct pt_regs *regs);
 void ksu_execve_hook_ksud(const struct pt_regs *regs);
 struct ksu_sulog_pending_event *ksu_sulog_capture_root_execve(const void *filename, const void *argv_user, gfp_t flags);
