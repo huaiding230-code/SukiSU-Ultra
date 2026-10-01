@@ -4,6 +4,7 @@ obj-$(CONFIG_KSU) := ksu.o
 ksu-objs := policy/allowlist.o
 ksu-objs += policy/app_profile.o
 
+ksu-objs += manager/apk_sign.o
 ksu-objs += manager/pkg_observer.o
 ksu-objs += manager/manager.o
 ksu-objs += manager/manager_observer.o
