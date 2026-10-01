@@ -24,6 +24,11 @@ ksu-objs += supercall/supercall.o
 ksu-objs += hook/lsm_hook.o
 ksu-objs += hook/syscall_event_bridge.o
 
+# 必须放在最前面，确保所有 .c 文件编译时都能吃到宏定义
+ccflags-y += -DCONFIG_KSU=1
+ccflags-y += -DCONFIG_KSU_SUSFS=1
+ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
+ccflags-y += -DCONFIG_KSU_SULOG=1
 ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
 
@@ -179,9 +184,5 @@ ccflags-y += -Wno-strict-prototypes -Wno-int-conversion -Wno-gcc-compat -Wno-mis
 ccflags-y += -Wno-declaration-after-statement -Wno-unused-function
 
 ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/uapi -I$(srctree)/$(src)/policy -I$(srctree)/$(src)/feature
-
-ccflags-y += -DCONFIG_KSU=1
-ccflags-y += -DCONFIG_KSU_SUSFS=1
-ccflags-y += -DCONFIG_KSU_SUSFS_SUS_SU=1
 
 # Keep a new line here!! Because someone may append config
