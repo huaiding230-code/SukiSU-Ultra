@@ -20,6 +20,7 @@
 #include "supercall.h"
 #include "arch.h"
 #include "../kernel_compat.h"
+#include "../manager/manager_identity.h"
 
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
