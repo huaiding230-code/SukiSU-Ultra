@@ -11,13 +11,14 @@
 #include <linux/security.h>
 #include <linux/lsm_hooks.h>
 
-#include "policy/allowlist.h"
-#include "manager/manager_identity.h"
-
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
 #endif
 
+#include "policy/allowlist.h"
+#include "manager/manager_identity.h"
+#include "feature/kernel_umount.h"
+#include "include/ksu.h"
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) ||                                     \
     defined(CONFIG_KSU_ALLOWLIST_WORKAROUND)
 static int ksu_key_permission(key_ref_t key_ref, const struct cred *cred, unsigned perm)
