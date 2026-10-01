@@ -5,7 +5,6 @@ ksu-objs := allowlist.o
 ksu-objs += apk_sign.o
 ksu-objs += app_profile.o
 ksu-objs += core_hook.o
-objs-y += ksu.o
 ksu-objs += pkg.o
 ksu-objs += sucompat.o
 
@@ -180,9 +179,5 @@ ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/uapi -I$(sr
 
 ccflags-y += -DCONFIG_KSU_SUSFS=1
 ccflags-y += -DCONFIG_KSU_SUSFS_SUS_SU=1
-
-obj-y += manager.o
-obj-y += sucompat.o
-obj-y += susfs.o
 
 # Keep a new line here!! Because someone may append config
