@@ -10,8 +10,9 @@
 #include <linux/mm_types.h>
 #include <linux/security.h>
 #include <linux/lsm_hooks.h>
-#include "../policy/allowlist.h"
-#include "../manager/manager_identity.h"
+
+#include "policy/allowlist.h"
+#include "manager/manager_identity.h"
 
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
