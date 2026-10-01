@@ -15,15 +15,8 @@
 #include "ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
+#include "../manager/manager_identity.h"
 
-/* 直接手动声明 Manager 外部函数，避开找不到 manager.h 的问题 */
-extern bool is_uid_manager(uid_t uid);
-extern bool is_ksu_domain(void);
-extern bool ksu_is_manager_appid_valid(void);
-extern int ksu_get_manager_appid(void);
-/* 补齐漏掉的全局变量和宏定义 */
-extern bool ksu_boot_completed;
-extern bool allow_shell;
 #ifndef KSU_NS_INHERITED
 #define KSU_NS_INHERITED 0
 #endif
