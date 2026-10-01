@@ -1,23 +1,19 @@
 obj-$(CONFIG_KSU) := ksu.o
 
 # 1. 基础模块
-ksu-objs := allowlist.o
-ksu-objs += apk_sign.o
-ksu-objs += app_profile.o
-ksu-objs += core_hook.o
-ksu-objs += pkg.o
-ksu-objs += sucompat.o
+ksu-objs := policy/allowlist.o
+ksu-objs += manager/apk_sign.o
+ksu-objs += policy/app_profile.o
+ksu-objs += feature/sucompat.o
 
-# 替换原本的 ifeq ($(shell test \( $(VERSION) -ge 5 ...),0) 条件块为：
 ksu-objs += feature/adb_root.o
 ksu-objs += feature/sulog.o
 ksu-objs += feature/selinux_hide.o
-ksu-objs += feature/sulog/event.o
-ksu-objs += feature/sulog/fd.o
+ksu-objs += sulog/event.o
+ksu-objs += sulog/fd.o
 
 
-ksu-objs += feature/observer.o
-ksu-objs += policy/manager.o
+ksu-objs += manager/pkg_observer.o
 ksu-objs += supercall/dispatch.o
 ksu-objs += supercall/supercall.o
 
