@@ -25,28 +25,6 @@
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
 
-// 前置补全声明（注意 __maybe_unused 和 __u32 之间有空格）
-__maybe_unused __u32 audit_euid;
-extern bool is_manager(void);
-extern int on_post_fs_data(void);
-extern int on_boot_completed(void);
-extern int ksu_install_file_wrapper(int fd);
-extern u32 ksu_file_sid;
-extern int ksu_install_sulog_fd(void);
-// 补齐缺失的函数声明：
-extern void on_module_mounted(void);
-extern int handle_sepolicy(void __user *data, u32 len); // 修改为 2 个参数，完美对应第 173 行
-extern bool ksu_is_safe_mode(void);
-extern u32 ksu_get_manager_appid(void);                // 解决第 336 行隐式声明报错
-extern void susfs_start_sdcard_monitor_fn(void);        // 解决第 148 行隐式声明报错
-// 补齐权限检查函数的声明（解决 881 ~ 935 行 allowed_for_su / always_allow 等未声明）
-extern bool allowed_for_su(void);
-extern bool always_allow(void);
-extern bool only_root(void);
-extern bool manager_or_root(void);
-// 补齐 SUSFS 声明
-extern void susfs_enable_log(bool __user *arg);
-
 /* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
 int susfs_set_cmdline_or_bootconfig(char __user *arg);
 int susfs_add_open_redirect(void __user *arg);
