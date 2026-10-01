@@ -68,7 +68,7 @@ bool ksu_input_hook __read_mostly = true;
 DEFINE_STATIC_KEY_TRUE(ksu_is_init_rc_hook_enabled);
 DEFINE_STATIC_KEY_TRUE(ksu_is_input_hook_enabled);
 DEFINE_STATIC_KEY_TRUE(is_init_second_stage_not_executed);
-DEFINE_STATIC_KEY_TRUE(is_first_zygote);
+DEFINE_STATIC_KEY_TRUE(is_);
 #endif
 
 void on_post_fs_data(void)
@@ -221,7 +221,7 @@ int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr,
     struct filename *filename;
     static const char app_process[] = "/system/bin/app_process";
 #ifndef KSU_COMPAT_USE_STATIC_KEY
-    static bool first_zygote = true;
+	bool first_zygote = true;
 #endif
     /* This applies to versions Android 10+ */
     static const char system_bin_init[] = "/system/bin/init";
@@ -291,7 +291,7 @@ int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, struct use
 {
     struct filename *filename;
     static const char app_process[] = "/system/bin/app_process";
-    static bool first_zygote = true;
+    bool first_zygote = true;
 
     /* This applies to versions Android 10+ */
     static const char system_bin_init[] = "/system/bin/init";
