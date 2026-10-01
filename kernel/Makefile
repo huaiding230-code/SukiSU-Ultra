@@ -31,6 +31,10 @@ ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
 ccflags-y += -DCONFIG_KSU_SULOG=1
 ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
 ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
+# 追加 SELinux 头文件路径
+ccflags-y += -I$(srctree)/security/selinux
+ccflags-y += -I$(srctree)/security/selinux/include
+ccflags-y += -I$(objtree)/security/selinux
 
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
