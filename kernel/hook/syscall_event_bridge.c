@@ -1,30 +1,28 @@
-#include "linux/compiler.h"
-#include "linux/cred.h"
-#include "linux/jump_label.h"
-#include "linux/printk.h"
-#include "selinux/selinux.h"
+#include <linux/compiler.h>
+#include <linux/cred.h>
+#include <linux/jump_label.h>
+#include <linux/printk.h>
 #include <asm/syscall.h>
 #include <linux/ptrace.h>
 #include <linux/static_key.h>
-
-#include "arch.h"
-#include "klog.h" // IWYU pragma: keep
-#include "hook/tp_marker.h"
-#include "feature/sucompat.h"
-#include "hook/setuid_hook.h"
-#include "policy/app_profile.h"
-#include "runtime/ksud.h"
-#include "hook/syscall_hook.h"
-#include "hook/syscall_event_bridge.h"
-#include "feature/adb_root.h"
-
 #include <linux/types.h>
 #include <linux/fs.h>
 #include <linux/gfp.h>
 #include <asm/ptrace.h>
-
 #include <linux/version.h>
-#include "sulog/event.h"
+
+#include "../sulog/event.h"
+#include "../selinux/selinux.h"
+#include "../include/arch.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "tp_marker.h"
+#include "../feature/sucompat.h"
+#include "setuid_hook.h"
+#include "../policy/app_profile.h"
+#include "../runtime/ksud.h"
+#include "syscall_hook.h"
+#include "yscall_event_bridge.h"
+#include "../feature/adb_root.h"
 
 struct ksu_sulog_pending_event;
 
