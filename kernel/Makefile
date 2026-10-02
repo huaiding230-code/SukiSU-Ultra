@@ -29,6 +29,7 @@ subdir-ccflags-y += -DCONFIG_KSU=1
 subdir-ccflags-y += -DCONFIG_KSU_SUSFS=1
 subdir-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
 subdir-ccflags-y += -DCONFIG_KSU_SULOG=1
+subdir-ccflags-y += -DCONFIG_KSU_SUCOMPAT=1
 # 包含源文件目录 (srctree) 和 自动生成的输出目录 (objtree)
 SELINUX_INCLUDES := -I$(srctree) \
                     -I$(objtree) \
