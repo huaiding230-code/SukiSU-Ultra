@@ -31,7 +31,6 @@ extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
 
 /* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
-int susfs_set_cmdline_or_bootconfig(char __user *arg);
 int susfs_add_open_redirect(void __user *arg);
 
 /* 补齐 SUSFS 缺失的魔数和命令宏定义，防止内核自带头文件版本过低导致报错 */
@@ -53,10 +52,6 @@ int susfs_add_open_redirect(void __user *arg);
 
 #ifndef CMD_SUSFS_ADD_SUS_MAP
 #define CMD_SUSFS_ADD_SUS_MAP 0x1003
-#endif
-
-#ifndef CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG
-#define CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG 0x1004
 #endif
 
 #ifndef CMD_SUSFS_ENABLE_LOG
@@ -486,11 +481,6 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
 #ifdef CONFIG_KSU_SUSFS_ENABLE_LOG
         case CMD_SUSFS_ENABLE_LOG:
             susfs_enable_log((bool __user *)arg);
-            return 0;
-#endif
-#ifdef CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG
-        case CMD_SUSFS_SET_CMDLINE_OR_BOOTCONFIG:
-            susfs_set_cmdline_or_bootconfig((char __user *)arg);
             return 0;
 #endif
 #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
