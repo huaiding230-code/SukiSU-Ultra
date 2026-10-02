@@ -14,6 +14,9 @@ int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 #else
 int ksu_adb_root_handle_execveat(const char *filename, void ***envp_ptr);
 #endif
+// 补充缺失的另外两个函数声明
+long ksu_adb_root_handle_execve(struct pt_regs *regs);
+long ksu_adb_root_handle_execve_manual(const char *filename, struct user_arg_ptr *envp);
 
 #else
 
