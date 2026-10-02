@@ -69,10 +69,7 @@ bool __ksu_is_allow_uid_for_current(uid_t uid);
 bool ksu_is_allow_uid_for_current(uid_t uid);
 int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr);
-struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename, void *argv_user, gfp_t flags);
 void ksu_sulog_emit_pending(struct ksu_sulog_pending_event *pending, int res, gfp_t flags);
-int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, void *argv, void *envp, int *flags);
-long ksu_strncpy_from_user_nofault(char *dst, const char __user *src, long count);
 
 #define SU_PATH "/system/bin/su"
 #define SH_PATH "/system/bin/sh"
