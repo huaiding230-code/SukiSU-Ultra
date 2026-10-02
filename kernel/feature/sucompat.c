@@ -24,6 +24,7 @@
 #include "../policy/feature.h"
 #include "sucompat.h"
 #include "adb_root.h"
+#include "../sulog/event.h"
 
 #ifndef KSUD_PATH
 #define KSUD_PATH "/system/bin/ksud"
