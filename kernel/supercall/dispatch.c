@@ -54,10 +54,6 @@ int susfs_add_open_redirect(void __user *arg);
 #define CMD_SUSFS_ADD_SUS_MAP 0x1003
 #endif
 
-#ifndef CMD_SUSFS_ENABLE_LOG
-#define CMD_SUSFS_ENABLE_LOG 0x1005
-#endif
-
 static int do_grant_root(void __user *arg)
 {
     int ret;
@@ -475,11 +471,7 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
             susfs_set_uname((struct st_susfs_uname __user *)arg);
             return 0;
 #endif
-#ifdef CONFIG_KSU_SUSFS_ENABLE_LOG
-        case CMD_SUSFS_ENABLE_LOG:
-            susfs_enable_log((bool __user *)arg);
-            return 0;
-#endif
+            
 #ifdef CONFIG_KSU_SUSFS_SUS_MAP
         case CMD_SUSFS_ADD_SUS_MAP:
             susfs_add_sus_maps((struct st_susfs_sus_maps __user *)arg); // 补上末尾的 s
