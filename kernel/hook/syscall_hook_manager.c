@@ -28,14 +28,14 @@
 #include <linux/compat.h>
 #endif
 
-#include "arch.h"
-#include "klog.h" // IWYU pragma: keep
-#include "hook/syscall_hook_manager.h"
-#include "hook/tp_marker.h"
-#include "feature/sucompat.h"
-#include "hook/setuid_hook.h"
-#include "hook/syscall_hook.h"
-#include "hook/syscall_event_bridge.h"
+#include "../include/arch.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "syscall_hook_manager.h"
+#include "tp_marker.h"
+#include "../feature/sucompat.h"
+#include "setuid_hook.h"
+#include "syscall_hook.h"
+#include "syscall_event_bridge.h"
 
 #ifdef CONFIG_KRETPROBES
 
