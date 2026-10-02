@@ -63,7 +63,7 @@ static struct policydb *get_policydb(void)
 #else
 static struct policydb *get_policydb(void)
 {
-    return &policydb;
+    return policydb;
 }
 #endif
 
