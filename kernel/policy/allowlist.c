@@ -12,12 +12,12 @@
 #include <linux/task_work.h>
 #include <linux/sched/task.h>
 
-#include "include/ksu.h"
+#include "../include/ksu.h"
 #include "allowlist.h"
 #include "app_profile.h"
-#include "manager/manager_identity.h"
-#include "selinux/selinux.h"
-#include "include/klog.h"
+#include "../manager/manager_identity.h"
+#include "../selinux/selinux.h"
+#include "../include/klog.h"
 #include "../runtime/ksud.h"
 
 #ifndef KSU_NS_INHERITED
