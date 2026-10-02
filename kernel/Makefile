@@ -24,13 +24,10 @@ ksu-objs += supercall/supercall.o
 ksu-objs += hook/lsm_hook.o
 ksu-objs += hook/syscall_event_bridge.o
 
-# 使用 subdir-ccflags-y 确保子目录 (hook/、core/等) 里的 .c 文件也能吃到宏定义
-subdir-ccflags-y += -DCONFIG_KSU=1
-subdir-ccflags-y += -DCONFIG_KSU_SUSFS=1
-subdir-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
-subdir-ccflags-y += -DCONFIG_KSU_SULOG=1
-subdir-ccflags-y += -DCONFIG_KSU_SUCOMPAT=1
-# 包含源文件目录 (srctree) 和 自动生成的输出目录 (objtree)
+# ==============================================================================
+# SELinux 头文件搜索路径配置
+# ==============================================================================
+# 汇总内核源码树 (srctree) 和 编译输出目录 (objtree) 中所有与 SELinux 相关的头文件路径
 SELINUX_INCLUDES := -I$(srctree) \
                     -I$(objtree) \
                     -I$(srctree)/security/selinux \
@@ -38,26 +35,34 @@ SELINUX_INCLUDES := -I$(srctree) \
                     -I$(objtree)/security/selinux \
                     -I$(objtree)/security/selinux/include
 
+# 1. 递归传递给子目录：确保 policy/、supercall/ 等所有子文件夹中的 C 文件都能找到头文件
 subdir-ccflags-y += $(SELINUX_INCLUDES)
+
+# 2. 作用于当前目录：给当前 Make 作用域下的所有 C 文件注入头文件搜索路径
 ccflags-y        += $(SELINUX_INCLUDES)
+
+# 3. 旧内核兼容：向后兼容早期 Linux/Android 内核的 Makefile 变量命名规则
 EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
 
-# 1. 递归扫描所有 .c 文件
+# ==============================================================================
+# 1. 自动递归扫描模块下的所有 .c 源文件
+# ==============================================================================
 ALL_SRCS := $(shell find $(src) -name "*.c")
 ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
 
-# 2. 把扫描到的文件追加给 kernelsu-y
+# ==============================================================================
+# 2 & 3. 将扫描到的所有目标文件 (.o) 统一打入 kernelsu 编译列表
+# ==============================================================================
 kernelsu-y += $(ALL_OBJS)
-
-# 3. 最后照常将 kernelsu-y 赋值给 kernelsu-objs
 kernelsu-objs += $(kernelsu-y)
 
-# 确保在编译 SukiSU 的 SELinux/supercall 代码前，内核 selinux 的动态头文件已被提前生成
+# ==============================================================================
+# 解决多线程并发编译竞争（Race Condition）
+# ==============================================================================
+# 声明依赖：在编译 SukiSU 的任何 .o 目标文件之前，必须确保 SELinux 的动态头文件 (flask.h) 已经存在
 $(addprefix $(obj)/, $(ALL_OBJS)): $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
-# $(obj)/selinux/selinux.o:     $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
-# $(obj)/selinux/rules.o:       $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
-# $(obj)/supercall/dispatch.o: $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
 
+# 生成规则：如果 flask.h 还未生成，强制阻塞并调用内核 selinux 模块的 Build 逻辑提前生成它
 $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h:
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
 
