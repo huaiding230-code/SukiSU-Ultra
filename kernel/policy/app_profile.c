@@ -99,10 +99,10 @@ void disable_seccomp(void)
     memcpy(fake, current, sizeof(*fake));
 #endif
     current->seccomp.mode = 0;
-#ifndef KSU_HAS_SECCOMP_FILTER_RELEASE
-    // put_seccomp_filter is allowed while we holding sighand
-    put_seccomp_filter(current);
-#endif
+// #ifndef KSU_HAS_SECCOMP_FILTER_RELEASE
+//     // put_seccomp_filter is allowed while we holding sighand
+//     put_seccomp_filter(current);
+// #endif
     current->seccomp.filter = NULL;
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 7, 0) || defined(KSU_OPTIONAL_SECCOMP_FILTER_CNT))
     atomic_set(&current->seccomp.filter_count, 0);
