@@ -2,7 +2,7 @@
 #include <linux/kernel.h>
 #include <linux/init.h>
 #include <linux/mutex.h>
-#include "ksu.h"
+#include "../include/ksu.h"
 #include "feature.h"
 
 /* 如果头文件中没有定义 KSU_FEATURE_MAX，在此处做个安全兼容适配 */
