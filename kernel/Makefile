@@ -1,28 +1,31 @@
 obj-$(CONFIG_KSU) += ksu.o
 
-# 1. 基础模块
-ksu-objs := policy/allowlist.o
-ksu-objs += policy/app_profile.o
-
-ksu-objs += manager/apk_sign.o
-ksu-objs += manager/pkg_observer.o
-ksu-objs += manager/manager.o
-ksu-objs += manager/manager_observer.o
-
-ksu-objs += feature/sucompat.o
-ksu-objs += feature/adb_root.o
-ksu-objs += feature/sulog.o
-ksu-objs += feature/selinux_hide.o
-ksu-objs += feature/kernel_umount.o
-
-ksu-objs += sulog/event.o
-ksu-objs += sulog/fd.o
-
-ksu-objs += supercall/dispatch.o
-ksu-objs += supercall/supercall.o
-
-ksu-objs += hook/lsm_hook.o
-ksu-objs += hook/syscall_event_bridge.o
+# 显式把所有子目录下的 .c 文件全部编进来，彻底消灭 undefined symbol
+ksu-objs := \
+    policy/allowlist.o \
+    policy/app_profile.o \
+    manager/apk_sign.o \
+    manager/pkg_observer.o \
+    manager/manager.o \
+    manager/manager_observer.o \
+    feature/sucompat.o \
+    feature/adb_root.o \
+    feature/sulog.o \
+    feature/selinux_hide.o \
+    feature/kernel_umount.o \
+    sulog/event.o \
+    sulog/fd.o \
+    supercall/dispatch.o \
+    supercall/supercall.o \
+    supercall/perm.o \
+    hook/lsm_hook.o \
+    hook/syscall_event_bridge.o \
+    selinux/selinux.o \
+    selinux/rules.o \
+    selinux/sepolicy.o \
+    infra/file_wrapper.o \
+    infra/su_mount_ns.o \
+    infra/boot_mode.o
 
 # ==============================================================================
 # SELinux 头文件搜索路径配置
