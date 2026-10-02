@@ -65,7 +65,7 @@ int escape_with_root_profile(void);
 bool __ksu_is_allow_uid_for_current(uid_t uid);
 #undef ksu_is_allow_uid_for_current
 bool ksu_is_allow_uid_for_current(uid_t uid);
-int ksu_adb_root_handle_execveat(const char *filename, void ***envp_ptr);
+int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr);
 void susfs_set_current_proc_no_su(void);
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename, void *argv_user, gfp_t flags);
