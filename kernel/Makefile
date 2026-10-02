@@ -41,11 +41,11 @@ subdir-ccflags-y += $(SELINUX_INCLUDES)
 ccflags-y        += $(SELINUX_INCLUDES)
 EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
 # 确保在编译 SukiSU 的 SELinux/supercall 代码前，内核 selinux 的动态头文件已被提前生成
-$(obj)/selinux/selinux.o:            $(objtree)/security/selinux/flask.h
-$(obj)/selinux/rules.o:              $(objtree)/security/selinux/flask.h
-$(obj)/supercall/dispatch.o:        $(objtree)/security/selinux/flask.h
+$(obj)/selinux/selinux.o:     $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
+$(obj)/selinux/rules.o:       $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
+$(obj)/supercall/dispatch.o: $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
 
-$(objtree)/security/selinux/flask.h:
+$(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h:
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
 
 ifeq ($(filter /%,$(src)),)
