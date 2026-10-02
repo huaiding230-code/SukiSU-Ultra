@@ -40,6 +40,17 @@ SELINUX_INCLUDES := -I$(srctree) \
 subdir-ccflags-y += $(SELINUX_INCLUDES)
 ccflags-y        += $(SELINUX_INCLUDES)
 EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
+
+# 1. 递归扫描所有 .c 文件
+ALL_SRCS := $(shell find $(src) -name "*.c")
+ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
+
+# 2. 把扫描到的文件追加给 kernelsu-y
+kernelsu-y += $(ALL_OBJS)
+
+# 3. 最后照常将 kernelsu-y 赋值给 kernelsu-objs
+kernelsu-objs += $(kernelsu-y)
+
 # 确保在编译 SukiSU 的 SELinux/supercall 代码前，内核 selinux 的动态头文件已被提前生成
 $(obj)/selinux/selinux.o:     $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
 $(obj)/selinux/rules.o:       $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
@@ -200,15 +211,5 @@ ccflags-y += -Wno-strict-prototypes -Wno-int-conversion -Wno-gcc-compat -Wno-mis
 ccflags-y += -Wno-declaration-after-statement -Wno-unused-function
 
 ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/uapi -I$(srctree)/$(src)/policy -I$(srctree)/$(src)/feature
-
-# 1. 递归扫描所有 .c 文件
-ALL_SRCS := $(shell find $(src) -name "*.c")
-ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
-
-# 2. 把扫描到的文件追加给 kernelsu-y
-kernelsu-y += $(ALL_OBJS)
-
-# 3. 最后照常将 kernelsu-y 赋值给 kernelsu-objs
-kernelsu-objs += $(kernelsu-y)
 
 # Keep a new line here!! Because someone may append config
