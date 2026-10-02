@@ -66,14 +66,16 @@ ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
 kernelsu-y += $(ALL_OBJS)
 kernelsu-objs += $(kernelsu-y)
 
-# ==============================================================================
-# 解决多线程并发编译竞争（Race Condition）
-# ==============================================================================
-# 声明依赖：在编译 SukiSU 的任何 .o 目标文件之前，必须确保 SELinux 的动态头文件 (flask.h) 已经存在
-$(addprefix $(obj)/, $(ALL_OBJS)): $(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h
+# =================================================================
+# 解决多线程并发编译抢跑 (flask.h 丢失问题)
+# =================================================================
+FLASK_H := $(objtree)/security/selinux/include/flask.h
 
-# 生成规则：如果 flask.h 还未生成，强制阻塞并调用内核 selinux 模块的 Build 逻辑提前生成它
-$(objtree)/security/selinux/flask.h $(objtree)/security/selinux/include/flask.h:
+# 声明模式依赖：编译本模块下的任意 .o 之前，必须先存在 flask.h
+$(obj)/%.o: $(FLASK_H)
+
+# 生成规则：若 flask.h 不存在，阻塞调用内核原生的 selinux 编译脚本提前生成
+$(FLASK_H):
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
 
 ifeq ($(filter /%,$(src)),)
