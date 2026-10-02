@@ -4,12 +4,12 @@
 #include <linux/namei.h>
 #include <linux/printk.h>
 
-#include "policy/allowlist.h"
-#include "klog.h" // IWYU pragma: keep
-#include "runtime/ksud_boot.h"
-#include "runtime/ksud.h"
-#include "manager/manager_observer.h"
-#include "manager/throne_tracker.h"
+#include "../policy/allowlist.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "ksud_boot.h"
+#include "ksud.h"
+#include "../manager/manager_observer.h"
+#include "../manager/throne_tracker.h"
 
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
