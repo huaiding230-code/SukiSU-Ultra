@@ -4,6 +4,7 @@
 #include "../policy/allowlist.h"
 #include "../include/ksu.h"
 #include "supercall.h"
+#include "../manager/manager_identity.h"
 // 【在这里手动添加函数声明】
 bool is_manager(void);
 
