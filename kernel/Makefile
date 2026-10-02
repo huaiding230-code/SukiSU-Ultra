@@ -202,7 +202,7 @@ ccflags-y += -Wno-declaration-after-statement -Wno-unused-function
 ccflags-y += -I$(srctree)/$(src)/include -I$(srctree)/$(src)/include/uapi -I$(srctree)/$(src)/policy -I$(srctree)/$(src)/feature
 
 # 1. 根据 config 条件追加
-kernelsu-$(CONFIG_KSU_SULOG)    += sulog/event.o
+kernelsu-$(CONFIG_KSU_SULOG)    += sulog/event.o sulog/fd.o
 kernelsu-$(CONFIG_KSU_SUCOMPAT) += feature/sucompat.o
 # 2. 【关键】必须把 kernelsu-y 的结果合入 kernelsu-objs 中！
 kernelsu-objs += $(kernelsu-y)
