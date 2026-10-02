@@ -13,7 +13,6 @@
 #include <linux/anon_inodes.h>
 #include <linux/version.h>
 
-#include <linux/version.h>
 #include "../include/ksu.h"
 #include "supercall.h"
 
