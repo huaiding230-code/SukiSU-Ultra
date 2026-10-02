@@ -20,10 +20,10 @@
 #include <linux/uio.h>
 #include <linux/stat.h>
 
-#include "arch.h"
-#include "klog.h" // IWYU pragma: keep
-#include "ksu.h"
-#include "runtime/ksud.h"
+#include "../include/arch.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "../include/ksu.h"
+#include "ksud.h"
 extern bool ksu_late_loaded;
 
 #include "runtime/ksud_boot.h"
