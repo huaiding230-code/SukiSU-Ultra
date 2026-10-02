@@ -483,11 +483,6 @@ int ksu_handle_sys_reboot(int magic1, int magic2, unsigned int cmd, void __user 
             susfs_enable_log((bool __user *)arg);
             return 0;
 #endif
-#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
-        case CMD_SUSFS_ADD_OPEN_REDIRECT:
-            susfs_add_open_redirect((struct st_susfs_open_redirect __user *)arg);
-            return 0;
-#endif
 #ifdef CONFIG_KSU_SUSFS_SUS_MAP
         case CMD_SUSFS_ADD_SUS_MAP:
             susfs_add_sus_maps((struct st_susfs_sus_maps __user *)arg); // 补上末尾的 s
