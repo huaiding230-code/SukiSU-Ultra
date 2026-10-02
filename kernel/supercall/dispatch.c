@@ -23,6 +23,8 @@
 #include "arch.h"
 #include "../kernel_compat.h"
 #include "../manager/manager_identity.h"
+#include "../infra/file_wrapper.h"
+#include "../sulog/fd.h"
 
 #ifdef CONFIG_KSU_SUSFS
 #include <linux/susfs.h>
