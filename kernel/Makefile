@@ -30,7 +30,9 @@ subdir-ccflags-y += -DCONFIG_KSU_SUSFS=1
 subdir-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
 subdir-ccflags-y += -DCONFIG_KSU_SULOG=1
 # 包含源文件目录 (srctree) 和 自动生成的输出目录 (objtree)
-SELINUX_INCLUDES := -I$(srctree)/security/selinux \
+SELINUX_INCLUDES := -I$(srctree) \
+                    -I$(objtree) \
+                    -I$(srctree)/security/selinux \
                     -I$(srctree)/security/selinux/include \
                     -I$(objtree)/security/selinux \
                     -I$(objtree)/security/selinux/include
