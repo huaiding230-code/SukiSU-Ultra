@@ -17,7 +17,7 @@
 #include "app_profile.h"
 #include "manager/manager_identity.h"
 #include "selinux/selinux.h"
-#include "klog.h"
+#include "include/klog.h"
 
 #ifndef KSU_NS_INHERITED
 #define KSU_NS_INHERITED 0
