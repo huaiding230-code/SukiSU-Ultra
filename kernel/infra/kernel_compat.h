@@ -67,7 +67,7 @@ static inline long __strncpy_from_user_nofault(char *dst, const void __user *uns
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 8, 0) || defined(KSU_HAS_STRNCPY_FROM_USER_NOFAULT)
     return strncpy_from_user_nofault(dst, unsafe_addr, count);
 #elif LINUX_VERSION_CODE >= KERNEL_VERSION(5, 3, 0)
-    return strncpy_from_unsafe_user(dst, unsafe_addr, count);
+    return strncpy_from_user(dst, unsafe_addr, count);
 #else
     mm_segment_t old_fs = get_fs();
     long ret;
