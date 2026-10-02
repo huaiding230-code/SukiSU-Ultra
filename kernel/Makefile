@@ -27,17 +27,21 @@ ksu-objs := \
     infra/su_mount_ns.o \
     infra/boot_mode.o
 
-# 将自动扫描到的 .o 统一打入 ksu-objs（注意改成 ksu-y，不要写成 kernelsu-y）
-ALL_SRCS := $(shell find $(src) -name "*.c")
-ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
+# ==============================================================================
+# 1. 编译宏注入 (开启所有 SukiSU/KernelSU 功能并强制下发给所有子目录)
+# ==============================================================================
+KSU_CFLAGS := -DCONFIG_KSU=1 \
+              -DCONFIG_KSU_SUSFS=1 \
+              -DCONFIG_KSU_ADB_ROOT=1 \
+              -DCONFIG_KSU_SULOG=1 \
+              -DCONFIG_KSU_SUCOMPAT=1
 
-ksu-y += $(ALL_OBJS)
-ksu-objs += $(ksu-y)
+subdir-ccflags-y += $(KSU_CFLAGS)
+ccflags-y        += $(KSU_CFLAGS)
 
 # ==============================================================================
-# SELinux 头文件搜索路径配置
+# 2. SELinux 头文件搜索路径配置
 # ==============================================================================
-# 汇总内核源码树 (srctree) 和 编译输出目录 (objtree) 中所有与 SELinux 相关的头文件路径
 SELINUX_INCLUDES := -I$(objtree)/security/selinux \
                     -I$(objtree)/security/selinux/include \
                     -I$(srctree)/security/selinux \
@@ -45,39 +49,32 @@ SELINUX_INCLUDES := -I$(objtree)/security/selinux \
                     -I$(objtree) \
                     -I$(srctree)
 
-# 1. 递归传递给子目录：确保 policy/、supercall/ 等所有子文件夹中的 C 文件都能找到头文件
-subdir-ccflags-y += $(SELINUX_INCLUDES)
-
-# 2. 作用于当前目录：给当前 Make 作用域下的所有 C 文件注入头文件搜索路径
-ccflags-y        += $(SELINUX_INCLUDES)
-
-# 3. 旧内核兼容：向后兼容早期 Linux/Android 内核的 Makefile 变量命名规则
+subdir-ccflags-y += $(SELINUX_INCLUDES) -include $(srctree)/include/uapi/asm-generic/errno.h
+ccflags-y        += $(SELINUX_INCLUDES) -include $(srctree)/include/uapi/asm-generic/errno.h
 EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
 
 # ==============================================================================
-# 1. 自动递归扫描模块下的所有 .c 源文件
+# 3. 递归扫描模块下所有 .c 文件，并统一注册至 kernelsu 模块
 # ==============================================================================
 ALL_SRCS := $(shell find $(src) -name "*.c")
 ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
 
+obj-$(CONFIG_KSU) += kernelsu.o
+kernelsu-y        += $(ALL_OBJS)
+kernelsu-objs     += $(kernelsu-y)
+
 # ==============================================================================
-# 2 & 3. 将扫描到的所有目标文件 (.o) 统一打入 kernelsu 编译列表
+# 4. 彻底解决多线程并发编译抢跑 (flask.h 丢失问题)
 # ==============================================================================
-kernelsu-y += $(ALL_OBJS)
-kernelsu-objs += $(kernelsu-y)
+FLASK_H1 := $(objtree)/security/selinux/flask.h
+FLASK_H2 := $(objtree)/security/selinux/include/flask.h
 
-# =================================================================
-# 解决多线程并发编译抢跑 (flask.h 丢失问题)
-# =================================================================
-FLASK_H := $(objtree)/security/selinux/include/flask.h
+# 使用 $(addprefix) 精确将所有子目录的目标文件 (.o) 绑定到 flask.h 前置依赖上
+$(addprefix $(obj)/, $(ALL_OBJS)): $(FLASK_H1) $(FLASK_H2)
 
-# 声明模式依赖：编译本模块下的任意 .o 之前，必须先存在 flask.h
-$(obj)/%.o: $(FLASK_H)
-
-# 生成规则：若 flask.h 不存在，阻塞调用内核原生的 selinux 编译脚本提前生成
-$(FLASK_H):
+# 动态触发 SELinux 模块生成 flask.h
+$(FLASK_H1) $(FLASK_H2):
 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
-
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
 else
