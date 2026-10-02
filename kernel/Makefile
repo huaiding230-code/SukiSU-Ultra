@@ -37,6 +37,7 @@ SELINUX_INCLUDES := -I$(srctree)/security/selinux \
 
 subdir-ccflags-y += $(SELINUX_INCLUDES)
 ccflags-y        += $(SELINUX_INCLUDES)
+EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
 
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
