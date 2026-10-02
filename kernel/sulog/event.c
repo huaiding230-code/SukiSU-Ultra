@@ -14,7 +14,7 @@
 #include <linux/poll.h>
 
 #include "../include/ksu.h"
-#include "runtime/ksud.h"
+#include "../runtime/ksud.h"
 #include "../feature/sulog.h"
 #include "event.h"
 #include "../feature/sulog.h"
