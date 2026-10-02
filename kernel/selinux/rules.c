@@ -14,8 +14,8 @@
 #include "../include/ksu.h"
 #include "selinux.h"
 #include "sepolicy.h"
-#include <security/selinux/ss/policydb.h>
-#include <security/selinux/ss/services.h>
+#include "../../../security/selinux/ss/policydb.h"
+#include "../../../security/selinux/ss/services.h"
 #ifdef CONFIG_SECURITY_SELINUX
 #include "ss/policydb.h"
 #endif
