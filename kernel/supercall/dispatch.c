@@ -25,15 +25,11 @@
 #include "../manager/manager_identity.h"
 #include "../infra/file_wrapper.h"
 #include "../sulog/fd.h"
+#include "internal.h"
 
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
 
-// 补充 SukiSU 权限检查函数的前置声明
-static bool allowed_for_su(void);
-static bool always_allow(void);
-static bool only_root(void);
-static bool manager_or_root(void);
 /* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
 int susfs_set_cmdline_or_bootconfig(char __user *arg);
 int susfs_add_open_redirect(void __user *arg);
