@@ -46,12 +46,7 @@ int ksu_handle_setresuid(uid_t ruid, uid_t euid, uid_t suid)
         return 0;
 
     // We only interest in process spwaned by zygote or zygote_next
-    if (susfs_is_sid_equal(current_cred(), susfs_zygote_sid))
-        return handle_zygote_setresuid(ruid);
-
-    if (susfs_is_sid_equal(current_cred(), susfs_zygote_next_sid))
-        return handle_zygote_next_setresuid(ruid);
-
+   
     return 0;
 
 }
