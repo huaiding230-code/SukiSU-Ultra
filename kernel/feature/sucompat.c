@@ -166,7 +166,7 @@ int ksu_handle_execveat_init(struct filename *filename, struct user_arg_ptr *arg
         return 0;
     }
 
-#ifdef CONFIG_KSU_FEATURE_ADBROOT
+#if defined(CONFIG_KSU_FEATURE_ADBROOT) && !defined(CONFIG_KSU_SUSFS)
 #ifdef CONFIG_COMPAT
     if (unlikely(envp_user->is_compat))
         ret = ksu_adb_root_handle_execveat(filename->name, (void ***)&envp_user->ptr.compat);
