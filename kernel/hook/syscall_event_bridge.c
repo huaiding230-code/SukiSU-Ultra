@@ -21,7 +21,7 @@
 #include "../policy/app_profile.h"
 #include "../runtime/ksud.h"
 #include "syscall_hook.h"
-#include "yscall_event_bridge.h"
+#include "syscall_event_bridge.h"
 #include "../feature/adb_root.h"
 
 struct ksu_sulog_pending_event;
