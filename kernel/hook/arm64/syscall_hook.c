@@ -1,7 +1,5 @@
 #ifdef __aarch64__
 
-#include "../syscall_hook.h"
-
 #include <linux/kallsyms.h>
 #include <linux/mutex.h>
 #include <asm/cacheflush.h>
@@ -9,6 +7,7 @@
 #include "../patch_memory.h"
 #include "../../include/arch.h"
 #include "../../include/klog.h" // IWYU pragma: keep
+#include "../syscall_hook.h"
 
 syscall_fn_t *ksu_syscall_table = NULL;
 int ksu_dispatcher_nr = -1;
