@@ -23,7 +23,7 @@
 #include "../include/uapi/feature.h"
 #include "../policy/feature.h"
 #include "sucompat.h"
-#include "feature/adb_root.h"
+#include "adb_root.h"
 
 #ifndef KSUD_PATH
 #define KSUD_PATH "/system/bin/ksud"
