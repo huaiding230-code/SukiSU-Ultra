@@ -8,7 +8,7 @@
 #include <linux/slab.h>
 #include <linux/string.h>
 
-#include "ksu.h"
+#include "../incclude/ksu.h"
 #include "app_profile.h"            /* 引入官方自带的头文件即可 */
 
 /* 如果 KERNEL_SU_CONTEXT 未定义，在此处兼容补齐 */
