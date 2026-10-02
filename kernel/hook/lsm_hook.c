@@ -12,11 +12,11 @@
 #include <linux/lsm_hooks.h>
 #include <linux/susfs.h>
 
-#include "policy/allowlist.h"
-#include "manager/manager_identity.h"
-#include "feature/kernel_umount.h"
-#include "include/ksu.h"
-#include "feature/sucompat.h"
+#include "../policy/allowlist.h"
+#include "../manager/manager_identity.h"
+#include "../feature/kernel_umount.h"
+#include "../include/ksu.h"
+#include "../feature/sucompat.h"
 void ksu_install_fd(void);
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4, 10, 0) || defined(CONFIG_IS_HW_HISI) ||                                     \
