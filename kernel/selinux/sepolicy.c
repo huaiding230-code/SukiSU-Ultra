@@ -16,7 +16,7 @@
 //////////////////////////////////////////////////////
 // Declaration
 //////////////////////////////////////////////////////
-
+extern struct policydb policydb __attribute__((weak));
 static struct avtab_node *get_avtab_node(struct policydb *db, struct avtab_key *key,
                                          struct avtab_extended_perms *xperms);
 
