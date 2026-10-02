@@ -7,26 +7,26 @@
 #include <linux/workqueue.h>
 #include <linux/moduleparam.h>
 
-#include "policy/allowlist.h"
-#include "policy/app_profile.h"
-#include "policy/feature.h"
-#include "klog.h" // IWYU pragma: keep
-#include "manager/manager_observer.h"
-#include "manager/throne_tracker.h"
-#include "hook/syscall_hook_manager.h"
-#include "hook/lsm_hook.h"
-#include "runtime/ksud.h"
-#include "runtime/ksud_boot.h"
-#include "feature/sulog.h"
-#include "supercall/supercall.h"
-#include "ksu.h"
-#include "infra/file_wrapper.h"
-#include "selinux/selinux.h"
-#include "hook/syscall_hook.h"
-#include "feature/adb_root.h"
-#include "feature/selinux_hide.h"
-#include "feature/uts_spoof.h"
-#include "infra/symbol_resolver.h"
+#include "../policy/allowlist.h"
+#include "../policy/app_profile.h"
+#include "../policy/feature.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "../manager/manager_observer.h"
+#include "../manager/throne_tracker.h"
+#include "../hook/syscall_hook_manager.h"
+#include "../hook/lsm_hook.h"
+#include "../runtime/ksud.h"
+#include "../runtime/ksud_boot.h"
+#include "../feature/sulog.h"
+#include "../supercall/supercall.h"
+#include "../include/ksu.h"
+#include "../infra/file_wrapper.h"
+#include "../selinux/selinux.h"
+#include "../hook/syscall_hook.h"
+#include "../feature/adb_root.h"
+#include "../feature/selinux_hide.h"
+#include "../feature/uts_spoof.h"
+#include "../infra/symbol_resolver.h"
 
 #if defined(__x86_64__) && !defined(CONFIG_KSU_X86_PATCH_SYSCALL_DISPATCHER)
 #include <asm/cpufeature.h>
