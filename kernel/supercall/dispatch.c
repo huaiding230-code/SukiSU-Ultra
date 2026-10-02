@@ -17,6 +17,8 @@
 #include "../policy/allowlist.h"
 #include "../policy/app_profile.h"
 #include "../policy/feature.h"
+#include "../selinux/selinux.h"
+#include "../runtime/ksud.h"
 #include "supercall.h"
 #include "arch.h"
 #include "../kernel_compat.h"
@@ -39,8 +41,7 @@ int susfs_add_open_redirect(void __user *arg);
 #endif
 
 #ifndef CMD_SUSFS_ADD_SUS_PATH
-#define 
-CMD_SUSFS_ADD_SUS_PATH 0x1000
+#define CMD_SUSFS_ADD_SUS_PATH 0x1000
 #endif
 
 #ifndef CMD_SUSFS_ADD_SUS_KSTAT
