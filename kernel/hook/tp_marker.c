@@ -6,9 +6,9 @@
 #include <linux/sched/signal.h>
 #include <linux/sched/task.h>
 
-#include "policy/allowlist.h"
-#include "klog.h" // IWYU pragma: keep
-#include "selinux/selinux.h"
+#include "../policy/allowlist.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "../selinux/selinux.h"
 
 // Tracepoint registration count management
 // == 1: just us
