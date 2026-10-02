@@ -17,6 +17,8 @@
 #include <linux/fdtable.h>
 #include <linux/uaccess.h>
 
+#include "kernel_compat.h"
+
 /* 补全 SELinux 相关的安全结构体与 KSU 符号声明 */
 struct inode_security_struct {
 	struct inode *inode;
