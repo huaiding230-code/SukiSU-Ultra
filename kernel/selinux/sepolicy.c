@@ -9,7 +9,7 @@
 #include "ss/symtab.h"
 #include "../../../security/selinux/ss/policydb.h"
 #include "../../../security/selinux/ss/services.h"
-#include "../feature/selinux_hide.c"
+#include "../feature/selinux_hide.h"
 
 #define KSU_SUPPORT_ADD_TYPE
 
