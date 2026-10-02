@@ -72,10 +72,7 @@ long __nocfi ksu_hook_newfstatat(int orig_nr, const struct pt_regs *regs)
 
 long __nocfi ksu_hook_faccessat(int orig_nr, const struct pt_regs *regs)
 {
-    if (!ksu_su_compat_enabled)
         return ksu_syscall_table[orig_nr](regs);
-
-    return ksu_handle_faccessat_sucompat(orig_nr, (struct pt_regs *)regs);
 }
 
 DEFINE_STATIC_KEY_TRUE(ksud_execve_key);
