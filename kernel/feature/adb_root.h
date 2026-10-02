@@ -9,7 +9,7 @@
 /* 5.10+ 内核且开启宏时的正常声明 */
 void ksu_adb_root_init(void);
 void ksu_adb_root_exit(void);
-long ksu_adb_root_handle_execveat(const char *filename, void ***envp_user_ptr);
+int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 
 #else
 
