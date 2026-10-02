@@ -16,6 +16,8 @@
 #include "sepolicy.h"
 #include "../../../security/selinux/ss/policydb.h"
 #include "../../../security/selinux/ss/services.h"
+#include "../feature/selinux_hide.c"
+
 #ifdef CONFIG_SECURITY_SELINUX
 #include "ss/policydb.h"
 #endif
