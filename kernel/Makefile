@@ -67,14 +67,14 @@ kernelsu-objs     += $(kernelsu-y)
 # 4. 彻底解决多线程并发编译抢跑 (flask.h 丢失问题)
 # ==============================================================================
 FLASK_H1 := $(objtree)/security/selinux/flask.h
-FLASK_H2 := $(objtree)/security/selinux/include/flask.h
 
 # 使用 $(addprefix) 精确将所有子目录的目标文件 (.o) 绑定到 flask.h 前置依赖上
-$(addprefix $(obj)/, $(ALL_OBJS)): $(FLASK_H1) $(FLASK_H2)
+$(kernelsu-objs) $(kernelsu-y): $(FLASK_H)
 
 # 动态触发 SELinux 模块生成 flask.h
-$(FLASK_H1) $(FLASK_H2):
-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
+$(FLASK_H):
+	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux security/selinux/flask.h
+
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
 else
