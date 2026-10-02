@@ -29,11 +29,14 @@ subdir-ccflags-y += -DCONFIG_KSU=1
 subdir-ccflags-y += -DCONFIG_KSU_SUSFS=1
 subdir-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
 subdir-ccflags-y += -DCONFIG_KSU_SULOG=1
-subdir-ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
-subdir-ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
-subdir-ccflags-y += -I$(srctree)/security/selinux
-subdir-ccflags-y += -I$(srctree)/security/selinux/include
-subdir-ccflags-y += -I$(objtree)/security/selinux
+# 包含源文件目录 (srctree) 和 自动生成的输出目录 (objtree)
+SELINUX_INCLUDES := -I$(srctree)/security/selinux \
+                    -I$(srctree)/security/selinux/include \
+                    -I$(objtree)/security/selinux \
+                    -I$(objtree)/security/selinux/include
+
+subdir-ccflags-y += $(SELINUX_INCLUDES)
+ccflags-y        += $(SELINUX_INCLUDES)
 
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
