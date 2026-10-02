@@ -22,7 +22,8 @@
 #include "ss/policydb.h"
 #endif
 
-extern struct policydb policydb;
+// 加上 __weak 属性，如果内核没有导出它，编译器不会强行报错
+extern struct policydb *policydb __attribute__((weak));
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 10, 0)
 #define SELINUX_POLICY_INSTEAD_SELINUX_SS
