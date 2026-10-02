@@ -55,7 +55,6 @@ static int handle_zygote_setresuid(uid_t ruid) {
     // Check if spawned process is isolated service first, and force to do umount if so
     if (is_isolated_process(ruid)) {
         susfs_set_current_proc_no_su();
-        susfs_set_current_proc_umounted();
         goto do_umount;
     }
 
@@ -74,7 +73,6 @@ static int handle_zygote_setresuid(uid_t ruid) {
     // - Now app_profile for webview_zygote is available in KernelSU manager
     if (likely(is_appuid(ruid) && ksu_uid_should_umount(ruid))) {
         susfs_set_current_proc_no_su();
-        susfs_set_current_proc_umounted();
         goto do_umount;
     }
 
@@ -104,10 +102,6 @@ static int handle_zygote_next_setresuid(uid_t ruid) {
     // Check if spawned process is isolated service first, and force to do umount if so
     if (is_isolated_process(ruid)) {
         susfs_set_current_proc_no_su();
-        susfs_set_current_proc_umounted();
-        #ifdef CONFIG_KSU_SUSFS_TRY_UMOUNT
-            susfs_set_current_proc_umounted_for_zygote_next();
-        #endif
         goto do_susfs_work;
     }
 
@@ -126,10 +120,6 @@ static int handle_zygote_next_setresuid(uid_t ruid) {
     // - Now app_profile for webview_zygote is available in KernelSU manager
     if (likely(is_appuid(ruid) && ksu_uid_should_umount(ruid))) {
         susfs_set_current_proc_no_su();
-        susfs_set_current_proc_umounted();
-        #ifdef CONFIG_KSU_SUSFS_TRY_UMOUNT
-            susfs_set_current_proc_umounted_for_zygote_next();
-        #endif
         goto do_susfs_work;
     }
 
