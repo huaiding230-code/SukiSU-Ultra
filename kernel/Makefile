@@ -24,17 +24,16 @@ ksu-objs += supercall/supercall.o
 ksu-objs += hook/lsm_hook.o
 ksu-objs += hook/syscall_event_bridge.o
 
-# 必须放在最前面，确保所有 .c 文件编译时都能吃到宏定义
-ccflags-y += -DCONFIG_KSU=1
-ccflags-y += -DCONFIG_KSU_SUSFS=1
-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
-ccflags-y += -DCONFIG_KSU_SULOG=1
-ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
-ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
-# 追加 SELinux 头文件路径
-ccflags-y += -I$(srctree)/security/selinux
-ccflags-y += -I$(srctree)/security/selinux/include
-ccflags-y += -I$(objtree)/security/selinux
+# 使用 subdir-ccflags-y 确保子目录 (hook/、core/等) 里的 .c 文件也能吃到宏定义
+subdir-ccflags-y += -DCONFIG_KSU=1
+subdir-ccflags-y += -DCONFIG_KSU_SUSFS=1
+subdir-ccflags-y += -DCONFIG_KSU_ADB_ROOT=1
+subdir-ccflags-y += -DCONFIG_KSU_SULOG=1
+subdir-ccflags-y += -I$(srctree)/security/selinux -I$(srctree)/security/selinux/include
+subdir-ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-generic/errno.h
+subdir-ccflags-y += -I$(srctree)/security/selinux
+subdir-ccflags-y += -I$(srctree)/security/selinux/include
+subdir-ccflags-y += -I$(objtree)/security/selinux
 
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
