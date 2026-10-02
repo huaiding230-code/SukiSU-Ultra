@@ -1,10 +1,15 @@
+#ifndef __KSU_H_KSUD
+#define __KSU_H_KSUD
+
 #include <linux/types.h>
 #include <linux/compat.h>
 #include <linux/fs.h>
 #include <linux/binfmts.h>
+#include <linux/jump_label.h>
 
-#ifndef __KSU_H_KSUD
-#define __KSU_H_KSUD
+// 声明外部全局变量
+DECLARE_STATIC_KEY_TRUE(is_first_zygote);
+extern bool first_zygote;
 
 #define KSUD_PATH "/data/adb/ksud"
 
