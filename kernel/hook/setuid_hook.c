@@ -12,14 +12,14 @@
 #include <linux/uaccess.h>
 #include <linux/uidgid.h>
 
-#include "policy/allowlist.h"
-#include "hook/setuid_hook.h"
-#include "klog.h" // IWYU pragma: keep
-#include "manager/manager_identity.h"
-#include "infra/seccomp_cache.h"
-#include "supercall/supercall.h"
-#include "hook/tp_marker.h"
-#include "feature/kernel_umount.h"
+#include "../policy/allowlist.h"
+#include "setuid_hook.h"
+#include "../include/klog.h" // IWYU pragma: keep
+#include "../manager/manager_identity.h"
+#include "../infra/seccomp_cache.h"
+#include "../supercall/supercall.h"
+#include "tp_marker.h"
+#include "../feature/kernel_umount.h"
 
 void __init ksu_setuid_hook_init(void)
 {
