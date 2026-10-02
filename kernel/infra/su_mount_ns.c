@@ -32,10 +32,7 @@ static inline int close_fd(unsigned int fd)
 }
 #endif
 
-/* 5.12 以下内核缺失 path_mount 声明，提供补全声明 */
-#if LINUX_VERSION_CODE < KERNEL_VERSION(5, 12, 0)
-extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data_page);
-#endif
+extern int path_mount(const char *dev_name, struct path *path, const char *type_page, unsigned long flags, void *data) __attribute__((weak));
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(4, 17, 0)
 
