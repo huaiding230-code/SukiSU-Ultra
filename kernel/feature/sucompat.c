@@ -55,7 +55,7 @@ struct user_arg_ptr {
 struct ksu_sulog_pending_event;
 
 /* 2. 外部全局变量 */
-extern bool first_zygote;
+bool first_zygote = true;
 #ifdef KSU_COMPAT_USE_STATIC_KEY
 extern struct static_key_true is_first_zygote;
 #endif
