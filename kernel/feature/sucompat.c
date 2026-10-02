@@ -25,6 +25,7 @@
 #include "sucompat.h"
 #include "adb_root.h"
 #include "../sulog/event.h"
+#include "../runtime/ksud.c"
 
 #ifndef KSUD_PATH
 #define KSUD_PATH "/system/bin/ksud"
@@ -68,7 +69,6 @@ bool __ksu_is_allow_uid_for_current(uid_t uid);
 bool ksu_is_allow_uid_for_current(uid_t uid);
 int ksu_adb_root_handle_execveat(const struct pt_regs *regs);
 const char __user *get_user_arg_ptr(struct user_arg_ptr argv, int nr);
-void susfs_set_current_proc_no_su(void);
 struct ksu_sulog_pending_event *ksu_sulog_capture_sucompat(const char *filename, void *argv_user, gfp_t flags);
 void ksu_sulog_emit_pending(struct ksu_sulog_pending_event *pending, int res, gfp_t flags);
 int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, void *argv, void *envp, int *flags);
