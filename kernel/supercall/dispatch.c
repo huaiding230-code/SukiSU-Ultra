@@ -26,10 +26,6 @@
 #include "../infra/file_wrapper.h"
 #include "../sulog/fd.h"
 
-#ifdef CONFIG_KSU_SUSFS
-#include <linux/susfs.h>
-#endif
-
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
 
