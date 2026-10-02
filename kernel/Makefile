@@ -28,12 +28,12 @@ ksu-objs += hook/syscall_event_bridge.o
 # SELinux 头文件搜索路径配置
 # ==============================================================================
 # 汇总内核源码树 (srctree) 和 编译输出目录 (objtree) 中所有与 SELinux 相关的头文件路径
-SELINUX_INCLUDES := -I$(srctree) \
-                    -I$(objtree) \
+SELINUX_INCLUDES := -I$(objtree)/security/selinux \
+                    -I$(objtree)/security/selinux/include \
                     -I$(srctree)/security/selinux \
                     -I$(srctree)/security/selinux/include \
-                    -I$(objtree)/security/selinux \
-                    -I$(objtree)/security/selinux/include
+                    -I$(objtree) \
+                    -I$(srctree)
 
 # 1. 递归传递给子目录：确保 policy/、supercall/ 等所有子文件夹中的 C 文件都能找到头文件
 subdir-ccflags-y += $(SELINUX_INCLUDES)
