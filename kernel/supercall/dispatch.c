@@ -7,11 +7,11 @@
 #include <linux/susfs.h>
 #include <linux/version.h>
 #include <linux/slab.h>
-#include <uapi/ksu.h>
 #include <linux/sched/task.h>
 #include <linux/sched/signal.h>
 #include <linux/vmalloc.h>
 
+#include "../../uapi/ksu.h"
 #include "../include/uapi/ksu.h"
 #include "../include/ksu.h"
 #include "../policy/allowlist.h"
@@ -24,16 +24,16 @@
 #include "../kernel_compat.h"
 #include "../manager/manager_identity.h"
 
+#ifdef CONFIG_KSU_SUSFS
+#include <linux/susfs.h>
+#endif
+
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
 
 /* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
 int susfs_set_cmdline_or_bootconfig(char __user *arg);
 int susfs_add_open_redirect(void __user *arg);
-
-#ifdef CONFIG_KSU_SUSFS
-#include <linux/susfs.h>
-#endif
 
 /* 补齐 SUSFS 缺失的魔数和命令宏定义，防止内核自带头文件版本过低导致报错 */
 #ifndef SUSFS_MAGIC
