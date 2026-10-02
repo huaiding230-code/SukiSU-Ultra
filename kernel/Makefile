@@ -27,6 +27,13 @@ ksu-objs := \
     infra/su_mount_ns.o \
     infra/boot_mode.o
 
+# 将自动扫描到的 .o 统一打入 ksu-objs（注意改成 ksu-y，不要写成 kernelsu-y）
+ALL_SRCS := $(shell find $(src) -name "*.c")
+ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
+
+ksu-y += $(ALL_OBJS)
+ksu-objs += $(ksu-y)
+
 # ==============================================================================
 # SELinux 头文件搜索路径配置
 # ==============================================================================
