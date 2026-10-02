@@ -6,7 +6,7 @@
 #include "supercall.h"
 #include "../manager/manager_identity.h"
 // 【在这里手动添加函数声明】
-bool is_manager(void);
+extern bool is_manager(void) __attribute__((weak));
 
 bool only_manager(void)
 {
