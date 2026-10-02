@@ -10,11 +10,11 @@
 #include <linux/version.h>
 #include <linux/printk.h>
 
-#include "ksu.h"
+#include "../include/ksu.h"
 #include "../policy/feature.h"
 #include "cpu_spoof.h"
-#include "infra/symbol_resolver.h"
-#include "klog.h"
+#include "../infra/symbol_resolver.h"
+#include "../include/klog.h"
 
 #if defined(CONFIG_ARM64) || defined(__aarch64__)
 #include <asm/cpu.h>
