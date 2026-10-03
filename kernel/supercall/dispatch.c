@@ -678,6 +678,7 @@ static int do_get_sulog_fd(void __user *arg)
         pr_err("get_sulog_fd: unsupported flags 0x%x\n", cmd.flags);
         return -EINVAL;
     }
+    return ksu_install_sulog_fd();
 }
 
 static int do_disable_escape_to_root(void __user *arg)
