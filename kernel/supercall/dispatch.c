@@ -29,7 +29,7 @@
 
 extern struct task_struct init_task;
 extern struct pid *task_session(struct task_struct *tsk);
-extern int ksu_install_sulog_fd(int fd) __attribute__((weak));
+extern int ksu_install_sulog_fd(void) __attribute__((weak));
 
 /* 如果 #include <linux/susfs.h> 报错找不到文件，可直接加上以下声明： */
 int susfs_add_open_redirect(void __user *arg);
