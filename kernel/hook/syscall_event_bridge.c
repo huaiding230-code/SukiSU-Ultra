@@ -29,7 +29,7 @@ struct ksu_sulog_pending_event;
 void __attribute__((weak)) ksu_execveat_hook_ksud(const struct pt_regs *regs) {}
 void __attribute__((weak)) ksu_execve_hook_ksud(const struct pt_regs *regs) {}
 int __attribute__((weak)) ksu_adb_root_handle_execve(const struct pt_regs *regs) { return 0; }
-int __attribute__((weak)) ksu_handle_execve_sucompat(int orig_nr, struct pt_regs *regs) { return 0; }
+int __attribute__((weak)) ksu_handle_execve_sucompat(int *fd, void *filename_ptr, void *argv, void *envp, int *flags) { return 0; }
 int __attribute__((weak)) ksu_handle_stat_sucompat(int orig_nr, struct pt_regs *regs) { return 0; }
 static int ksu_handle_init_mark_tracker(const char __user **filename_user)
 {
