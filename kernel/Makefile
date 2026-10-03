@@ -1,7 +1,6 @@
-obj-$(CONFIG_KSU) += ksu.o
+obj-$(CONFIG_KSU) += kernelsu.o
 
-# 显式把所有子目录下的 .c 文件全部编进来，彻底消灭 undefined symbol
-ksu-objs := \
+kernelsu-y := \
     policy/allowlist.o \
     policy/app_profile.o \
     manager/apk_sign.o \
@@ -27,53 +26,12 @@ ksu-objs := \
     infra/su_mount_ns.o \
     infra/boot_mode.o
 
-# ==============================================================================
-# 1. 编译宏注入 (开启所有 SukiSU/KernelSU 功能并强制下发给所有子目录)
-# ==============================================================================
-KSU_CFLAGS := -DCONFIG_KSU=1 \
-              -DCONFIG_KSU_SUSFS=1 \
-              -DCONFIG_KSU_ADB_ROOT=1 \
-              -DCONFIG_KSU_SULOG=1 \
-              -DCONFIG_KSU_SUCOMPAT=1
-
-subdir-ccflags-y += $(KSU_CFLAGS)
-ccflags-y        += $(KSU_CFLAGS)
-
-# ==============================================================================
-# 2. SELinux 头文件搜索路径配置
-# ==============================================================================
-SELINUX_INCLUDES := -I$(objtree)/security/selinux \
-                    -I$(objtree)/security/selinux/include \
-                    -I$(srctree)/security/selinux \
-                    -I$(srctree)/security/selinux/include \
-                    -I$(objtree) \
-                    -I$(srctree)
-
-subdir-ccflags-y += $(SELINUX_INCLUDES) -include $(srctree)/include/uapi/asm-generic/errno.h
-ccflags-y        += $(SELINUX_INCLUDES) -include $(srctree)/include/uapi/asm-generic/errno.h
-EXTRA_CFLAGS     += $(SELINUX_INCLUDES)
-
-# ==============================================================================
-# 3. 递归扫描模块下所有 .c 文件，并统一注册至 kernelsu 模块
-# ==============================================================================
-ALL_SRCS := $(shell find $(src) -name "*.c")
-ALL_OBJS := $(patsubst $(src)/%.c, %.o, $(ALL_SRCS))
-
-obj-$(CONFIG_KSU) += kernelsu.o
-kernelsu-y        += $(ALL_OBJS)
-kernelsu-objs     += $(kernelsu-y)
-
-# ==============================================================================
-# 4. 彻底解决多线程并发编译抢跑 (flask.h 丢失问题)
-# ==============================================================================
-# ==============================================================================
-# 4. 解决多线程并发编译抢跑 (flask.h 丢失问题)
-# ==============================================================================
-$(kernelsu-objs) $(kernelsu-y): | security_selinux_prep
-
-.PHONY: security_selinux_prep
-security_selinux_prep:
-	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.build obj=security/selinux
+ccflags-y += \
+    -DCONFIG_KSU=1 \
+    -DCONFIG_KSU_SUSFS=1 \
+    -DCONFIG_KSU_ADB_ROOT=1 \
+    -DCONFIG_KSU_SULOG=1 \
+    -DCONFIG_KSU_SUCOMPAT=1
 
 ifeq ($(filter /%,$(src)),)
 KSU_KERNEL_DIR := $(srctree)/$(src)
