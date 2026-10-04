@@ -1,7 +1,7 @@
+#include "../feature/selinux_hide.h"
 bool ksu_module_mounted __read_mostly = false;
 bool ksu_boot_completed __read_mostly = false;
-void ksu_selinux_hide_handle_post_fs_data(void);
-void ksu_selinux_hide_handle_second_stage(void);
+
 static const char KERNEL_SU_RC[] =
     "\n"
 
