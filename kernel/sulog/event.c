@@ -376,7 +376,7 @@ static struct ksu_sulog_pending_event *ksu_sulog_capture_grant_root(const struct
     // This is actually stupid fix
     #define USER_ARG_NULL user_arg_null_ptr()
 
-    pending = ksu_sulog_capture(KSU_SULOG_EVENT_IOCTL_GRANT_ROOT, NULL, USER_ARG_NULL, gfp);
+    pending = ksu_sulog_capture(KSU_SULOG_EVENT_IOCTL_GRANT_ROOT, NULL, *USER_ARG_NULL, gfp);
     if (!pending)
         return NULL;
 
