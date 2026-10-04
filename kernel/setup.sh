@@ -36,25 +36,26 @@ perform_cleanup() {
     fi
 }
 
-# Sets up or update KernelSU environment
+# Sets up KernelSU environment directly from pre-cloned directory
 setup_kernelsu() {
     echo "[+] Setting up KernelSU..."
-    test -d "$GKI_ROOT/KernelSU" || git clone https://github.com/SukiSU-Ultra/SukiSU-Ultra KernelSU && echo "[+] Repository cloned."
-    cd "$GKI_ROOT/KernelSU"
-    git stash && echo "[-] Stashed current changes."
-    if [ "$(git status | grep -Po 'v\d+(\.\d+)*' | head -n1)" ]; then
-        git checkout main && echo "[-] Switched to main branch."
-    fi
-    git pull && echo "[+] Repository updated."
-    if [ -z "${1-}" ]; then
-        git checkout "$(git describe --abbrev=0 --tags)" && echo "[-] Checked out latest tag."
-    else
-        git checkout "$1" && echo "[-] Checked out $1." || echo "[-] Checkout default branch"
-    fi
-    cd "$DRIVER_DIR"
-    ln -sf "$(realpath --relative-to="$DRIVER_DIR" "$GKI_ROOT/KernelSU/kernel")" "kernelsu" && echo "[+] Symlink created."
 
-    # Add entries in Makefile and Kconfig if not already existing
+    # 1. 优先使用 build.yml 已经克隆到 /tmp/SukiSU-Ultra 的源码，不存在则尝试本地 KernelSU
+    if [ -d "/tmp/SukiSU-Ultra/kernel" ]; then
+        KSU_SRC_PATH="/tmp/SukiSU-Ultra/kernel"
+    elif [ -d "$GKI_ROOT/KernelSU/kernel" ]; then
+        KSU_SRC_PATH="$GKI_ROOT/KernelSU/kernel"
+    else
+        echo '[ERROR] SukiSU kernel source not found in /tmp/SukiSU-Ultra/kernel or KernelSU/kernel.'
+        exit 1
+    fi
+
+    # 2. 创建到 drivers/kernelsu 的软链接
+    cd "$DRIVER_DIR"
+    rm -rf kernelsu
+    ln -sf "$(realpath --relative-to="$DRIVER_DIR" "$KSU_SRC_PATH")" "kernelsu" && echo "[+] Symlink created -> $KSU_SRC_PATH"
+
+    # 3. 注入配置项到 drivers/Makefile 与 drivers/Kconfig
     grep -q "kernelsu" "$DRIVER_MAKEFILE" || printf "\nobj-\$(CONFIG_KSU) += kernelsu/\n" >> "$DRIVER_MAKEFILE" && echo "[+] Modified Makefile."
     grep -q "source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" || sed -i "/endmenu/i\source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" && echo "[+] Modified Kconfig."
     echo '[+] Done.'
