@@ -8,7 +8,7 @@
 #include <ss/services.h>
 #include <ss/mls.h>
 #include <ss/conditional.h>
-
+#include "selinux_hide.h"
 static DEFINE_MUTEX(selinux_hide_mutex);
 bool ksu_selinux_hide_enabled __read_mostly = false;
 bool ksu_selinux_hide_running __read_mostly = false;
