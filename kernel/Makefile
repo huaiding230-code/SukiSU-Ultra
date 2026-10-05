@@ -24,6 +24,7 @@ REPO_NAME   := SukiSU-Ultra
 REPO_BRANCH := main
 
 VERSION_BASE    := 40000
+VERSION_OFFSET  := 2855
 KSU_VERSION     := 40900
 
 GIT_BIN  := /usr/bin/env PATH="$$PATH":/usr/bin:/usr/local/bin git
