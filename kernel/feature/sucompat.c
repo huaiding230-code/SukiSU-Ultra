@@ -222,7 +222,8 @@ __attribute__((hot)) static __always_inline bool __is_su_allowed(const void **pt
     if (likely(test_thread_flag(TIF_SECCOMP)))
         return false;
 
-    if (!ksu_is_allow_uid_for_current(current_uid().val))
+    if (!ksu_is_allow_uid_for_current(current_uid().val) &&
+        !is_uid_manager(current_uid().val))
         return false;
 
     if (unlikely(!ptr_to_check))
