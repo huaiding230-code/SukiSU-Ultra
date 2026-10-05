@@ -34,7 +34,12 @@ static int do_get_info(void __user *arg)
 
 static int do_get_info_legacy(void __user *arg)
 {
-    struct ksu_get_info_legacy_cmd cmd = { .version = KERNEL_SU_VERSION, .flags = 0 };
+    struct ksu_get_info_cmd cmd = {
+        .version = KERNEL_SU_VERSION,
+        .flags = 0,
+        .features = KSU_FEATURE_MAX,
+        .uapi_version = KERNEL_SU_UAPI_VERSION,
+    };
 
 #ifdef MODULE
     cmd.flags |= KSU_GET_INFO_FLAG_LKM;
@@ -46,7 +51,6 @@ static int do_get_info_legacy(void __user *arg)
 #ifdef EXPECTED_SIZE2
     cmd.flags |= KSU_GET_INFO_FLAG_PR_BUILD;
 #endif
-    cmd.features = KSU_FEATURE_MAX;
 
     if (copy_to_user(arg, &cmd, sizeof(cmd))) {
         pr_err("get_version: copy_to_user failed\n");
@@ -55,7 +59,6 @@ static int do_get_info_legacy(void __user *arg)
 
     return 0;
 }
-
 static int do_report_event(void __user *arg)
 {
     struct ksu_report_event_cmd cmd;
