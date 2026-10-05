@@ -263,6 +263,8 @@ int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, struct use
 {
     struct filename *filename;
     static const char app_process[] = "/system/bin/app_process";
+	static const char app_process64[] = "/system/bin/app_process64";
+	static const char app_process32[] = "/system/bin/app_process32";
     static bool first_zygote = true;
 
     /* This applies to versions Android 10+ */
@@ -344,9 +346,13 @@ int ksu_handle_execveat_ksud(int *fd, struct filename **filename_ptr, struct use
         }
     }
 
-    if (unlikely(first_zygote && !memcmp(filename->name, app_process, sizeof(app_process) - 1) && argv)) {
-        char buf[16];
-        if (check_argv(*argv, 1, "-Xzygote", buf, sizeof(buf))) {
+    if (unlikely(first_zygote &&
+	     (!strcmp(filename->name, app_process) ||
+	      !strcmp(filename->name, app_process64) ||
+	      !strcmp(filename->name, app_process32)) &&
+	     argv)) {
+		char buf[16];
+		if (check_argv(*argv, 1, "-Xzygote", buf, sizeof(buf))) {
             pr_info("exec zygote, /data prepared, second_stage: %d\n", init_second_stage_executed);
             on_post_fs_data();
             first_zygote = false;
