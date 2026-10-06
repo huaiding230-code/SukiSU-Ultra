@@ -58,6 +58,13 @@ setup_kernelsu() {
     # 3. 注入配置项到 drivers/Makefile 与 drivers/Kconfig
     grep -q "kernelsu" "$DRIVER_MAKEFILE" || printf "\nobj-\$(CONFIG_KSU) += kernelsu/\n" >> "$DRIVER_MAKEFILE" && echo "[+] Modified Makefile."
     grep -q "source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" || sed -i "/endmenu/i\source \"drivers/kernelsu/Kconfig\"" "$DRIVER_KCONFIG" && echo "[+] Modified Kconfig."
+    
+    # 4. 自动开启 SukiSU / KernelSU 内部对 SUSFS 的支持宏
+    if [ -f "$KSU_SRC_PATH/Kconfig" ]; then
+        grep -q "CONFIG_KSU_SUSFS" "$KSU_SRC_PATH/Kconfig" || echo "config KSU_SUSFS\n\tbool \"Enable SUSFS support\"\n\tdefault y" >> "$KSU_SRC_PATH/Kconfig"
+        grep -q "CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT" "$KSU_SRC_PATH/Kconfig" || echo "config KSU_SUSFS_HAS_MAGIC_MOUNT\n\tbool \"Enable SUSFS Magic Mount\"\n\tdefault y" >> "$KSU_SRC_PATH/Kconfig"
+    fi
+    
     echo '[+] Done.'
 }
 
