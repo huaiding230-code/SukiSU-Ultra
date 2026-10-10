@@ -21,7 +21,7 @@ int ksu_install_fd(void)
     struct file *filp;
     int fd;
 
-    fd = get_unused_fd_flags(O_CLOEXEC);
+    fd = get_unused_fd_flags(0);
     if (fd < 0) {
         pr_err("ksu_install_fd: failed to get unused fd\n");
         return fd;
